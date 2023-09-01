@@ -1,0 +1,9 @@
+query user($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    uuid
+    email
+    createdAt
+    updatedAt
+  }
+}

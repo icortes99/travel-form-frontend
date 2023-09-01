@@ -3,13 +3,24 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "generate-graphql-schema": "graphql-codegen --config codegen.yml -r dotenv/config"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.1",
     "@chakra-ui/react": "^2.8.0",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.65.1"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.1",
+    "@graphql-codegen/introspection": "^3.0.1",
+    "@graphql-codegen/typescript": "^3.0.1",
+    "@graphql-codegen/typescript-operations": "^3.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@types/react": "18.2.21",
+    "typescript": "5.2.2"
   }
 }

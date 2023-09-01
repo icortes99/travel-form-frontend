@@ -1,0 +1,17 @@
+overwrite: true
+schema: ${REACT_APP_API_URL}
+documents: 'src/**/*.graphql'
+generates:
+  src/shared/generated/graphql-schema.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
+      reactApolloVersion: 3
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'
