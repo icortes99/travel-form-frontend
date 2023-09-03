@@ -1,0 +1,7 @@
+@import './variables.scss';
+
+.card {
+  width: 23rem;
+  border-radius: $border-radius!important;
+  background-color: $main-color!important;
+}
