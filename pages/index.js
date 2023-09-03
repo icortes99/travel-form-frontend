@@ -3,6 +3,10 @@ import styles from '../styles/Home.module.scss'
 import { useUserQuery, useCreateApplicationMutation } from '../src/shared/generated/graphql-schema'
 import CustomButton from '../src/shared/components/button'
 import CardCarousel from '../src/shared/components/card-carousel'
+import InputDate from '../src/shared/components/input-date'
+import InputDropdown from '../src/shared/components/input-dropdown'
+import Input from '../src/shared/components/input'
+import Layout from '../src/shared/components/layout'
 
 export default function Home() {
   /*const user = useUserQuery({
@@ -33,6 +37,14 @@ export default function Home() {
     'https://www.elespectador.com/resizer/MFd9UJWXzkpFw7FYdOJDKmvINIQ=/568x378/filters:quality(60):format(jpeg)/cloudfront-us-east-1.images.arcpublishing.com/elespectador/4C3EHKXPIRBWPJBZCYPFFPFUDU.jpg'
   ]
 
+  const options = [
+    'opcion 1',
+    'opcion 2',
+    'opcion 3',
+    'opcion 4',
+    'opcion 5'
+  ]
+
   return (
     <div className={styles.container}>
       <Head>
@@ -41,9 +53,19 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Index</h1>
-        <CustomButton name='Naza' action={()=>console.log('prueba')} type='secondary'/>
-        <CardCarousel name='Disneyland Paris' images={images} description='Orlando, Flordia' />
+        <Layout
+          title='Titulo'
+          description='descripcion'
+          step={1}
+        >
+          <h1>Index</h1>
+          <CustomButton name='Naza' action={()=>console.log('prueba')} type='secondary'/>
+          <CardCarousel name='Disneyland Paris' images={images} description='Orlando, Flordia' />
+          <label htmlFor='date'>Fecha</label>
+          <InputDate id='date' placeholder='Fecha de nacimiento' />
+          <InputDropdown name='test' placeholder='prueba' options={options} />
+          <Input name='aja' placeholder='ajajaaa' />
+        </Layout>
       </main>
     </div>
   )
