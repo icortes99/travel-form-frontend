@@ -1,0 +1,48 @@
+@import './variables.scss';
+
+.stepper {
+  display: flex;
+  max-width: 100%;
+
+  &__icon {
+    width: 2.5rem;
+  }
+
+  &__info {
+
+    &__hidden {
+      display: none;
+    }
+  }
+
+  &__description {
+    font-size: .75rem;
+    color: $subtitle-color;
+    margin: 0;
+  }
+
+  &__title {
+    font-size: 1.05rem;
+    color: $text-color;
+    margin: 0;
+    height: auto;
+    font-weight: 500;
+  }
+
+  &__container {
+    display: flex;
+    background-color: $main-color;
+    margin-bottom: 1rem;
+    padding: .5rem .9rem;
+    border-radius: $border-radius;
+
+    &__focus {
+      width: 10rem;
+      padding-left: .6rem;
+
+      & div:first-child {
+        margin-right: .6rem;
+      }
+    }
+  }
+}

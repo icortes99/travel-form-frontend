@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import CustomStepper from './stepper'
 import {
   Heading,
   Text,
@@ -21,6 +22,7 @@ const Layout: FC<LayoutProps> = ({ children, title, description, step }: LayoutP
       <Text>
         {description}
       </Text>
+      <CustomStepper currentStep={step} />
       <Box>
         {children}
       </Box>

@@ -56,9 +56,8 @@ export default function Home() {
         <Layout
           title='Titulo'
           description='descripcion'
-          step={1}
+          step={3}
         >
-          <h1>Index</h1>
           <CustomButton name='Naza' action={()=>console.log('prueba')} type='secondary'/>
           <CardCarousel name='Disneyland Paris' images={images} description='Orlando, Flordia' />
           <label htmlFor='date'>Fecha</label>
