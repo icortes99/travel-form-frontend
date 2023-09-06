@@ -2,11 +2,11 @@ import { FC, createElement } from 'react'
 import styles from '../../../styles/stepper.module.scss'
 import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons'
 
-interface CustomerStepperProps {
+interface StepperProps {
   currentStep: number
 }
 
-const CustomerStepper: FC<CustomerStepperProps> = ({ currentStep }: CustomerStepperProps) => {
+const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
   const steps = [
     { title: 'Destino', description: 'Paso 1/4', icon: CastleSVG },
     { title: 'Acerca de ', description: 'Paso 2/4', icon: InfoSVG },
@@ -33,4 +33,4 @@ const CustomerStepper: FC<CustomerStepperProps> = ({ currentStep }: CustomerStep
   )
 }
 
-export default CustomerStepper
+export default Stepper

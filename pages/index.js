@@ -1,12 +1,15 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import { useUserQuery, useCreateApplicationMutation } from '../src/shared/generated/graphql-schema'
-import CustomButton from '../src/shared/components/button'
+import Button from '../src/shared/components/button'
 import CardCarousel from '../src/shared/components/card-carousel'
 import InputDate from '../src/shared/components/input-date'
 import InputDropdown from '../src/shared/components/input-dropdown'
 import Input from '../src/shared/components/input'
-import Layout from '../src/shared/components/layout'
+import FormTemplate from '../src/modules/applications/application-form/form-template'
+import Modal from '../src/shared/components/modal'
+import CardItem from '../src/shared/components/card-item'
+import { Box, Checkbox } from '@chakra-ui/react'
 
 export default function Home() {
   /*const user = useUserQuery({
@@ -45,6 +48,22 @@ export default function Home() {
     'opcion 5'
   ]
 
+  const items = [
+    {
+      title: 'Piratas del caribe',
+      description: 'Esto es una descripcion, debe ser un poco larga asi que estoy agregando rellendo',
+      image: 'https://media.disneylandparis.com/d4th/es-es/images/n014915_2027jul10_world_panoramique-pirates-of-the-caribbean_16-9_tcm797-162428.jpg'
+    },{
+      title: 'Castillo de cenicienta',
+      description: 'Esto es una descripcion, debe ser un poco larga asi que estoy agregando rellendo',
+      image: 'https://media.admagazine.com/photos/618a5f1a72049e253173e684/1:1/w_3008,h_3008,c_limit/91777.jpg'
+    },{
+      title: 'Arbol magico',
+      description: 'Esto es una descripcion, debe ser un poco larga asi que estoy agregando rellendo',
+      image: 'https://www.disneylandiaaldia.com/wp-content/uploads/2014/02/casa-del-%C3%A1rbol-de-chip-y-dale.jpg'
+    }
+  ]
+
   return (
     <div className={styles.container}>
       <Head>
@@ -53,18 +72,58 @@ export default function Home() {
       </Head>
 
       <main>
-        <Layout
+        <FormTemplate
           title='Titulo'
           description='descripcion'
           step={3}
         >
-          <CustomButton name='Naza' action={()=>console.log('prueba')} type='secondary'/>
-          <CardCarousel name='Disneyland Paris' images={images} description='Orlando, Flordia' />
+          <Button 
+            text='Naza'
+            onClick={()=>console.log('prueba')} 
+            variant='secondary'
+          />
+          <CardCarousel 
+            title='Disneyland Paris' 
+            images={images} 
+            description='Orlando, Florida'
+          />
           <label htmlFor='date'>Fecha</label>
-          <InputDate id='date' placeholder='Fecha de nacimiento' />
-          <InputDropdown name='test' placeholder='prueba' options={options} />
-          <Input name='aja' placeholder='ajajaaa' />
-        </Layout>
+          <InputDate 
+            id='date' 
+            placeholder='Fecha de nacimiento' 
+          />
+          <InputDropdown 
+            name='test' 
+            placeholder='prueba' 
+            options={options} 
+          />
+          <Input 
+            name='aja' 
+            placeholder='ajajaaa' 
+          />
+          <Modal 
+            title='Test'
+            description='description test'
+            btnRef='testing'
+          >
+            {
+              items.map((item, i) => (
+                <Box key={i} display='flex'>
+                  <CardItem obj={item} />
+                  <Checkbox 
+                    size='lg' 
+                    colorScheme='pink'
+                    isRequired
+                    isInvalid
+                    errorBorderColor='#3182ce'
+                    marginTop={'3rem'}
+                    marginLeft={'1rem'}
+                  />
+                </Box>
+              ))
+            }
+          </Modal>
+        </FormTemplate>
       </main>
     </div>
   )

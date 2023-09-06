@@ -1,23 +1,21 @@
-import { Button } from '@chakra-ui/react'
+import { Button as ChakraButton } from '@chakra-ui/react'
 import { FC } from 'react'
 
 interface ButtonProps {
-  name: string,
-  action: () => void,
-  type: string
+  text: string,
+  onClick: () => void,
+  variant: string
 }
 
-const CustomButton: FC<ButtonProps> = ({ name, action, type }: ButtonProps) => {
-  const variantBtn = type === 'primary' ? 'solid' : 'outline'
-
+const Button: FC<ButtonProps> = ({ text, onClick, variant }: ButtonProps) => {
   return (
-    <Button
-      onClick={action}
-      variant={variantBtn}
+    <ChakraButton
+      onClick={onClick}
+      variant={variant}
     >
-      {name}
-    </Button>
+      {text}
+    </ChakraButton>
   )
 }
 
-export default CustomButton
+export default Button

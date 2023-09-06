@@ -1,19 +1,19 @@
 import { FC } from 'react'
-import CustomStepper from './stepper'
+import CustomStepper from '../../../shared/components/stepper'
 import {
   Heading,
   Text,
   Box
 } from '@chakra-ui/react'
 
-interface LayoutProps {
+interface FormTemplateProps {
   children: any,
   title: string,
   description: string
   step: number
 }
 
-const Layout: FC<LayoutProps> = ({ children, title, description, step }: LayoutProps) => {
+const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, step }: FormTemplateProps) => {
   return (
     <Box>
       <Heading>
@@ -30,4 +30,4 @@ const Layout: FC<LayoutProps> = ({ children, title, description, step }: LayoutP
   )
 }
 
-export default Layout
+export default FormTemplate
