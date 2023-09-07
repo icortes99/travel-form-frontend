@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { useKeenSlider } from 'keen-slider/react'
-import styles from '../../../styles/carousel.module.scss'
+import styles from '../../../styles/carousel.module.css'
+import { Box, Image } from '@chakra-ui/react'
 /*import {
   Image
 } from '@chakra-ui/react'*/
@@ -54,7 +55,17 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
   const [opacities, setOpacities] = useState([])
 
   return (
-    <div ref={sliderRef} className={styles.fader}>
+    <Box
+      ref={sliderRef}
+      className={styles.fader}
+      height={'18.5rem'}
+      position={'relative'}
+      overflow={'hidden'}
+      width={'100%'}
+      borderTopLeftRadius={'.9rem'}
+      borderTopRightRadius={'.9rem'}
+      clipPath={'ellipse(90% 85% at 50% 15%)'}
+    >
       {
         /*<Image
           src={image[0]}
@@ -64,19 +75,28 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
         />*/
         //error: https://nextjs.org/docs/messages/next-image-unconfigured-host
       }
-      <div>
+      <Box>
         {
           images.map((src, idx) => (
-            <div
+            <Box
               key={idx}
-              className={styles.fader__slide}
               style={{ opacity: opacities[idx] }}
+              width={'100%'}
+              height={'100%'}
+              position={'absolute'}
+              top={0}
             >
-              <img className={styles.fader__img} src={src} />
-            </div>
+              <Image
+                src={src}
+                width={'100%'}
+                height={'100%'}
+                objectFit={'cover'}
+                top={0}
+              />
+            </Box>
           ))
         }
-      </div>
+      </Box>
       {
         loaded && instanceRef.current && (
           <> {/* ARROWS */}
@@ -108,7 +128,7 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
           </>
         )
       }
-    </div>
+    </Box>
   )
 }
 

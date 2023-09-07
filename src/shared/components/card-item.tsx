@@ -25,6 +25,7 @@ const CardItem: FC<CardItemProps> = ({ obj }: CardItemProps) => {
         src={obj.image}
         alt={`${obj.title} image`}
         marginBottom={'.5rem'}
+        borderRadius={'.7rem'}
       />
 
       <Stack>

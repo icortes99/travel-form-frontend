@@ -9,7 +9,9 @@ import Input from '../src/shared/components/input'
 import FormTemplate from '../src/modules/applications/application-form/form-template'
 import Modal from '../src/shared/components/modal'
 import CardItem from '../src/shared/components/card-item'
-import { Box, Checkbox } from '@chakra-ui/react'
+import { Box, Checkbox, useDisclosure } from '@chakra-ui/react'
+import { useRef } from 'react'
+import DestinationView from '../src/modules/applications/application-form/destination-view'
 
 export default function Home() {
   /*const user = useUserQuery({
@@ -48,6 +50,9 @@ export default function Home() {
     'opcion 5'
   ]
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const modalRef = useRef(null)
+
   const items = [
     {
       title: 'Piratas del caribe',
@@ -65,7 +70,7 @@ export default function Home() {
   ]
 
   return (
-    <div className={styles.container}>
+    /*<Box className={styles.container}>
       <Head>
         <title>Travel forms</title>
         <link rel='icon' href='/favicon.ico' />
@@ -78,9 +83,9 @@ export default function Home() {
           step={3}
         >
           <Button 
-            text='Naza'
-            onClick={()=>console.log('prueba')} 
-            variant='secondary'
+            text='Modal'
+            onClick={onOpen} 
+            variant='solid'
           />
           <CardCarousel 
             title='Disneyland Paris' 
@@ -92,26 +97,28 @@ export default function Home() {
             id='date' 
             placeholder='Fecha de nacimiento' 
           />
-          <InputDropdown 
-            name='test' 
-            placeholder='prueba' 
-            options={options} 
+          <InputDropdown
+            name='test'
+            placeholder='prueba'
+            options={options}
           />
-          <Input 
-            name='aja' 
-            placeholder='ajajaaa' 
+          <Input
+            name='aja'
+            placeholder='ajajaaa'
           />
-          <Modal 
+          <Modal
             title='Test'
             description='description test'
-            btnRef='testing'
+            finalFocusRef={modalRef}
+            isOpen={isOpen}
+            onClose={onClose}
           >
             {
               items.map((item, i) => (
                 <Box key={i} display='flex'>
                   <CardItem obj={item} />
-                  <Checkbox 
-                    size='lg' 
+                  <Checkbox
+                    size='lg'
                     colorScheme='pink'
                     isRequired
                     isInvalid
@@ -125,6 +132,9 @@ export default function Home() {
           </Modal>
         </FormTemplate>
       </main>
-    </div>
+    </Box>
+  */
+
+    <DestinationView />
   )
 }

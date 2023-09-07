@@ -6,34 +6,36 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  Text,
-  useDisclosure
+  ModalCloseButton
 } from '@chakra-ui/react'
 import Button from './button'
 
 interface ModalProps {
   title: string
   children: any
-  btnRef: any
-  exitButton: boolean
-  onSubmit: () => void
-  onCancel: () => void
+  finalFocusRef: any
+  exitButton?: boolean
+  isOpen: boolean
+  onClose: () => void
 }
 
-const CustomModal: FC<ModalProps> = ({ title, children, btnRef, exitButton = false, onSubmit, onCancel }: ModalProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
+const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose }: ModalProps) => {
   return (
     <Modal
-      onClose={() => console.log('closed')}
-      finalFocusRef={btnRef}
-      isOpen={true}
+      onClose={onClose}
+      finalFocusRef={finalFocusRef}
+      isOpen={isOpen}
       scrollBehavior={'inside'}
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
+        <ModalHeader
+          py={0}
+          marginTop={'.3rem'}
+          padding={'.5rem 1rem'}
+          fontWeight={'normal'}
+          fontSize={'normal'}
+        >
           {title}
           {exitButton && <ModalCloseButton />}
         </ModalHeader>
@@ -43,12 +45,12 @@ const CustomModal: FC<ModalProps> = ({ title, children, btnRef, exitButton = fal
         <ModalFooter>
           <Button
             text='Atras'
-            onClick={onCancel}
+            onClick={onClose}
             variant='outline'
           />
           <Button
             text='Continuar'
-            onClick={onSubmit}
+            onClick={onClose}
             variant='solid'
           />
         </ModalFooter>

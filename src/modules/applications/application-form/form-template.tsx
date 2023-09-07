@@ -15,11 +15,20 @@ interface FormTemplateProps {
 
 const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, step }: FormTemplateProps) => {
   return (
-    <Box>
-      <Heading>
+    <Box
+      marginTop={'1.5rem'}
+    >
+      <Heading
+        textAlign={'center'}
+        marginBottom={'1rem'}
+      >
         {title}
       </Heading>
-      <Text>
+      <Text
+        padding={'0 1rem'}
+        color={'#636363'}
+        marginBottom={'1.5rem'}
+      >
         {description}
       </Text>
       <CustomStepper currentStep={step} />

@@ -1,0 +1,43 @@
+.arrow {
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  fill: #fff;
+  cursor: pointer;
+}
+
+.arrow__left {
+  left: .2rem;
+}
+
+.arrow__right {
+  right: .2rem;
+}
+
+.dots {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999!important;
+  bottom: 0;
+  padding: .5rem 0;
+}
+
+.dots__dot {
+  width: .9rem;
+  height: .9rem;
+  background: rgba(201, 201, 201, 0.7);
+  border-radius: 50%;
+  margin: 0 .4rem;
+}
+
+.dots__active {
+  background: #ffffff;
+  width: 1rem;
+  height: 1rem;
+}

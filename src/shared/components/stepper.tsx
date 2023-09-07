@@ -1,6 +1,9 @@
 import { FC, createElement } from 'react'
 import styles from '../../../styles/stepper.module.scss'
 import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons'
+import {
+  Box
+} from '@chakra-ui/react'
 
 interface StepperProps {
   currentStep: number
@@ -15,21 +18,38 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
   ]
 
   return (
-    <section className={styles.stepper}>
+    <Box
+      className={styles.stepper}
+    >
       {
         steps.map((step, i) => (
-          <div key={i} className={currentStep === i ? `${styles.stepper__container} ${styles.stepper__container__focus}` : styles.stepper__container}>
-            <div className={styles.stepper__icon}>
+          <Box
+            key={i}
+            className={currentStep === i ? `${styles.stepper__container} ${styles.stepper__container__focus}` : styles.stepper__container}
+          >
+            <Box
+              className={styles.stepper__icon}
+            >
               <step.icon focus={currentStep === i ? true : false} />
-            </div>
-            <div className={currentStep === i ? styles.stepper__info : styles.stepper__info__hidden} >
-              <p className={styles.stepper__description}>{step.description}</p>
-              <h2 className={styles.stepper__title}>{step.title}</h2>
-            </div>
-          </div>
+            </Box>
+            <Box
+              className={currentStep === i ? styles.stepper__info : styles.stepper__info__hidden}
+            >
+              <p
+                className={styles.stepper__description}
+              >
+                {step.description}
+              </p>
+              <h2
+                className={styles.stepper__title}
+              >
+                {step.title}
+              </h2>
+            </Box>
+          </Box>
         ))
       }
-    </section>
+    </Box>
   )
 }
 
