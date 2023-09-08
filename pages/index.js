@@ -14,6 +14,7 @@ import { useRef } from 'react'
 import DestinationView from '../src/modules/applications/application-form/destination-view'
 import InfoView from '../src/modules/applications/application-form/info-view'
 import HotelView from '../src/modules/applications/application-form/hotel-view'
+import ContactView from '../src/modules/applications/application-form/contact-view'
 
 export default function Home() {
   /*const user = useUserQuery({
@@ -136,8 +137,6 @@ export default function Home() {
       </main>
     </Box>
   */
-    <HotelView
-      passengers={3}
-    />
+    <ContactView />
   )
 }
