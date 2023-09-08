@@ -18,20 +18,28 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
     <Box
       marginTop={'1.5rem'}
     >
-      <Heading
-        textAlign={'center'}
-        marginBottom={'1rem'}
-      >
-        {title}
-      </Heading>
-      <Text
-        padding={'0 1rem'}
-        color={'#636363'}
-        marginBottom={'1.5rem'}
-      >
-        {description}
-      </Text>
-      <CustomStepper currentStep={step} />
+      <Box>
+        <Box
+          maxWidth={'45rem'}
+        >
+          <Heading
+            textAlign={'center'}
+            marginBottom={'1rem'}
+            as={'h1'}
+          >
+            {title}
+          </Heading>
+          <Text
+            padding={'0 1rem'}
+            color={'#636363'}
+            marginBottom={'1.5rem'}
+            maxWidth={'45rem'}
+          >
+            {description}
+          </Text>
+        </Box>
+        <CustomStepper currentStep={step} />
+      </Box>
       <Box>
         {children}
       </Box>

@@ -42,7 +42,11 @@ const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButto
         <ModalBody>
           {children}
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter
+          display={'flex'}
+          width={'100%'}
+          justifyContent={'space-evenly'}
+        >
           <Button
             text='Atras'
             onClick={onClose}

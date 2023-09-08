@@ -16,7 +16,7 @@ const CardItem: FC<CardItemProps> = ({ obj }: CardItemProps) => {
       overflow='hidden'
       variant='outline'
       border={0}
-      margin={'0 0 3rem 0'}
+      margin={'0'}
     >
       <Image
         objectFit='cover'
@@ -37,7 +37,7 @@ const CardItem: FC<CardItemProps> = ({ obj }: CardItemProps) => {
             {obj.title}
           </Heading>
 
-          <Text py={0}>
+          <Text py={0} marginBottom={0}>
             {obj.description}
           </Text>
         </CardBody>

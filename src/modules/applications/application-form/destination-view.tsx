@@ -2,7 +2,8 @@ import { FC, useRef } from 'react'
 import {
   Box,
   useDisclosure,
-  Checkbox
+  Checkbox,
+  Divider
 } from '@chakra-ui/react'
 import FormTemplate from './form-template'
 import CardCarousel from '../../../shared/components/card-carousel'
@@ -107,17 +108,29 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
       >
         {
           attractions.map((item, i) => (
-            <Box key={i} display='flex'>
-              <CardItem obj={item} />
-              <Checkbox
-                size='lg'
-                colorScheme='pink'
-                isRequired
-                isInvalid
-                marginTop={'3rem'}
-                marginLeft={'1rem'}
-              />
-            </Box>
+            <>
+              <Box key={i} display='flex'>
+                <CardItem obj={item} />
+                <Box
+                  display={'flex'}
+                  paddingTop={'9.5rem'}
+                >
+                  <Checkbox
+                    size='lg'
+                    colorScheme='pink'
+                    isRequired
+                    marginLeft={'1rem'}
+                    height={'1.6rem'}
+                  />
+                </Box>
+              </Box>
+              {
+                (attractions.length - 1) > i &&
+                <Divider
+                  margin={'1rem 0 1.5rem'}
+                />
+              }
+            </>
           ))
         }
       </Modal>

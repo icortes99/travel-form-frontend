@@ -2,7 +2,9 @@ import { FC, createElement } from 'react'
 import styles from '../../../styles/stepper.module.scss'
 import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons'
 import {
-  Box
+  Box,
+  Text,
+  Heading
 } from '@chakra-ui/react'
 
 interface StepperProps {
@@ -19,36 +21,79 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
 
   return (
     <Box
-      className={styles.stepper}
+      display={'flex'}
+      width={'100%'}
+      marginBottom={'1.7rem'}
+      justifyContent={'center'}
     >
-      {
+      {/*
         steps.map((step, i) => (
           <Box
             key={i}
+            boxShadow={'1px 6px 10px 0px rgba(0,0,0,0.44)'}
             className={currentStep === i ? `${styles.stepper__container} ${styles.stepper__container__focus}` : styles.stepper__container}
           >
             <Box
-              className={styles.stepper__icon}
+              width={'2.5rem'}
             >
               <step.icon focus={currentStep === i ? true : false} />
             </Box>
             <Box
               className={currentStep === i ? styles.stepper__info : styles.stepper__info__hidden}
             >
-              <p
-                className={styles.stepper__description}
+              <Text
+                fontSize={'.75rem'}
+                color={'#636363'}
+                margin={0}
               >
                 {step.description}
-              </p>
-              <h2
-                className={styles.stepper__title}
+              </Text>
+              <Heading
+                as={'h2'}
+                fontSize={'1.05rem'}
+                margin={0}
+                height={'auto'}
+                fontWeight={500}
               >
                 {step.title}
-              </h2>
+              </Heading>
             </Box>
           </Box>
         ))
-      }
+      */}
+      <Box
+        boxShadow={'1px 6px 10px 0px rgba(0,0,0,0.44)'}
+        width={'10rem'}
+        padding={'.5rem .9rem .5rem .6rem'}
+        display={'flex'}
+        backgroundColor={'#ECECEC'}
+        borderRadius={'.9rem'}
+      >
+        <Box
+          width={'2.5rem'}
+          marginRight={'.6rem'}
+        >
+          {createElement(steps[currentStep].icon)}
+        </Box>
+        <Box>
+          <Text
+            fontSize={'.75rem'}
+            color={'#636363'}
+            margin={0}
+          >
+            {steps[currentStep].description}
+          </Text>
+          <Heading
+            as={'h2'}
+            fontSize={'1.05rem'}
+            margin={0}
+            height={'auto'}
+            fontWeight={500}
+          >
+            {steps[currentStep].title}
+          </Heading>
+        </Box>
+      </Box>
     </Box>
   )
 }

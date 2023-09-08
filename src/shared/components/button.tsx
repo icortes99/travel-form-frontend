@@ -4,17 +4,19 @@ import { FC } from 'react'
 interface ButtonProps {
   text: string,
   onClick: () => void,
-  variant: string
+  variant?: string
   size?: string
+  type?: 'button' | 'submit' | 'reset'
 }
 
-const Button: FC<ButtonProps> = ({ text, onClick, variant, size = 'md' }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ text, onClick, variant = 'solid', size = 'md', type = 'button' }: ButtonProps) => {
   return (
     <ChakraButton
       onClick={onClick}
       variant={variant}
       colorScheme={'teal'}
       size={size}
+      type={type}
     >
       {text}
     </ChakraButton>
