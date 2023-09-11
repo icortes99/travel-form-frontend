@@ -27,8 +27,6 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
 
   const selectedRooms = 1 //debe tomar el valor de input 'rooms'
 
-  console.log('habs: ', habitaciones)
-
   //eliminar, informacion quemada
   const hotels = ['Disney', 'Universal', 'Other']
 

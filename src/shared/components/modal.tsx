@@ -17,24 +17,30 @@ interface ModalProps {
   exitButton?: boolean
   isOpen: boolean
   onClose: () => void
+  size?: string
+  onSubmit: () => void
 }
 
-const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose }: ModalProps) => {
+const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose, size = 'lg', onSubmit }: ModalProps) => {
   return (
     <Modal
       onClose={onClose}
       finalFocusRef={finalFocusRef}
       isOpen={isOpen}
       scrollBehavior={'inside'}
+      size={size}
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent
+        backgroundColor={'white'}
+      >
         <ModalHeader
           py={0}
           marginTop={'.3rem'}
           padding={'.5rem 1rem'}
           fontWeight={'normal'}
           fontSize={'normal'}
+          color={`white.text`}
         >
           {title}
           {exitButton && <ModalCloseButton />}
@@ -54,7 +60,7 @@ const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButto
           />
           <Button
             text='Continuar'
-            onClick={onClose}
+            onClick={onSubmit}
             variant='solid'
           />
         </ModalFooter>

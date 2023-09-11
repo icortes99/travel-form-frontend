@@ -65,6 +65,26 @@ const attractions = [
 const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const modalRef = useRef(null)
+  const selectedAttractions = []
+
+  const selectDestiny = (destiny: string) => {
+    // consultar las atracciones del destino 'destiny'
+    onOpen()
+  }
+
+  const nextStep = () => {
+    //window.location.href = '/...'
+    console.log('next step. Atts: ', selectedAttractions)
+  }
+
+  const handleCheckbox = (attraction: string) => {
+    const index = selectedAttractions.indexOf(attraction)
+
+    if (index === -1)
+      selectedAttractions.push(attraction)
+    else
+      selectedAttractions.splice(index, 1)
+  }
 
   return (
     <FormTemplate
@@ -93,7 +113,7 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
                 images={destiny.images}
                 title={destiny.title}
                 description={destiny.place}
-                selected={onOpen}
+                onCLick={selectDestiny}
                 key={i}
               />
             ))
@@ -105,6 +125,8 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
         finalFocusRef={modalRef}
         isOpen={isOpen}
         onClose={onClose}
+        size={'full'}
+        onSubmit={nextStep}
       >
         {
           attractions.map((item, i) => (
@@ -118,15 +140,16 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
                   <Checkbox
                     size='lg'
                     colorScheme='pink'
-                    isRequired
                     marginLeft={'1rem'}
                     height={'1.6rem'}
+                    onChange={() => (handleCheckbox(item.title))}
                   />
                 </Box>
               </Box>
               {
                 (attractions.length - 1) > i &&
                 <Divider
+                  key={i + 100}
                   margin={'1rem 0 1.5rem'}
                 />
               }

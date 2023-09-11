@@ -14,23 +14,29 @@ interface CardCarouselProps {
   images: string[]
   title: string
   description: string
-  selected: any
+  onCLick: (selected: string) => void
 }
 
-const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, selected }: CardCarouselProps) => {
+const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, onCLick }: CardCarouselProps) => {
   return (
     <Card
       maxW='sm'
       width={'100%'}
       borderRadius={'.9rem'}
-      backgroundColor={'#ECECEC'}
+      backgroundColor={`white.main`}
       marginBottom={'1.5rem'}
       boxShadow={'1px 6px 10px 0px rgba(0,0,0,0.44)'}
     >
       <Carousel images={images} />
       <CardBody py={3}>
         <Stack mt='0' spacing='0'>
-          <Heading py={1} size='md'>{title}</Heading>
+          <Heading
+            py={1}
+            size='md'
+            color={`white.text`}
+          >
+            {title}
+          </Heading>
           <Box
             display={'flex'}
             width={'100%'}
@@ -42,12 +48,13 @@ const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, selec
               marginTop={'.3rem'}
               marginLeft={'.8rem'}
               marginBottom={'.3rem'}
+              color={`white.text`}
             >
               {description}
             </Text>
             <Button
               text='Seleccionar'
-              onClick={selected}
+              onClick={() => onCLick(title)}
               variant='solid'
               size='sm'
             />

@@ -26,12 +26,13 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
             textAlign={'center'}
             marginBottom={'1rem'}
             as={'h1'}
+            color={`white.text`}
           >
             {title}
           </Heading>
           <Text
             padding={'0 1rem'}
-            color={'#636363'}
+            color={`white.subTitles`}
             marginBottom={'1.5rem'}
             maxWidth={'45rem'}
           >

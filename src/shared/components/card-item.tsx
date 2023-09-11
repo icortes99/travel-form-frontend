@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import Button from './button'
-import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Heading, Text } from '@chakra-ui/react'
+import { Card, CardBody, Image, Stack, Heading, Text } from '@chakra-ui/react'
 
 interface CardItemProps {
   obj: {
@@ -33,11 +32,16 @@ const CardItem: FC<CardItemProps> = ({ obj }: CardItemProps) => {
           <Heading
             size='md'
             py='1'
+            color={`white.text`}
           >
             {obj.title}
           </Heading>
 
-          <Text py={0} marginBottom={0}>
+          <Text
+            py={0}
+            marginBottom={0}
+            color={`white.subTitles`}
+          >
             {obj.description}
           </Text>
         </CardBody>

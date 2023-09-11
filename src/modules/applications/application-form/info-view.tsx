@@ -31,6 +31,27 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
     cantidad.push(i.toString())
   }
 
+  const handleForm = (e) => {
+    e.preventDefault()
+    //gather information
+    const formData = {
+      name: '',
+      lastname: '',
+      birth: '',
+      startDate: '',
+      exitDate: '',
+      country: '',
+      tripObjective: '',
+      companions: '',
+      cantityCompanions: '',
+      entryPermission: ''
+    }
+
+    console.log('form e: ', e)
+
+    //save it
+  }
+
   return (
     <FormTemplate
       title='Acerca del viaje'
@@ -44,115 +65,118 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
       >
         <FormControl
           width={'85%'}
+          onSubmit={handleForm}
         >
-          <Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Nombre:</FormLabel>
-              <InputString name='name' placeholder='Tu nombre' />
+          <form>
+            <Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Nombre:</FormLabel>
+                <InputString name='name' placeholder='Tu nombre' />
+              </Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Apellido:</FormLabel>
+                <InputString name='lastname' placeholder='Tu apellido' />
+              </Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Fecha de nacimiento:</FormLabel>
+                <InputDate name='birth' placeholder='mm/dd/aaaa' />
+              </Box>
             </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Apellido:</FormLabel>
-              <InputString name='lastname' placeholder='Tu apellido' />
-            </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Fecha de nacimiento:</FormLabel>
-              <InputDate name='birth' placeholder='mm/dd/aaaa' />
-            </Box>
-          </Box>
-          <Divider
-            margin={'2rem 0 1.5rem'}
-          />
-          <Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Fecha de entrada:</FormLabel>
-              <InputDate name='startDate' placeholder='mm/dd/aaaa' />
-            </Box>
+            <Divider
+              margin={'2rem 0 1.5rem'}
+            />
+            <Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Fecha de entrada:</FormLabel>
+                <InputDate name='startDate' placeholder='mm/dd/aaaa' />
+              </Box>
 
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Fecha de salida:</FormLabel>
-              <InputDate name='exitDate' placeholder='mm/dd/aaaa' />
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Fecha de salida:</FormLabel>
+                <InputDate name='exitDate' placeholder='mm/dd/aaaa' />
+              </Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>País de residencia:</FormLabel>
+                <InputString
+                  name='country'
+                  placeholder='País donde vives'
+                />
+              </Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Objetivo del viaje:</FormLabel>
+                <InputDropdown
+                  name='tripObjective'
+                  placeholder='Por qué quieres viajar'
+                  options={objetivos}
+                />
+              </Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel marginBottom={'1rem'}>¿Viajas con acompañantes?</FormLabel>
+                <InputRadioOptions
+                  name='companions'
+                />
+              </Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel>Número de acompañantes:</FormLabel>
+                <InputDropdown
+                  name='cantityCompanions'
+                  placeholder='1...30'
+                  options={cantidad}
+                />
+              </Box>
             </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>País de residencia:</FormLabel>
-              <InputString
-                name='country'
-                placeholder='País donde vives'
-              />
-            </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Objetivo del viaje:</FormLabel>
-              <InputDropdown
-                name='tripObjective'
-                placeholder='Por qué quieres viajar'
-                options={objetivos}
-              />
-            </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel marginBottom={'1rem'}>¿Viajas con acompañantes?</FormLabel>
-              <InputRadioOptions
-                name='companions'
-              />
-            </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>Número de acompañantes:</FormLabel>
-              <InputDropdown
-                name='cantityCompanions'
-                placeholder='1...30'
-                options={cantidad}
-              />
-            </Box>
-          </Box>
-          <Divider
-            margin={'2rem 0 1.5rem'}
-          />
-          <Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel marginBottom={'1rem'}>¿Tienes permiso de entrada al país?</FormLabel>
-              <InputRadioOptions
-                name='entryPermission'
-              />
-            </Box>
-            <Text>
-              La información es relevante para saber si necesitas algún proceso previo para el viaje tal como la solicitud de la visa. Además, así podremos saber si planeas tus vacaciones en temporada de más alta demanda.
-            </Text>
-          </Box>
-          <Box
-            display={'flex'}
-            width={'100%'}
-            justifyContent={'space-evenly'}
-            margin={'2rem 0'}
-          >
-            <Button
-              onClick={() => console.log('atras')}
-              text='Atrás'
-              variant='outline'
+            <Divider
+              margin={'2rem 0 1.5rem'}
             />
-            <Button
-              onClick={() => console.log('continuar')}
-              text='Continuar'
-              type='submit'
-            />
-          </Box>
+            <Box>
+              <Box
+                marginBottom={'1.5rem'}
+              >
+                <FormLabel marginBottom={'1rem'}>¿Tienes permiso de entrada al país?</FormLabel>
+                <InputRadioOptions
+                  name='entryPermission'
+                />
+              </Box>
+              <Text>
+                La información es relevante para saber si necesitas algún proceso previo para el viaje tal como la solicitud de la visa. Además, así podremos saber si planeas tus vacaciones en temporada de más alta demanda.
+              </Text>
+            </Box>
+            <Box
+              display={'flex'}
+              width={'100%'}
+              justifyContent={'space-evenly'}
+              margin={'2rem 0'}
+            >
+              <Button
+                onClick={() => console.log('atras')}
+                text='Atrás'
+                variant='outline'
+              />
+              <Button
+                onClick={() => console.log('continuar')}
+                text='Continuar'
+                type='submit'
+              />
+            </Box>
+          </form>
         </FormControl>
       </Box>
     </FormTemplate>

@@ -1,5 +1,4 @@
 import { FC, createElement } from 'react'
-import styles from '../../../styles/stepper.module.scss'
 import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons'
 import {
   Box,
@@ -66,7 +65,7 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
         width={'10rem'}
         padding={'.5rem .9rem .5rem .6rem'}
         display={'flex'}
-        backgroundColor={'#ECECEC'}
+        backgroundColor={`white.main`}
         borderRadius={'.9rem'}
       >
         <Box
@@ -78,7 +77,7 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
         <Box>
           <Text
             fontSize={'.75rem'}
-            color={'#636363'}
+            color={`white.subTitles`}
             margin={0}
           >
             {steps[currentStep].description}
@@ -89,6 +88,7 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
             margin={0}
             height={'auto'}
             fontWeight={500}
+            color={`white.text`}
           >
             {steps[currentStep].title}
           </Heading>
