@@ -43,6 +43,22 @@ const destinies = [
     title: 'Disney Tokyo',
     place: 'Tokyo, Japon',
     description: 'Únete a Star-Lord y su equipo en Guardians of the Galaxy, una emocionante aventura intergaláctica llena de música y acción en EPCOT'
+  }, {
+    images: [
+      'https://npr.brightspotcdn.com/dims4/default/9e46b47/2147483647/strip/true/crop/1837x1378+0+0/resize/880x660!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Flegacy%2Fsites%2Fwusf%2Ffiles%2F202006%2Funiversal_hogwarts_colombini.jpg',
+      'https://www.visitcalifornia.com/sites/visitcalifornia.com/files/VC_WWoHP_ImageUpdates_Supplied_Portrait-Gallery-in-Hogwarts-Castle-WWoHP-at-USH_1280x640.jpg'
+    ],
+    title: 'Universal Studios',
+    place: 'Orlando, Florida',
+    description: 'Únete a Star-Lord y su equipo en Guardians of the Galaxy, una emocionante aventura intergaláctica llena de música y acción en EPCOT'
+  }, {
+    images: [
+      'https://npr.brightspotcdn.com/dims4/default/9e46b47/2147483647/strip/true/crop/1837x1378+0+0/resize/880x660!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Flegacy%2Fsites%2Fwusf%2Ffiles%2F202006%2Funiversal_hogwarts_colombini.jpg',
+      'https://www.visitcalifornia.com/sites/visitcalifornia.com/files/VC_WWoHP_ImageUpdates_Supplied_Portrait-Gallery-in-Hogwarts-Castle-WWoHP-at-USH_1280x640.jpg'
+    ],
+    title: 'Universal Studios',
+    place: 'Orlando, Florida',
+    description: 'Únete a Star-Lord y su equipo en Guardians of the Galaxy, una emocionante aventura intergaláctica llena de música y acción en EPCOT'
   }
 ]
 
@@ -92,40 +108,31 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
       description='Comenzaremos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.'
       step={0}
     >
-
       <Box
         display={'flex'}
-        flexDirection={'column'}
+        flexDirection={{ sm: 'column', md: 'row' }}
+        flexWrap={'wrap'}
         justifyContent={'center'}
         alignItems={'center'}
         width={'100%'}
       >
-        <Box
-          display={'flex'}
-          flexDirection={'column'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          width={'85%'}
-        >
-          {
-            destinies.map((destiny, i) => (
-              <CardCarousel
-                images={destiny.images}
-                title={destiny.title}
-                description={destiny.place}
-                onCLick={selectDestiny}
-                key={i}
-              />
-            ))
-          }
-        </Box>
+        {
+          destinies.map((destiny, i) => (
+            <CardCarousel
+              images={destiny.images}
+              title={destiny.title}
+              description={destiny.place}
+              onCLick={selectDestiny}
+              key={i}
+            />
+          ))
+        }
       </Box>
       <Modal
         title='Nos gustaría saber cuáles atracciones son las que más te llaman la atención para centrar el viaje en torno a ellas:'
         finalFocusRef={modalRef}
         isOpen={isOpen}
         onClose={onClose}
-        size={'full'}
         onSubmit={nextStep}
       >
         {

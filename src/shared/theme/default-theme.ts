@@ -3,7 +3,8 @@ import { extendTheme } from '@chakra-ui/react'
 const sizes = {
   sizes: {
     text: '1rem',
-    borderRadius: '0.9rem'
+    borderRadius: '0.9rem',
+    maxWdesktop: '45rem'
   }
 }
 

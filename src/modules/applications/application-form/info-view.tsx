@@ -44,7 +44,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
       tripObjective: '',
       companions: '',
       cantityCompanions: '',
-      entryPermission: ''
+      entryPermission: 'target.value'
     }
 
     console.log('form e: ', e)
@@ -63,12 +63,17 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
         justifyContent={'center'}
         width={'100%'}
       >
-        <FormControl
-          width={'85%'}
+        <form
           onSubmit={handleForm}
         >
-          <form>
-            <Box>
+          <FormControl
+            display={'flex'}
+            width={'100%'}
+            flexDirection={{ sm: 'column', lg: 'row' }}
+          >
+            <Box
+              width={{ sm: '100%', lg: 'calc(100% / 4)' }}
+            > { /* COLUMNA 1 */}
               <Box
                 marginBottom={'1.5rem'}
               >
@@ -89,16 +94,29 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
               </Box>
             </Box>
             <Divider
-              margin={'2rem 0 1.5rem'}
+              margin={'.5rem 0 1.5rem 0'}
+              display={{ sm: 'block', lg: 'none' }}
+              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
             />
-            <Box>
+            <Divider
+              margin={'0 1.5rem'}
+              display={{ sm: 'none', lg: 'block' }}
+              orientation='vertical'
+              height={'auto'}
+              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+            />
+            <Box
+              width={{ sm: '100%', lg: 'calc(100% / 2)' }}
+              display={{ sm: 'block', lg: 'grid' }}
+              gridTemplateColumns={'repeat(2, 1fr)'}
+              gridGap={'1.5rem'}
+            > { /* COLUMNA 2 */}
               <Box
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>Fecha de entrada:</FormLabel>
                 <InputDate name='startDate' placeholder='mm/dd/aaaa' />
               </Box>
-
               <Box
                 marginBottom={'1.5rem'}
               >
@@ -144,9 +162,20 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
               </Box>
             </Box>
             <Divider
-              margin={'2rem 0 1.5rem'}
+              margin={'.5rem 0 1.5rem 0'}
+              display={{ sm: 'block', lg: 'none' }}
+              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
             />
-            <Box>
+            <Divider
+              margin={'0 1.5rem'}
+              display={{ sm: 'none', lg: 'block' }}
+              orientation='vertical'
+              height={'auto'}
+              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+            />
+            <Box
+              width={{ sm: '100%', lg: 'calc(100% / 4)' }}
+            > { /* COLUMNA 3 */}
               <Box
                 marginBottom={'1.5rem'}
               >
@@ -159,25 +188,25 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 La información es relevante para saber si necesitas algún proceso previo para el viaje tal como la solicitud de la visa. Además, así podremos saber si planeas tus vacaciones en temporada de más alta demanda.
               </Text>
             </Box>
-            <Box
-              display={'flex'}
-              width={'100%'}
-              justifyContent={'space-evenly'}
-              margin={'2rem 0'}
-            >
-              <Button
-                onClick={() => console.log('atras')}
-                text='Atrás'
-                variant='outline'
-              />
-              <Button
-                onClick={() => console.log('continuar')}
-                text='Continuar'
-                type='submit'
-              />
-            </Box>
-          </form>
-        </FormControl>
+          </FormControl>
+          <Box
+            display={'flex'}
+            width={'100%'}
+            justifyContent={'space-evenly'}
+            margin={'2rem 0'}
+          >
+            <Button
+              onClick={() => console.log('atras')}
+              text='Atrás'
+              variant='outline'
+            />
+            <Button
+              onClick={() => console.log('continuar')}
+              text='Continuar'
+              type='submit'
+            />
+          </Box>
+        </form>
       </Box>
     </FormTemplate>
   )

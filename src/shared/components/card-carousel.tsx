@@ -24,7 +24,7 @@ const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, onCLi
       width={'100%'}
       borderRadius={'.9rem'}
       backgroundColor={`white.main`}
-      marginBottom={'1.5rem'}
+      margin={{ sm: '0 0 1.5rem 0', lg: '0 .75rem 1.5rem' }}
       boxShadow={'1px 6px 10px 0px rgba(0,0,0,0.44)'}
     >
       <Carousel images={images} />

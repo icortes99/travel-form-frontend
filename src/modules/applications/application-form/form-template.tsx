@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import CustomStepper from '../../../shared/components/stepper'
+import Stepper from '../../../shared/components/stepper'
 import {
   Heading,
   Text,
@@ -17,13 +17,24 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
   return (
     <Box
       marginTop={'1.5rem'}
+      display={'flex'}
+      flexDirection={'column'}
+      width={'100%'}
+      alignItems={'center'}
+      justifyContent={'center'}
+      padding={'0 1.5rem'}
     >
-      <Box>
+      <Box
+        display={'flex'}
+        flexDirection={{ sm: 'column', md: 'row' }}
+        width={'100%'}
+        maxWidth={'80rem'}
+      >
         <Box
-          maxWidth={'45rem'}
+          width={{ sm: '100%', md: '70%', lg: '80%' }}
         >
           <Heading
-            textAlign={'center'}
+            textAlign={{ sm: 'center', md: 'left' }}
             marginBottom={'1rem'}
             as={'h1'}
             color={`white.text`}
@@ -31,17 +42,28 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
             {title}
           </Heading>
           <Text
-            padding={'0 1rem'}
             color={`white.subTitles`}
             marginBottom={'1.5rem'}
-            maxWidth={'45rem'}
+            maxWidth={'100%'}
           >
             {description}
           </Text>
         </Box>
-        <CustomStepper currentStep={step} />
+        <Box
+          display={'flex'}
+          height={'auto'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          padding={'0 1.5rem'}
+          width={{ sm: '100%', md: '30%', lg: '20%' }}
+        >
+          <Stepper currentStep={step} />
+        </Box>
       </Box>
-      <Box>
+      <Box
+        width={'100%'}
+        maxWidth={'80rem'}
+      >
         {children}
       </Box>
     </Box>

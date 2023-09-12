@@ -28,7 +28,7 @@ const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButto
       finalFocusRef={finalFocusRef}
       isOpen={isOpen}
       scrollBehavior={'inside'}
-      size={size}
+      size={{ sm: 'full', md: 'xl' }}
     >
       <ModalOverlay />
       <ModalContent
