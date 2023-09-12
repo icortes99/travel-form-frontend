@@ -8,7 +8,7 @@ import ContactView from '../src/modules/applications/application-form/contact-vi
 export default function Home() {
   return (
     <HotelView 
-      passengers={3}
+      passengers={4}
     />
   )
 }

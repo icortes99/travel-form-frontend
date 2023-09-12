@@ -40,79 +40,83 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
         width={'100%'}
         display={'flex'}
         justifyContent={'center'}
-        flexDirection={'column'}
-        alignItems={'center'}
+        flexDirection={{ sm: 'column', lg: 'row' }}
+        alignItems={{ sm: 'center', lg: 'flex-start' }}
       >
         <Box
-          width={'85%'}
+          width={{ sm: '100%', lg: '25%' }}
           display={'flex'}
-          justifyContent={'center'}
-          alignItems={'center'}
           flexDirection={'column'}
-        >
-          <Box
+          alignItems={'center'}
+        > {/* COLUMNA 1 */}
+          <Image
+            maxWidth={'25rem'}
             width={'100%'}
-            display={'flex'}
-            flexDirection={'column'}
-            alignItems={'center'}
-          > {/* COLUMNA 1 */}
-            <Image
-              width={'25rem'}
-              height={'25rem'}
-              objectFit={'cover'}
-              borderRadius={'.9rem'}
-              alt='hotel image'
-              src='https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'
-            />
-            <FormControl
-              marginTop={'1.5rem'}
-            >
-              <Box
-                marginBottom={'1.5rem'}
-              >
-                <FormLabel>Hotel de preferencia:</FormLabel>
-                <InputDropdown
-                  options={hotels}
-                  name='hotel'
-                  placeholder='Tu hotel de preferencia'
-                />
-              </Box>
-              <Box>
-                <FormLabel>Número de habitaciones:</FormLabel>
-                <InputDropdown
-                  options={habitaciones}
-                  name='rooms'
-                  placeholder='Las habitaciones que gustes'
-                />
-              </Box>
-            </FormControl>
-          </Box>
-          <Divider
-            margin={'1.5rem 0 1.5rem'}
+            aspectRatio={'1/1'}
+            objectFit={'cover'}
+            borderRadius={'.9rem'}
+            alt='hotel image'
+            src='https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'
           />
-          <Box> {/* COLUMNA 2 */}
-            <Text
+          <FormControl
+            marginTop={'1.5rem'}
+          >
+            <Box
               marginBottom={'1.5rem'}
             >
-              Por defecto, tú serás asignado a la habitación A en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.
-            </Text>
-            <Box>
-              {
-                (() => {
-                  const renderPassengers = []
-                  for (let i = 0; i < passengers; i++) {
-                    renderPassengers.push(
-                      <Passenger
-                        key={i}
-                        passengerId={i + 1}
-                        rooms={habitaciones.length}
-                      />
-                    )
-                  }
-                  return renderPassengers
-                })()
-              }
+              <FormLabel>Hotel de preferencia:</FormLabel>
+              <InputDropdown
+                options={hotels}
+                name='hotel'
+                placeholder='Tu hotel de preferencia'
+              />
             </Box>
+            <Box>
+              <FormLabel>Número de habitaciones:</FormLabel>
+              <InputDropdown
+                options={habitaciones}
+                name='rooms'
+                placeholder='Las habitaciones que gustes'
+              />
+            </Box>
+          </FormControl>
+        </Box>
+        <Divider
+          margin={'1.5rem 0'}
+          display={{ sm: 'block', lg: 'none' }}
+          border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+        />
+        <Divider
+          margin={'0 1.5rem'}
+          display={{ sm: 'none', lg: 'block' }}
+          orientation='vertical'
+          height={'5rem'}
+          border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+        />
+        <Box
+          width={{ sm: '100%', lg: '75%' }}
+        > {/* COLUMNA 2 */}
+          <Text
+            marginBottom={'1.5rem'}
+          >
+            Por defecto, tú serás asignado a la habitación A en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.
+          </Text>
+          <Box>
+            {
+              (() => {
+                const renderPassengers = []
+                for (let i = 0; i < passengers; i++) {
+                  renderPassengers.push(
+                    <Passenger
+                      key={i}
+                      passengerId={i + 1}
+                      rooms={habitaciones.length}
+                    />
+                  )
+                }
+                return renderPassengers
+              })()
+            }
           </Box>
         </Box>
       </Box>

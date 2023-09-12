@@ -27,43 +27,59 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms }: PassengerProps) =
       >
         Pasajero {passengerId}
       </Heading>
-      <FormLabel
-        marginTop={'1rem'}
+      <Box
+        display={{ sm: 'block', lg: 'grid' }}
+        gridTemplateColumns={'repeat(3, 1fr) 15%'}
+        gridGap={'1.5rem'}
       >
-        Nombre:
-      </FormLabel>
-      <InputString
-        name={`namePassenger${passengerId}`}
-        placeholder={`Nombre del pasajero ${passengerId}`}
-      />
-      <FormLabel
-        marginTop={'1rem'}
-      >
-        Apellido:
-      </FormLabel>
-      <InputString
-        name={`lastNamePassenger${passengerId}`}
-        placeholder={`Apellido del pasajero ${passengerId}`}
-      />
-      <FormLabel
-        marginTop={'1rem'}
-      >
-        Fecha de nacimiento:
-      </FormLabel>
-      <InputDate
-        name={`birthPassenger${passengerId}`}
-        placeholder={`Edad del pasajero ${passengerId}`}
-      />
-      <FormLabel
-        marginTop={'1rem'}
-      >
-        Habitacion:
-      </FormLabel>
-      <InputDropdown
-        name={`roomPassenger${passengerId}`}
-        placeholder={`Habitación del pasajero ${passengerId}`}
-        options={optionRooms}
-      />
+        <Box>
+          <FormLabel
+            marginTop={'1rem'}
+          >
+            Nombre:
+          </FormLabel>
+          <InputString
+            name={`namePassenger${passengerId}`}
+            placeholder={`Nombre del pasajero ${passengerId}`}
+          />
+        </Box>
+        <Box>
+          <FormLabel
+            marginTop={'1rem'}
+          >
+            Apellido:
+          </FormLabel>
+          <InputString
+            name={`lastNamePassenger${passengerId}`}
+            placeholder={`Apellido del pasajero ${passengerId}`}
+          />
+        </Box>
+        <Box>
+          <FormLabel
+            marginTop={'1rem'}
+          >
+            Fecha de nacimiento:
+          </FormLabel>
+          <InputDate
+            name={`birthPassenger${passengerId}`}
+            placeholder={`Edad del pasajero ${passengerId}`}
+          />
+        </Box>
+        <Box
+          width={{ sm: '100%', lg: '100%' }}
+        >
+          <FormLabel
+            marginTop={'1rem'}
+          >
+            Habitacion:
+          </FormLabel>
+          <InputDropdown
+            name={`roomPassenger${passengerId}`}
+            placeholder={`Habitación del pasajero ${passengerId}`}
+            options={optionRooms}
+          />
+        </Box>
+      </Box>
     </Box>
   )
 }
