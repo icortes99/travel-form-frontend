@@ -193,7 +193,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
           <Box
             display={'flex'}
             width={'100%'}
-            justifyContent={'space-evenly'}
+            justifyContent={{ sm: 'space-evenly', lg: 'flex-end' }}
+            gap={{ sm: '0', lg: '1.5rem' }}
             margin={'2rem 0'}
           >
             <Button
@@ -202,7 +203,6 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
               variant='outline'
             />
             <Button
-              onClick={() => console.log('continuar')}
               text='Continuar'
               type='submit'
             />
