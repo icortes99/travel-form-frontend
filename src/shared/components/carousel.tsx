@@ -57,7 +57,6 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
   return (
     <Box
       ref={sliderRef}
-      className={styles.fader}
       height={'18.5rem'}
       position={'relative'}
       overflow={'hidden'}
@@ -115,16 +114,27 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
             />
 
             {/* DOTS */}
-            <div className={styles.dots}>{
-              images.map((img, i) => {
-                return (
-                  <span
-                    key={i}
-                    className={`${styles.dots__dot} ${currentSlide === i ? styles.dots__active : ''}`}
-                  ></span>
-                )
-              })
-            }</div>
+            <Box
+              position={'absolute'}
+              width={'100%'}
+              display={'flex'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              zIndex={'999!important'}
+              bottom={'0'}
+              padding={'.5rem 0'}
+            >
+              {
+                images.map((img, i) => {
+                  return (
+                    <span
+                      key={i}
+                      className={`${styles.dots__dot} ${currentSlide === i ? styles.dots__active : ''}`}
+                    ></span>
+                  )
+                })
+              }
+            </Box>
           </>
         )
       }

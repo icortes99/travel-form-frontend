@@ -1,4 +1,5 @@
 import { FC, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   Box,
   useDisclosure,
@@ -79,6 +80,7 @@ const attractions = [
 ]
 
 const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
+  const router = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const modalRef = useRef(null)
   const selectedAttractions = []
@@ -89,8 +91,8 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
   }
 
   const nextStep = () => {
-    //window.location.href = '/...'
     console.log('next step. Atts: ', selectedAttractions)
+    router.push('/information')
   }
 
   const handleCheckbox = (attraction: string) => {

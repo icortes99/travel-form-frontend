@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useRouter } from 'next/navigation'
 import FormTemplate from './form-template'
 import InputString from '../../../shared/components/input'
 import InputDropdown from '../../../shared/components/input-dropdown'
@@ -16,6 +17,7 @@ interface ContactViewProps {
 }
 
 const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: ContactViewProps) => {
+  const router = useRouter()
   const contactPref = [
     'Video llamada',
     'Mensaje',
@@ -127,7 +129,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               justifyContent={'space-evenly'}
             >
               <Button
-                onClick={() => console.log('atras')}
+                onClick={() => router.push('/lodging')}
                 text='Atrás'
                 variant='outline'
               />

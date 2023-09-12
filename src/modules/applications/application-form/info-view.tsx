@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useRouter } from 'next/navigation'
 import FormTemplate from './form-template'
 import InputString from '../../../shared/components/input'
 import InputDate from '../../../shared/components/input-date'
@@ -7,8 +8,6 @@ import InputRadioOptions from '../../../shared/components/input-radio-options'
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Box,
   Divider,
   Text
@@ -20,6 +19,7 @@ interface InfoViewProps {
 }
 
 const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
+  const router = useRouter()
   const objetivos = [
     'Vacaciones',
     'Viaje en pareja',
@@ -48,8 +48,9 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
     }
 
     console.log('form e: ', e)
-
     //save it
+
+    router.push('/lodging')
   }
 
   return (
@@ -196,7 +197,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
             margin={'2rem 0'}
           >
             <Button
-              onClick={() => console.log('atras')}
+              onClick={() => router.push('/')}
               text='Atrás'
               variant='outline'
             />

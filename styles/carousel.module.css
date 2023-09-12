@@ -17,17 +17,6 @@
   right: .2rem;
 }
 
-.dots {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999!important;
-  bottom: 0;
-  padding: .5rem 0;
-}
-
 .dots__dot {
   width: .9rem;
   height: .9rem;

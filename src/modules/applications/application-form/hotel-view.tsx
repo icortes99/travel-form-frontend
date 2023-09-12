@@ -1,8 +1,7 @@
 import { FC } from 'react'
+import { useRouter } from 'next/navigation'
 import FormTemplate from './form-template'
-import InputDate from '../../../shared/components/input-date'
 import InputDropdown from '../../../shared/components/input-dropdown'
-import InputString from '../../../shared/components/input'
 import Passenger from '../../../shared/components/passenger'
 import {
   Box,
@@ -20,6 +19,7 @@ interface HotelViewProps {
 }
 
 const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelViewProps) => {
+  const router = useRouter()
   const habitaciones = []
   for (let i = 1; i <= passengers; i++) {
     habitaciones.push(i)
@@ -127,7 +127,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
         margin={'.5rem 0 2rem'}
       >
         <Button
-          onClick={() => console.log('atras')}
+          onClick={() => router.push('/information')}
           text='Atrás'
           variant='outline'
         />
