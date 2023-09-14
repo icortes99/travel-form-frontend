@@ -33,7 +33,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
 
   const handleForm = (e) => {
     e.preventDefault()
-    //gather information
+
+    //inicializar los campos
     const formData = {
       name: '',
       lastname: '',
@@ -44,11 +45,17 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
       tripObjective: '',
       companions: '',
       cantityCompanions: '',
-      entryPermission: 'target.value'
+      entryPermission: ''
     }
 
-    console.log('form e: ', e)
-    //save it
+    //iterar el objeto para extraer la informacion de los inputs
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        formData[key] = e.target.elements[key].value
+      }
+    }
+
+    console.log('data: ', formData)
 
     router.push('/lodging')
   }

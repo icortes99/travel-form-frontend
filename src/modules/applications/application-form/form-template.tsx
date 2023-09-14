@@ -34,7 +34,7 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
           width={{ sm: '100%', md: '70%', lg: '80%' }}
         >
           <Heading
-            textAlign={{ sm: 'center', md: 'left' }}
+            textAlign={'left'}
             marginBottom={'1rem'}
             as={'h1'}
             color={`white.text`}

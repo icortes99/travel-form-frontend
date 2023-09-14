@@ -22,7 +22,9 @@ const colors = {
     subTitles: '#636363',
     text: '#000000',
     skyBlue: '#00C4C8',
-    pink: '#B5456E'
+    pink: '#B5456E',
+    itemPink: '#ffe6ea',
+    white: '#ffffff'
   }
 }
 

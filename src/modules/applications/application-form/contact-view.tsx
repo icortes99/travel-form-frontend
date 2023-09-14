@@ -32,8 +32,22 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    //collect data
-    console.log('last form: ', e)
+
+    const formData = {
+      email: '',
+      countryCode: '',
+      phone: '',
+      contactPreference: '',
+      leadSource: ''
+    }
+
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        formData[key] = e.target.elements[key].value
+      }
+    }
+
+    console.log('last form: ', formData)
   }
 
   return (
@@ -101,7 +115,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
             >
               <FormLabel>¿Cómo diste con nosotros?:</FormLabel>
               <InputDropdown
-                name='contactPreference'
+                name='leadSource'
                 placeholder='Método de contacto'
                 options={leadSource}
               />

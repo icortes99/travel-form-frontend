@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Box,
@@ -83,7 +83,7 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
   const router = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const modalRef = useRef(null)
-  const selectedAttractions = []
+  const [selectedAttractions, setSelectedAttractions] = useState([])
 
   const selectDestiny = (destiny: string) => {
     // consultar las atracciones del destino 'destiny'
@@ -99,9 +99,14 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
     const index = selectedAttractions.indexOf(attraction)
 
     if (index === -1)
-      selectedAttractions.push(attraction)
+      setSelectedAttractions((previous) => [...previous, attraction])
     else
-      selectedAttractions.splice(index, 1)
+      setSelectedAttractions((previous) => previous.filter((item) => item !== attraction))
+  }
+
+  const closeModal = () => {
+    setSelectedAttractions([])
+    onClose()
   }
 
   return (
@@ -134,14 +139,24 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
         title='Nos gustaría saber cuáles atracciones son las que más te llaman la atención para centrar el viaje en torno a ellas:'
         finalFocusRef={modalRef}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={closeModal}
         onSubmit={nextStep}
       >
         {
           attractions.map((item, i) => (
             <>
-              <Box key={i} display='flex'>
-                <CardItem obj={item} />
+              <Box
+                key={i}
+                display='flex'
+                cursor={'pointer'}
+                backgroundColor={selectedAttractions.includes(item.title) ? `white.itemPink` : `white.white`}
+                _hover={{ backgroundColor: '#ffe6ea' }}
+                borderRadius={'.9rem'}
+              >
+                <CardItem
+                  obj={item}
+                  onClick={() => (handleCheckbox(item.title))}
+                />
                 <Box
                   display={'flex'}
                   paddingTop={'9.5rem'}
@@ -149,8 +164,9 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
                   <Checkbox
                     size='lg'
                     colorScheme='pink'
-                    marginLeft={'1rem'}
+                    margin={'0 1rem'}
                     height={'1.6rem'}
+                    isChecked={selectedAttractions.includes(item.title) ? true : false}
                     onChange={() => (handleCheckbox(item.title))}
                   />
                 </Box>

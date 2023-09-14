@@ -33,7 +33,27 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    //recoger informacion
+    const formData = {
+      hotel: '',
+      rooms: '',
+    }
+
+    //inicializar todos los campos del objeto
+    /*for (let i = 0; i < passengers; i++) {
+      formData[`namePassenger${i}`] = ''
+      formData[`lastNamePassenger${i}`] = ''
+      formData[`birthPassenger${i}`] = ''
+      formData[`roomPassenger${i}`] = ''
+    }*/
+
+    //con los campos ya creados, se recura la informacion
+    /*for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        formData[key] = e.target.elements[key].value
+      }
+    }*/
+
+    console.log('form data: ', e)
 
     router.push('/contact')
   }

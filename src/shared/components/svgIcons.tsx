@@ -152,7 +152,7 @@ export const HotelSVG: FC<SVGprops> = ({ focus }: SVGprops) => {
         cy="22.5"
         r="21.5"
         stroke={color}
-        stroke-width="2"
+        strokeWidth="2"
       />
     </svg>
   )

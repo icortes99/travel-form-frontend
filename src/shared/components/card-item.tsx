@@ -7,15 +7,24 @@ interface CardItemProps {
     title: string
     description: string
   }
+  onClick?: (param: string) => void
 }
 
-const CardItem: FC<CardItemProps> = ({ obj }: CardItemProps) => {
+const CardItem: FC<CardItemProps> = ({ obj, onClick }: CardItemProps) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick(obj.title)
+    }
+  }
+
   return (
     <Card
       overflow='hidden'
       variant='outline'
       border={0}
       margin={'0'}
+      onClick={handleClick}
+      backgroundColor={'transparent'}
     >
       <Image
         objectFit='cover'
@@ -28,7 +37,7 @@ const CardItem: FC<CardItemProps> = ({ obj }: CardItemProps) => {
       />
 
       <Stack>
-        <CardBody padding={0}>
+        <CardBody padding={'0 1rem 1rem'}>
           <Heading
             size='md'
             py='1'
