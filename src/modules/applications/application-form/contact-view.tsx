@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 import FormTemplate from './form-template'
-import InputString from '../../../shared/components/input'
+import Input from '../../../shared/components/input'
 import InputDropdown from '../../../shared/components/input-dropdown'
 import {
   FormControl,
@@ -75,7 +75,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               marginBottom={'1.5rem'}
             >
               <FormLabel>Correo:</FormLabel>
-              <InputString
+              <Input
                 name='email'
                 placeholder='Tu correo aquí'
               />
@@ -94,7 +94,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
                   placeholder=''
                   options={['CR', 'PA', 'ES']}
                 />
-                <InputString
+                <Input
                   name='phone'
                   placeholder='Teléfono'
                 />

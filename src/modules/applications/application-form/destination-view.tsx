@@ -141,6 +141,7 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
         isOpen={isOpen}
         onClose={closeModal}
         onSubmit={nextStep}
+        submitText={selectedAttractions.length === 0 ? 'Omitir' : 'Continuar'}
       >
         {
           attractions.map((item, i) => (

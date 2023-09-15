@@ -8,13 +8,16 @@ import {
 interface InputRadioOptionsProps {
   options?: string[]
   name: string
+  value?: string
+  onChange?: (e: any) => void
 }
 
-
-const InputRadioOptions: FC<InputRadioOptionsProps> = ({ options = ['Si', 'No'], name }: InputRadioOptionsProps) => {
+const InputRadioOptions: FC<InputRadioOptionsProps> = ({ options = ['Si', 'No'], name, value, onChange }: InputRadioOptionsProps) => {
   return (
     <RadioGroup
       name={name}
+      value={value}
+      onChange={onChange}
     >
       <Stack
         spacing={4}

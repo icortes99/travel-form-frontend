@@ -19,9 +19,10 @@ interface ModalProps {
   onClose: () => void
   size?: string
   onSubmit: () => void
+  submitText: string
 }
 
-const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose, size = 'lg', onSubmit }: ModalProps) => {
+const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose, size = 'lg', onSubmit, submitText }: ModalProps) => {
   return (
     <Modal
       onClose={onClose}
@@ -59,7 +60,7 @@ const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButto
             variant='outline'
           />
           <Button
-            text='Continuar'
+            text={submitText}
             onClick={onSubmit}
             variant='solid'
           />

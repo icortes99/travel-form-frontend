@@ -1,21 +1,25 @@
 import { FC } from 'react'
-import { Input } from '@chakra-ui/react'
+import { Input as ChakraInput } from '@chakra-ui/react'
 
 interface InputProps {
   name: string,
   placeholder: string
+  value?: string
+  onChange?: (e: any) => void
 }
 
-const InputString: FC<InputProps> = ({ name, placeholder }: InputProps) => {
+const Input: FC<InputProps> = ({ name, placeholder, value, onChange }: InputProps) => {
   return (
-    <Input
+    <ChakraInput
       name={name}
       placeholder={placeholder}
       errorBorderColor='#3182ce'
       isRequired
       isInvalid
+      value={value}
+      onChange={onChange}
     />
   )
 }
 
-export default InputString
+export default Input

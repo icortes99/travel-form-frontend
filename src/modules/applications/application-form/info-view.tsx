@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
+import { useFormik } from 'formik'
 import FormTemplate from './form-template'
-import InputString from '../../../shared/components/input'
+import Input from '../../../shared/components/input'
 import InputDate from '../../../shared/components/input-date'
 import InputDropdown from '../../../shared/components/input-dropdown'
 import InputRadioOptions from '../../../shared/components/input-radio-options'
@@ -20,16 +21,29 @@ interface InfoViewProps {
 
 const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
   const router = useRouter()
-  const objetivos = [
-    'Vacaciones',
-    'Viaje en pareja',
-    'Viaje familiar'
-  ]
 
   const cantidad = []
   for (let i = 1; i <= 40; i++) {
     cantidad.push(i.toString())
   }
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      lastname: '',
+      birth: '',
+      startDate: '',
+      exitDate: '',
+      country: '',
+      tripObjective: '',
+      companions: '',
+      cantityCompanions: '',
+      entryPermission: ''
+    },
+    onSubmit: values => {
+      console.log('formik test: ', values)
+    }
+  })
 
   const handleForm = (e) => {
     e.preventDefault()
@@ -45,7 +59,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
       tripObjective: '',
       companions: '',
       cantityCompanions: '',
-      entryPermission: ''
+      entryPermission: '',
+      test: ''
     }
 
     //iterar el objeto para extraer la informacion de los inputs
@@ -60,6 +75,13 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
     router.push('/lodging')
   }
 
+  //eliminar, informacion quemada
+  const objetivos = [
+    'Vacaciones',
+    'Viaje en pareja',
+    'Viaje familiar'
+  ]
+
   return (
     <FormTemplate
       title='Acerca del viaje'
@@ -72,7 +94,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
         width={'100%'}
       >
         <form
-          onSubmit={handleForm}
+          onSubmit={formik.handleSubmit}
         >
           <FormControl
             display={'flex'}
@@ -86,19 +108,34 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>Nombre:</FormLabel>
-                <InputString name='name' placeholder='Tu nombre' />
+                <Input
+                  name='name'
+                  placeholder='Tu nombre'
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                />
               </Box>
               <Box
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>Apellido:</FormLabel>
-                <InputString name='lastname' placeholder='Tu apellido' />
+                <Input
+                  name='lastname'
+                  placeholder='Tu apellido'
+                  value={formik.values.lastname}
+                  onChange={formik.handleChange}
+                />
               </Box>
               <Box
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>Fecha de nacimiento:</FormLabel>
-                <InputDate name='birth' placeholder='mm/dd/aaaa' />
+                <InputDate
+                  name='birth'
+                  placeholder='mm/dd/aaaa'
+                  value={formik.values.birth}
+                  onChange={formik.handleChange}
+                />
               </Box>
             </Box>
             <Divider
@@ -123,21 +160,33 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>Fecha de entrada:</FormLabel>
-                <InputDate name='startDate' placeholder='mm/dd/aaaa' />
+                <InputDate
+                  name='startDate'
+                  placeholder='mm/dd/aaaa'
+                  value={formik.values.startDate}
+                  onChange={formik.handleChange}
+                />
               </Box>
               <Box
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>Fecha de salida:</FormLabel>
-                <InputDate name='exitDate' placeholder='mm/dd/aaaa' />
+                <InputDate
+                  name='exitDate'
+                  placeholder='mm/dd/aaaa'
+                  value={formik.values.exitDate}
+                  onChange={formik.handleChange}
+                />
               </Box>
               <Box
                 marginBottom={'1.5rem'}
               >
                 <FormLabel>País de residencia:</FormLabel>
-                <InputString
+                <Input
                   name='country'
                   placeholder='País donde vives'
+                  value={formik.values.country}
+                  onChange={formik.handleChange}
                 />
               </Box>
               <Box
@@ -148,6 +197,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                   name='tripObjective'
                   placeholder='Por qué quieres viajar'
                   options={objetivos}
+                  value={formik.values.tripObjective}
+                  onChange={formik.handleChange}
                 />
               </Box>
               <Box
@@ -156,6 +207,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 <FormLabel marginBottom={'1rem'}>¿Viajas con acompañantes?</FormLabel>
                 <InputRadioOptions
                   name='companions'
+                  value={formik.values.companions}
+                  onChange={formik.handleChange}
                 />
               </Box>
               <Box
@@ -166,6 +219,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                   name='cantityCompanions'
                   placeholder='1...30'
                   options={cantidad}
+                  value={formik.values.cantityCompanions}
+                  onChange={formik.handleChange}
                 />
               </Box>
             </Box>
@@ -190,6 +245,8 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 <FormLabel marginBottom={'1rem'}>¿Tienes permiso de entrada al país?</FormLabel>
                 <InputRadioOptions
                   name='entryPermission'
+                  value={formik.values.entryPermission}
+                  onChange={formik.handleChange}
                 />
               </Box>
               <Text>
