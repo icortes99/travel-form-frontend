@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
+import { useFormik } from 'formik'
 import FormTemplate from './form-template'
 import InputDropdown from '../../../shared/components/input-dropdown'
 import Passenger from '../../../shared/components/passenger'
@@ -25,38 +26,26 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
     habitaciones.push(i)
   }
 
-  const selectedRooms = 1 //debe tomar el valor de input 'rooms'
+  const formik = useFormik({
+    initialValues: {
+      hotel: '',
+      rooms: '',
+      passengersData: Array(passengers).fill({ name: '', lastName: '', birth: '', room: '' })
+    },
+    onSubmit: values => {
+      console.log('hotel formik: ', values)
+      //router.push('/contact')
+    }
+  })
+
+  const handlePassengerChange = (index: number, updatedPassengerData: any) => {
+    const updatedPassengersData = [...formik.values.passengersData]
+    updatedPassengersData[index] = updatedPassengerData
+    formik.setFieldValue('passengersData', updatedPassengersData)
+  }
 
   //eliminar, informacion quemada
   const hotels = ['Disney', 'Universal', 'Other']
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    const formData = {
-      hotel: '',
-      rooms: '',
-    }
-
-    //inicializar todos los campos del objeto
-    /*for (let i = 0; i < passengers; i++) {
-      formData[`namePassenger${i}`] = ''
-      formData[`lastNamePassenger${i}`] = ''
-      formData[`birthPassenger${i}`] = ''
-      formData[`roomPassenger${i}`] = ''
-    }*/
-
-    //con los campos ya creados, se recura la informacion
-    /*for (const key in formData) {
-      if (formData.hasOwnProperty(key)) {
-        formData[key] = e.target.elements[key].value
-      }
-    }*/
-
-    console.log('form data: ', e)
-
-    router.push('/contact')
-  }
 
   return (
     <FormTemplate
@@ -65,7 +54,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
       step={2}
     >
       <form
-        onSubmit={handleSubmit}
+        onSubmit={formik.handleSubmit}
       >
         <Box
           width={'100%'}
@@ -100,6 +89,8 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
                   options={hotels}
                   name='hotel'
                   placeholder='Tu hotel de preferencia'
+                  value={formik.values.hotel}
+                  onChange={formik.handleChange}
                 />
               </Box>
               <Box>
@@ -108,6 +99,8 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
                   options={habitaciones}
                   name='rooms'
                   placeholder='Las habitaciones que gustes'
+                  value={formik.values.rooms}
+                  onChange={formik.handleChange}
                 />
               </Box>
             </FormControl>
@@ -142,6 +135,8 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
                         key={i}
                         passengerId={i + 1}
                         rooms={habitaciones.length}
+                        value={formik.values.passengersData[i]}
+                        onChange={(updatedValue) => handlePassengerChange(i, updatedValue)}
                       />
                     )
                   }

@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
+import { useFormik } from 'formik'
 import FormTemplate from './form-template'
 import Input from '../../../shared/components/input'
 import InputDropdown from '../../../shared/components/input-dropdown'
@@ -18,18 +19,35 @@ interface ContactViewProps {
 
 const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: ContactViewProps) => {
   const router = useRouter()
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      countryCode: '',
+      phone: '',
+      contactPreference: '',
+      leadSource: ''
+    },
+    onSubmit: values => {
+      console.log('contact view: ', values)
+    }
+  })
+
+  //eliminar
   const contactPref = [
     'Video llamada',
     'Mensaje',
     'Zoom'
   ]
 
+  //eliminar
   const leadSource = [
     'Instagram',
     'Facebook',
     'Un/a amigo/a'
   ]
 
+  //eliminar
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -57,7 +75,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
       step={3}
     >
       <form
-        onSubmit={handleSubmit}
+        onSubmit={formik.handleSubmit}
       >
         <Box
           width={'100%'}
@@ -78,6 +96,8 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               <Input
                 name='email'
                 placeholder='Tu correo aquí'
+                value={formik.values.email}
+                onChange={formik.handleChange}
               />
             </Box>
             <Box
@@ -93,10 +113,14 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
                   name='countryCode'
                   placeholder=''
                   options={['CR', 'PA', 'ES']}
+                  value={formik.values.countryCode}
+                  onChange={formik.handleChange}
                 />
                 <Input
                   name='phone'
                   placeholder='Teléfono'
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
                 />
               </Box>
             </Box>
@@ -108,6 +132,8 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
                 name='contactPreference'
                 placeholder='Método de contacto'
                 options={contactPref}
+                value={formik.values.contactPreference}
+                onChange={formik.handleChange}
               />
             </Box>
             <Box
@@ -118,6 +144,8 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
                 name='leadSource'
                 placeholder='Método de contacto'
                 options={leadSource}
+                value={formik.values.leadSource}
+                onChange={formik.handleChange}
               />
             </Box>
           </FormControl>
@@ -148,7 +176,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
                 variant='outline'
               />
               <Button
-                onClick={() => console.log('continuar')}
+                onClick={() => { }}
                 text='Finalizar'
                 type='submit'
               />

@@ -29,7 +29,8 @@ const InputRadioOptions: FC<InputRadioOptionsProps> = ({ options = ['Si', 'No'],
         {
           options.map((option, i) => (
             <Radio
-              value={option.toLowerCase()}
+              isChecked={value === option}
+              value={option}
               key={i}
             >
               {option}

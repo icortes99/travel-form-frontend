@@ -42,38 +42,9 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
     },
     onSubmit: values => {
       console.log('formik test: ', values)
+      router.push('/lodging')
     }
   })
-
-  const handleForm = (e) => {
-    e.preventDefault()
-
-    //inicializar los campos
-    const formData = {
-      name: '',
-      lastname: '',
-      birth: '',
-      startDate: '',
-      exitDate: '',
-      country: '',
-      tripObjective: '',
-      companions: '',
-      cantityCompanions: '',
-      entryPermission: '',
-      test: ''
-    }
-
-    //iterar el objeto para extraer la informacion de los inputs
-    for (const key in formData) {
-      if (formData.hasOwnProperty(key)) {
-        formData[key] = e.target.elements[key].value
-      }
-    }
-
-    console.log('data: ', formData)
-
-    router.push('/lodging')
-  }
 
   //eliminar, informacion quemada
   const objetivos = [
@@ -208,7 +179,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 <InputRadioOptions
                   name='companions'
                   value={formik.values.companions}
-                  onChange={formik.handleChange}
+                  onChange={(newValue) => formik.setFieldValue('companions', newValue)}
                 />
               </Box>
               <Box
@@ -246,7 +217,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 <InputRadioOptions
                   name='entryPermission'
                   value={formik.values.entryPermission}
-                  onChange={formik.handleChange}
+                  onChange={(newValue) => formik.setFieldValue('entryPermission', newValue)}
                 />
               </Box>
               <Text>

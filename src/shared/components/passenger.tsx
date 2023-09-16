@@ -7,12 +7,19 @@ import { Box, FormLabel, Heading } from '@chakra-ui/react'
 interface PassengerProps {
   passengerId: number
   rooms: number
+  value: { name: string, lastName: string, birth: string, room: string }
+  onChange: any
 }
 
-const Passenger: FC<PassengerProps> = ({ passengerId, rooms }: PassengerProps) => {
+const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: PassengerProps) => {
   const optionRooms = []
   for (let i = 1; i <= rooms; i++) {
     optionRooms.push(i)
+  }
+
+  const handleChange = (field: string, fieldValue: string) => {
+    const updatedValue = { ...value, [field]: fieldValue }
+    onChange(updatedValue)
   }
 
   return (
@@ -39,8 +46,10 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms }: PassengerProps) =
             Nombre:
           </FormLabel>
           <InputString
-            name={`namePassenger${passengerId}`}
+            name={'name'}
             placeholder={`Nombre del pasajero ${passengerId}`}
+            value={value.name}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
         </Box>
         <Box>
@@ -50,8 +59,10 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms }: PassengerProps) =
             Apellido:
           </FormLabel>
           <InputString
-            name={`lastNamePassenger${passengerId}`}
+            name={'lastName'}
             placeholder={`Apellido del pasajero ${passengerId}`}
+            value={value.lastName}
+            onChange={(e) => handleChange('lastName', e.target.value)}
           />
         </Box>
         <Box>
@@ -61,8 +72,10 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms }: PassengerProps) =
             Fecha de nacimiento:
           </FormLabel>
           <InputDate
-            name={`birthPassenger${passengerId}`}
+            name={'birth'}
             placeholder={`Edad del pasajero ${passengerId}`}
+            value={value.birth}
+            onChange={(e) => handleChange('birth', e.target.value)}
           />
         </Box>
         <Box
@@ -74,9 +87,11 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms }: PassengerProps) =
             Habitacion:
           </FormLabel>
           <InputDropdown
-            name={`roomPassenger${passengerId}`}
+            name={'room'}
             placeholder={`Habitación del pasajero ${passengerId}`}
             options={optionRooms}
+            value={value.room}
+            onChange={(e) => handleChange('room', e.target.value)}
           />
         </Box>
       </Box>
