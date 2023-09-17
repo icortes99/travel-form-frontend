@@ -13,6 +13,8 @@ import {
   Text
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button'
+import { useRecoilState } from 'recoil'
+import Language from '../../../shared/global/languaje.global'
 
 interface HotelViewProps {
   travelAgencyId?: number
@@ -46,6 +48,9 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
 
   //eliminar, informacion quemada
   const hotels = ['Disney', 'Universal', 'Other']
+
+  //eliminar
+  const [language, setLanguage] = useRecoilState(Language)
 
   return (
     <FormTemplate
@@ -114,7 +119,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
             margin={'0 1.5rem'}
             display={{ sm: 'none', lg: 'block' }}
             orientation='vertical'
-            height={'5rem'}
+            minHeight={'31rem'}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Box
@@ -131,13 +136,23 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
                   const renderPassengers = []
                   for (let i = 0; i < passengers; i++) {
                     renderPassengers.push(
-                      <Passenger
-                        key={i}
-                        passengerId={i + 1}
-                        rooms={habitaciones.length}
-                        value={formik.values.passengersData[i]}
-                        onChange={(updatedValue) => handlePassengerChange(i, updatedValue)}
-                      />
+                      <>
+                        <Passenger
+                          key={i}
+                          passengerId={i + 1}
+                          rooms={habitaciones.length}
+                          value={formik.values.passengersData[i]}
+                          onChange={(updatedValue) => handlePassengerChange(i, updatedValue)}
+                        />
+                        {
+                          i < passengers - 1 ?
+                            <Divider
+                              margin={'.5rem 0 1rem 0'}
+                              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+                              key={i * 10}
+                            /> : null
+                        }
+                      </>
                     )
                   }
                   return renderPassengers
