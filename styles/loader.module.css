@@ -1,0 +1,35 @@
+.loader_container{
+  position: fixed;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgb(255, 255, 255);
+  z-index: 999;
+  display: grid;
+  place-items: center;
+}
+
+.loader {
+  width: 3rem;
+  height: 3rem;
+  border: .5rem dotted #585858;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

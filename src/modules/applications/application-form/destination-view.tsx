@@ -12,7 +12,7 @@ import Modal from '../../../shared/components/modal'
 import CardItem from '../../../shared/components/card-item'
 
 interface DestinationViewProps {
-  travelAcencyId: number
+  travelAcencyId?: number
 }
 
 //eliminar, informacion quemada
