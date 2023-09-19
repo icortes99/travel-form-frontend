@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import FormTemplate from './form-template'
+import * as yup from 'yup'
 import Input from '../../../shared/components/input'
 import InputDate from '../../../shared/components/input-date'
 import InputDropdown from '../../../shared/components/input-dropdown'
@@ -14,6 +15,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button'
+import useEnum from '../../../shared/hooks/enums.hook'
 
 interface InfoViewProps {
   travelAcencyId?: number
@@ -26,6 +28,20 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
   for (let i = 1; i <= 40; i++) {
     cantidad.push(i.toString())
   }
+  const tripObjectives = useEnum({ name: 'tripObjective' })
+
+  const schema = yup.object().shape({
+    name: yup.string().min(3).required(),
+    lastname: yup.string().min(3).required(),
+    birth: yup.date().required(),
+    startDate: yup.date().required(),
+    exitDate: yup.date().required(),
+    country: yup.string().min(3).required(),
+    tripObjective: yup.string().oneOf(Object.values(tripObjectives)).required(),
+    companions: yup.string().min(3).required(),
+    cantityCompanions: yup.number().required(),
+    entryPermission: yup.string().min(3).required()
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -40,9 +56,10 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
       cantityCompanions: '',
       entryPermission: ''
     },
+    validationSchema: schema,
     onSubmit: values => {
       console.log('formik test: ', values)
-      router.push('/lodging')
+      router.push('/application?step=3&agency=fantasticTravel')
     }
   })
 
@@ -233,7 +250,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
             margin={'2rem 0'}
           >
             <Button
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/application?step=1&agency=fantasticTravel')}
               text='Atrás'
               variant='outline'
             />

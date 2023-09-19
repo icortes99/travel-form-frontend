@@ -30,6 +30,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
     },
     onSubmit: values => {
       console.log('contact view: ', values)
+      router.push('/application?step=3&agency=fantasticTravel')
     }
   })
 

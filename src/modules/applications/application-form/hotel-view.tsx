@@ -36,7 +36,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
     },
     onSubmit: values => {
       console.log('hotel formik: ', values)
-      //router.push('/contact')
+      router.push('/application?step=4&agency=fantasticTravel')
     }
   })
 
@@ -169,7 +169,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
           margin={{ sm: '.5rem 0 2rem', lg: '1.5rem 0 2rem' }}
         >
           <Button
-            onClick={() => router.push('/information')}
+            onClick={() => router.push('/application?step=2&agency=fantasticTravel')}
             text='Atrás'
             variant='outline'
           />

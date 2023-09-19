@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import styles from '../../../styles/loader.module.css'
 
 const Loading: FC = () => {
@@ -9,4 +9,4 @@ const Loading: FC = () => {
   )
 }
 
-export default Loading
+export default memo(Loading)

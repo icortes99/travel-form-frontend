@@ -13,6 +13,7 @@ import CardItem from '../../../shared/components/card-item'
 
 interface DestinationViewProps {
   travelAcencyId?: number
+  travelAgency: string
 }
 
 //eliminar, informacion quemada
@@ -79,7 +80,7 @@ const attractions = [
   }
 ]
 
-const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
+const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId, travelAgency }) => {
   const router = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const modalRef = useRef(null)
@@ -92,7 +93,7 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId }) => {
 
   const nextStep = () => {
     console.log('next step. Atts: ', selectedAttractions)
-    router.push('/information')
+    router.push(`/application?step=2&agency=${travelAgency}`)
   }
 
   const handleCheckbox = (attraction: string) => {

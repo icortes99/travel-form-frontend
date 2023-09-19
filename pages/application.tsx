@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import useStepValidation from '../src/shared/hooks/step-validation.hook'
 import Loading from '../src/shared/components/loading.component'
 
@@ -19,32 +19,14 @@ export default function Application() {
   const { step, agency } = router.query
   let stepNumber = parseInt(step as string)
 
-  /*let CurrentPage: any
-
-  useEffect(() => {
-    if (validation === 'loading') {
-      return
-    }
-
-    if (validation === 'failed') {
-      console.log('Unable to validate the step')
-      return
-    }
-
-    stepNumber = parseInt(step as string)
-
-    CurrentPage = pages[stepNumber - 1]
-
-  }, [validation])*/
-
   return (
     <>
       {
         validation === 'loaded' ?
           <Suspense fallback={<Loading />}>
-            {stepNumber === 1 && <DestinationView travelAcencyId={1} />}
+            {stepNumber === 1 && <DestinationView travelAcencyId={1} travelAgency={agency as string} />}
             {stepNumber === 2 && <InfoView />}
-            {stepNumber === 3 && <HotelView passengers={2} />}
+            {stepNumber === 3 && <HotelView passengers={3} />}
             {stepNumber === 4 && <ContactView calendlyLink='jjj' travelAgencyId={1} />}
           </Suspense>
           :
