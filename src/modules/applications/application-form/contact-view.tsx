@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
+import * as yup from 'yup'
 import FormTemplate from './form-template'
 import Input from '../../../shared/components/input'
 import InputDropdown from '../../../shared/components/input-dropdown'
@@ -11,6 +12,7 @@ import {
   Image,
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button'
+import useEnum from '../../../shared/hooks/enums.hook'
 
 interface ContactViewProps {
   calendlyLink: string
@@ -20,6 +22,20 @@ interface ContactViewProps {
 const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: ContactViewProps) => {
   const router = useRouter()
 
+  const countryCodes = ['CR', 'PA', 'ES']
+
+  const contactPreferences = useEnum({ name: 'contactPreference' })
+
+  const leadSources = useEnum({ name: 'leadSource' })
+
+  const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    countryCode: yup.string().oneOf(countryCodes),
+    phone: yup.number().required(),
+    contactPreference: yup.string().oneOf(Object.values(contactPreferences)),
+    leadSource: yup.string().oneOf(Object.values(leadSources))
+  })
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -28,46 +44,12 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
       contactPreference: '',
       leadSource: ''
     },
+    validationSchema: schema,
     onSubmit: values => {
       console.log('contact view: ', values)
       router.push('/application?step=3&agency=fantasticTravel')
     }
   })
-
-  //eliminar
-  const contactPref = [
-    'Video llamada',
-    'Mensaje',
-    'Zoom'
-  ]
-
-  //eliminar
-  const leadSource = [
-    'Instagram',
-    'Facebook',
-    'Un/a amigo/a'
-  ]
-
-  //eliminar
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    const formData = {
-      email: '',
-      countryCode: '',
-      phone: '',
-      contactPreference: '',
-      leadSource: ''
-    }
-
-    for (const key in formData) {
-      if (formData.hasOwnProperty(key)) {
-        formData[key] = e.target.elements[key].value
-      }
-    }
-
-    console.log('last form: ', formData)
-  }
 
   return (
     <FormTemplate
@@ -132,7 +114,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               <InputDropdown
                 name='contactPreference'
                 placeholder='Método de contacto'
-                options={contactPref}
+                options={Object.values(contactPreferences)}
                 value={formik.values.contactPreference}
                 onChange={formik.handleChange}
               />
@@ -144,7 +126,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               <InputDropdown
                 name='leadSource'
                 placeholder='Método de contacto'
-                options={leadSource}
+                options={Object.values(leadSources)}
                 value={formik.values.leadSource}
                 onChange={formik.handleChange}
               />
@@ -172,7 +154,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               justifyContent={'space-evenly'}
             >
               <Button
-                onClick={() => router.push('/lodging')}
+                onClick={() => router.push('/application?step=3&agency=fantasticTravel')}
                 text='Atrás'
                 variant='outline'
               />

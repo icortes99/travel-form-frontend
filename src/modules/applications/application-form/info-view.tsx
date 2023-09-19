@@ -31,16 +31,16 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
   const tripObjectives = useEnum({ name: 'tripObjective' })
 
   const schema = yup.object().shape({
-    name: yup.string().min(3).required(),
+    name: yup.string().min(3, 'Debe ser de minimo 3 caracteres').required('Tu nombre es requerido'),
     lastname: yup.string().min(3).required(),
-    birth: yup.date().required(),
-    startDate: yup.date().required(),
-    exitDate: yup.date().required(),
+    birth: yup.date().max(new Date()).required(),
+    startDate: yup.date().min(new Date()).required(),
+    exitDate: yup.date().min(yup.ref('startDate')).required(),
     country: yup.string().min(3).required(),
     tripObjective: yup.string().oneOf(Object.values(tripObjectives)).required(),
-    companions: yup.string().min(3).required(),
+    companions: yup.string().oneOf(['Si', 'No', 'Yes']).required(),
     cantityCompanions: yup.number().required(),
-    entryPermission: yup.string().min(3).required()
+    entryPermission: yup.string().oneOf(['Si', 'No', 'Yes']).required()
   })
 
   const formik = useFormik({
@@ -59,7 +59,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       console.log('formik test: ', values)
-      router.push('/application?step=3&agency=fantasticTravel')
+      //router.push('/application?step=3&agency=fantasticTravel')
     }
   })
 
@@ -102,6 +102,9 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                 />
+                {formik.touched.name && formik.errors.name ? (
+                  <div>{formik.errors.name}</div>
+                ) : null}
               </Box>
               <Box
                 marginBottom={'1.5rem'}

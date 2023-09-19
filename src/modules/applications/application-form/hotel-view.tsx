@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
+import * as yup from 'yup'
 import FormTemplate from './form-template'
 import InputDropdown from '../../../shared/components/input-dropdown'
 import Passenger from '../../../shared/components/passenger'
@@ -28,12 +29,26 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
     habitaciones.push(i)
   }
 
+  const passengerSchema = yup.object().shape({
+    name: yup.string().required(),
+    lastName: yup.string().required(),
+    birth: yup.date().required(),
+    room: yup.string().required()
+  })
+
+  const schema = yup.object().shape({
+    hotel: yup.string().required(),
+    rooms: yup.number().required(),
+    passengersData: yup.array().of(passengerSchema)
+  })
+
   const formik = useFormik({
     initialValues: {
       hotel: '',
       rooms: '',
       passengersData: Array(passengers).fill({ name: '', lastName: '', birth: '', room: '' })
     },
+    validationSchema: schema,
     onSubmit: values => {
       console.log('hotel formik: ', values)
       router.push('/application?step=4&agency=fantasticTravel')
