@@ -10,14 +10,17 @@ const ContactForm = lazy(() => import('../../src/modules/applications/applicatio
 
 export default function Application() {
   const [validation, setValidation] = useState('loading')
-  const [people, setPeople] = useState(0)
-
-  useStepValidation({ min: 1, max: 4 })
-    .then(() => setValidation('loaded'))
-    .catch(err => setValidation('failed'))
-
+  const localStorageKeys = ['destiny', 'trip-info', 'lodging', 'contact', 'agency']
   const router = useRouter()
   const { step, agency } = router.query
+
+  useStepValidation({ min: 1, max: 4 })
+    .then(() => {
+      setValidation('loaded')
+      window.localStorage.setItem(localStorageKeys[4], JSON.stringify(agency))
+    })
+    .catch(err => setValidation('failed'))
+
   let stepNumber = parseInt(step as string) ?? 1
 
   return (
@@ -25,10 +28,10 @@ export default function Application() {
       {
         validation === 'loaded' ?
           <Suspense fallback={<Loading />}>
-            {stepNumber === 1 && <DestinationForm travelAcencyId={1} travelAgency={'hard coded'} />}
-            {stepNumber === 2 && <TripInfoForm setPassengers={setPeople} />}
-            {stepNumber === 3 && <HotelForm passengers={people as number} />}
-            {stepNumber === 4 && <ContactForm calendlyLink='jjj' travelAgencyId={1} />}
+            {stepNumber === 1 && <DestinationForm lsKey={localStorageKeys[0]} />}
+            {stepNumber === 2 && <TripInfoForm lsKey={localStorageKeys[1]} />}
+            {stepNumber === 3 && <HotelForm lsKey={localStorageKeys[2]} />}
+            {stepNumber === 4 && <ContactForm lsKey={localStorageKeys[3]} />}
           </Suspense>
           :
           <Loading />

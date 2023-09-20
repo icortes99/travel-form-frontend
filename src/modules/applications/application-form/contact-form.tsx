@@ -15,11 +15,10 @@ import {
 import Button from '../../../shared/components/button'
 
 interface ContactViewProps {
-  calendlyLink: string
-  travelAgencyId: number
+  lsKey: string
 }
 
-const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: ContactViewProps) => {
+const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
   const router = useRouter()
 
   const countryCodes = ['CR', 'PA', 'ES']

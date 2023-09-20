@@ -11,9 +11,8 @@ import CardCarousel from '../../../shared/components/card-carousel'
 import Modal from '../../../shared/components/modal'
 import CardItem from '../../../shared/components/card-item'
 
-interface DestinationViewProps {
-  travelAcencyId?: number
-  travelAgency: string
+interface DestinationFormProps {
+  lsKey: string
 }
 
 //eliminar, informacion quemada
@@ -64,6 +63,7 @@ const destinies = [
   }
 ]
 
+//eliminar, informacion quemada
 const attractions = [
   {
     title: 'Piratas del caribe',
@@ -80,20 +80,26 @@ const attractions = [
   }
 ]
 
-const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId, travelAgency }) => {
+const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormProps) => {
   const router = useRouter()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [destiny, setDestiny] = useState('')
   const modalRef = useRef(null)
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttractions, setSelectedAttractions] = useState([])
 
-  const selectDestiny = (destiny: string) => {
-    // consultar las atracciones del destino 'destiny'
+  const selectDestiny = (clickedDestiny: string) => {
+    setDestiny(clickedDestiny)
+    //consultar las atracciones del destino 'destiny' e inicializarlas en el modal
     onOpen()
   }
 
   const nextStep = () => {
-    console.log('next step. Atts: ', selectedAttractions)
-    router.push(`/application?step=2&agency=${travelAgency}`)
+    const data = {
+      destination: destiny,
+      attractions: selectedAttractions
+    }
+    window.localStorage.setItem(lsKey, JSON.stringify(data))
+    router.push(`/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=2`)
   }
 
   const handleCheckbox = (attraction: string) => {
@@ -188,4 +194,4 @@ const DestinationView: FC<DestinationViewProps> = ({ travelAcencyId, travelAgenc
   )
 }
 
-export default DestinationView
+export default DestinationForm

@@ -18,11 +18,10 @@ import {
 import Button from '../../../shared/components/button'
 
 interface InfoViewProps {
-  travelAcencyId?: number
-  setPassengers: (cant: number) => void
+  lsKey: string
 }
 
-const InfoView: FC<InfoViewProps> = ({ travelAcencyId, setPassengers }: InfoViewProps) => {
+const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const router = useRouter()
 
   const cantidad = []
@@ -58,8 +57,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId, setPassengers }: InfoView
     },
     validationSchema: schema,
     onSubmit: values => {
-      const cantityPeople: number = parseInt(`${values.cantityCompanions}`)
-      setPassengers(cantityPeople)
+      window.localStorage.setItem(lsKey, JSON.stringify(values))
       router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=3')
     }
   })

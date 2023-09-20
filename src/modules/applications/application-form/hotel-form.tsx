@@ -14,17 +14,15 @@ import {
   Text
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button'
-import { useRecoilState } from 'recoil'
-import Language from '../../../shared/global/languaje.global'
 
 interface HotelViewProps {
-  travelAgencyId?: number
-  passengers: number
+  lsKey: string
 }
 
-const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelViewProps) => {
+const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
   const router = useRouter()
   const habitaciones = []
+  const passengers = 2
   for (let i = 1; i <= passengers; i++) {
     habitaciones.push(i)
   }
@@ -50,7 +48,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
     },
     validationSchema: schema,
     onSubmit: values => {
-      console.log('hotel formik: ', values)
+      window.localStorage.setItem(lsKey, JSON.stringify(values))
       router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=4')
     }
   })
@@ -63,9 +61,6 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
 
   //eliminar, informacion quemada
   const hotels = ['Disney', 'Universal', 'Other']
-
-  //eliminar
-  const [language, setLanguage] = useRecoilState(Language)
 
   return (
     <FormTemplate
