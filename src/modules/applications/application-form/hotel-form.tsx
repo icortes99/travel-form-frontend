@@ -51,7 +51,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
     validationSchema: schema,
     onSubmit: values => {
       console.log('hotel formik: ', values)
-      router.push('/application?step=4&agency=fantasticTravel')
+      router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=4')
     }
   })
 
@@ -164,7 +164,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
                             <Divider
                               margin={'.5rem 0 1rem 0'}
                               border={'.01rem solid rgba(128, 128, 128, 0.5)'}
-                              key={i * 10}
+                              key={i * 100}
                             /> : null
                         }
                       </>
@@ -184,7 +184,7 @@ const HotelView: FC<HotelViewProps> = ({ travelAgencyId, passengers }: HotelView
           margin={{ sm: '.5rem 0 2rem', lg: '1.5rem 0 2rem' }}
         >
           <Button
-            onClick={() => router.push('/application?step=2&agency=fantasticTravel')}
+            onClick={() => router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=2')}
             text='Atrás'
             variant='outline'
           />

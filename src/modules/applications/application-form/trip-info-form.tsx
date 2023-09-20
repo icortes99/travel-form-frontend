@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import FormTemplate from './form-template'
 import * as yup from 'yup'
+import { TripObjective } from '../../../shared/generated/graphql-schema'
 import Input from '../../../shared/components/input'
 import InputDate from '../../../shared/components/input-date'
 import InputDropdown from '../../../shared/components/input-dropdown'
@@ -15,20 +16,19 @@ import {
   Text
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button'
-import useEnum from '../../../shared/hooks/enums.hook'
 
 interface InfoViewProps {
   travelAcencyId?: number
+  setPassengers: (cant: number) => void
 }
 
-const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
+const InfoView: FC<InfoViewProps> = ({ travelAcencyId, setPassengers }: InfoViewProps) => {
   const router = useRouter()
 
   const cantidad = []
   for (let i = 1; i <= 40; i++) {
     cantidad.push(i.toString())
   }
-  const tripObjectives = useEnum({ name: 'tripObjective' })
 
   const schema = yup.object().shape({
     name: yup.string().min(3, 'Debe ser de minimo 3 caracteres').required('Tu nombre es requerido'),
@@ -37,7 +37,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
     startDate: yup.date().min(new Date()).required(),
     exitDate: yup.date().min(yup.ref('startDate')).required(),
     country: yup.string().min(3).required(),
-    tripObjective: yup.string().oneOf(Object.values(tripObjectives)).required(),
+    tripObjective: yup.string().oneOf(Object.values(TripObjective)).required(),
     companions: yup.string().oneOf(['Si', 'No', 'Yes']).required(),
     cantityCompanions: yup.number().required(),
     entryPermission: yup.string().oneOf(['Si', 'No', 'Yes']).required()
@@ -53,13 +53,14 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
       country: '',
       tripObjective: '',
       companions: '',
-      cantityCompanions: '',
+      cantityCompanions: 0,
       entryPermission: ''
     },
     validationSchema: schema,
     onSubmit: values => {
-      console.log('formik test: ', values)
-      //router.push('/application?step=3&agency=fantasticTravel')
+      const cantityPeople: number = parseInt(`${values.cantityCompanions}`)
+      setPassengers(cantityPeople)
+      router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=3')
     }
   })
 
@@ -187,7 +188,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
                 <InputDropdown
                   name='tripObjective'
                   placeholder='Por qué quieres viajar'
-                  options={objetivos}
+                  options={Object.values(TripObjective)}
                   value={formik.values.tripObjective}
                   onChange={formik.handleChange}
                 />
@@ -253,7 +254,7 @@ const InfoView: FC<InfoViewProps> = ({ travelAcencyId }: InfoViewProps) => {
             margin={'2rem 0'}
           >
             <Button
-              onClick={() => router.push('/application?step=1&agency=fantasticTravel')}
+              onClick={() => router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=1')}
               text='Atrás'
               variant='outline'
             />

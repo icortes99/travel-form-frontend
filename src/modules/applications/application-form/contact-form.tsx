@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { LeadSource, ContactPreference } from '../../../shared/generated/graphql-schema'
 import FormTemplate from './form-template'
 import Input from '../../../shared/components/input'
 import InputDropdown from '../../../shared/components/input-dropdown'
@@ -12,7 +13,6 @@ import {
   Image,
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button'
-import useEnum from '../../../shared/hooks/enums.hook'
 
 interface ContactViewProps {
   calendlyLink: string
@@ -24,16 +24,12 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
 
   const countryCodes = ['CR', 'PA', 'ES']
 
-  const contactPreferences = useEnum({ name: 'contactPreference' })
-
-  const leadSources = useEnum({ name: 'leadSource' })
-
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     countryCode: yup.string().oneOf(countryCodes),
     phone: yup.number().required(),
-    contactPreference: yup.string().oneOf(Object.values(contactPreferences)),
-    leadSource: yup.string().oneOf(Object.values(leadSources))
+    contactPreference: yup.string().oneOf(Object.values(ContactPreference)),
+    leadSource: yup.string().oneOf(Object.values(LeadSource))
   })
 
   const formik = useFormik({
@@ -114,7 +110,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               <InputDropdown
                 name='contactPreference'
                 placeholder='Método de contacto'
-                options={Object.values(contactPreferences)}
+                options={Object.values(ContactPreference)}
                 value={formik.values.contactPreference}
                 onChange={formik.handleChange}
               />
@@ -126,7 +122,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               <InputDropdown
                 name='leadSource'
                 placeholder='Método de contacto'
-                options={Object.values(leadSources)}
+                options={Object.values(LeadSource)}
                 value={formik.values.leadSource}
                 onChange={formik.handleChange}
               />
@@ -154,7 +150,7 @@ const ContactView: FC<ContactViewProps> = ({ calendlyLink, travelAgencyId }: Con
               justifyContent={'space-evenly'}
             >
               <Button
-                onClick={() => router.push('/application?step=3&agency=fantasticTravel')}
+                onClick={() => router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=3')}
                 text='Atrás'
                 variant='outline'
               />

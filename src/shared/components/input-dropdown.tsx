@@ -5,7 +5,7 @@ interface DropdownProps {
   options: string[],
   name: string,
   placeholder: string
-  value?: string
+  value?: string | number
   onChange?: (e: any) => void
 }
 
