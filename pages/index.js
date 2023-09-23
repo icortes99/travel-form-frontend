@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import DestinationView from '../src/modules/applications/application-form/destination-view'
+import DestinationForm from '../src/modules/applications/application-form/destination-form'
 
 export default function Home() {
   return (
-    <DestinationView />
+    <DestinationForm />
   )
 }

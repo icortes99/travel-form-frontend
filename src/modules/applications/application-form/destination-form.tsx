@@ -10,6 +10,7 @@ import FormTemplate from './form-template'
 import CardCarousel from '../../../shared/components/card-carousel'
 import Modal from '../../../shared/components/modal'
 import CardItem from '../../../shared/components/card-item'
+import { useTravelAgencyTemplatesQuery, useUserQuery } from '../../../shared/generated/graphql-schema'
 
 interface DestinationFormProps {
   lsKey: string
@@ -86,6 +87,25 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttractions, setSelectedAttractions] = useState([])
+
+  const data = useTravelAgencyTemplatesQuery({
+    variables: {
+      where: {
+        slug: 'FantasticTravel'
+      }
+    }
+  })
+
+  const user = useUserQuery({
+    variables: {
+      where: {
+        email: 'cortes.ivan353@gmail.com'
+      }
+    }
+  })
+
+  console.log('destinos: ', data)
+  console.log('user: ', user)
 
   const selectDestiny = (clickedDestiny: string) => {
     setDestiny(clickedDestiny)

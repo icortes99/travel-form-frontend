@@ -211,6 +211,11 @@ export type HotelWhereUniqueInput = {
   uuid?: InputMaybe<Scalars['String']>;
 };
 
+export type HotelsInDesinationAgencyWhereUniqueInput = {
+  destinationId: Scalars['Int'];
+  travelAgency: TravelAgencyWhereUniqueInput;
+};
+
 export enum LeadSource {
   Facebook = 'FACEBOOK',
   Instagram = 'INSTAGRAM',
@@ -329,8 +334,10 @@ export type Query = {
   destination?: Maybe<Destination>;
   hotel?: Maybe<Hotel>;
   hotelDestination?: Maybe<HotelDestination>;
+  hotelsInDestinationAgency?: Maybe<Array<HotelDestination>>;
   suite?: Maybe<Suite>;
   travelAgency?: Maybe<TravelAgency>;
+  travelAgencyTemplates?: Maybe<TravelAgency>;
   user?: Maybe<User>;
 };
 
@@ -360,12 +367,22 @@ export type QueryHotelDestinationArgs = {
 };
 
 
+export type QueryHotelsInDestinationAgencyArgs = {
+  where: HotelsInDesinationAgencyWhereUniqueInput;
+};
+
+
 export type QuerySuiteArgs = {
   where: SuiteWhereUniqueInput;
 };
 
 
 export type QueryTravelAgencyArgs = {
+  where: TravelAgencyWhereUniqueInput;
+};
+
+
+export type QueryTravelAgencyTemplatesArgs = {
   where: TravelAgencyWhereUniqueInput;
 };
 
@@ -418,6 +435,7 @@ export type TravelAgency = {
   name?: Maybe<Scalars['String']>;
   owner?: Maybe<User>;
   ownerId?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   uuid?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
@@ -427,6 +445,7 @@ export type TravelAgencyCreateInput = {
   logo: Scalars['String'];
   name: Scalars['String'];
   owner: UserCreateNestedOneWithoutTravelAgencyInput;
+  slug: Scalars['String'];
   website: Scalars['String'];
 };
 
@@ -440,6 +459,7 @@ export type TravelAgencyCreateNestedOneWithoutDestinationsInput = {
 
 export type TravelAgencyWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
   uuid?: InputMaybe<Scalars['String']>;
 };
 
@@ -503,12 +523,19 @@ export type CreateApplicationMutationVariables = Exact<{
 
 export type CreateApplicationMutation = { __typename?: 'Mutation', createApplication: { __typename?: 'Application', id?: number | null } };
 
+export type TravelAgencyTemplatesQueryVariables = Exact<{
+  where: TravelAgencyWhereUniqueInput;
+}>;
+
+
+export type TravelAgencyTemplatesQuery = { __typename?: 'Query', travelAgencyTemplates?: { __typename?: 'TravelAgency', applications?: Array<{ __typename?: 'Application', destination?: { __typename?: 'Destination', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null, attractions?: Array<{ __typename?: 'Attraction', name?: string | null }> | null } | null }> | null } | null };
+
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null, person?: { __typename?: 'Person', firstName?: string | null, lastName?: string | null, birthdate?: any | null } | null } | null };
 
 
 export const CreateApplicationDocument = gql`
@@ -544,6 +571,51 @@ export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
 export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
 export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
+export const TravelAgencyTemplatesDocument = gql`
+    query travelAgencyTemplates($where: TravelAgencyWhereUniqueInput!) {
+  travelAgencyTemplates(where: $where) {
+    applications {
+      destination {
+        id
+        name
+        images
+        description
+        attractions {
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useTravelAgencyTemplatesQuery__
+ *
+ * To run a query within a React component, call `useTravelAgencyTemplatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTravelAgencyTemplatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTravelAgencyTemplatesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useTravelAgencyTemplatesQuery(baseOptions: Apollo.QueryHookOptions<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>(TravelAgencyTemplatesDocument, options);
+      }
+export function useTravelAgencyTemplatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>(TravelAgencyTemplatesDocument, options);
+        }
+export type TravelAgencyTemplatesQueryHookResult = ReturnType<typeof useTravelAgencyTemplatesQuery>;
+export type TravelAgencyTemplatesLazyQueryHookResult = ReturnType<typeof useTravelAgencyTemplatesLazyQuery>;
+export type TravelAgencyTemplatesQueryResult = Apollo.QueryResult<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>;
 export const UserDocument = gql`
     query user($where: UserWhereUniqueInput!) {
   user(where: $where) {
@@ -552,6 +624,11 @@ export const UserDocument = gql`
     email
     createdAt
     updatedAt
+    person {
+      firstName
+      lastName
+      birthdate
+    }
   }
 }
     `;
