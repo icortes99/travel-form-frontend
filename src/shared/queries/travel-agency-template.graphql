@@ -1,5 +1,6 @@
 query travelAgencyTemplates ($where: TravelAgencyWhereUniqueInput!){
   travelAgencyTemplates(where: $where ){
+    name
     applications {
       destination {
         id

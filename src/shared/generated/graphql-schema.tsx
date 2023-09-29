@@ -523,12 +523,19 @@ export type CreateApplicationMutationVariables = Exact<{
 
 export type CreateApplicationMutation = { __typename?: 'Mutation', createApplication: { __typename?: 'Application', id?: number | null } };
 
+export type AttractionsQueryVariables = Exact<{
+  where: DestinationWhereUniqueInput;
+}>;
+
+
+export type AttractionsQuery = { __typename?: 'Query', destination?: { __typename?: 'Destination', name?: string | null, description?: string | null, attractions?: Array<{ __typename?: 'Attraction', name?: string | null, id?: number | null }> | null } | null };
+
 export type TravelAgencyTemplatesQueryVariables = Exact<{
   where: TravelAgencyWhereUniqueInput;
 }>;
 
 
-export type TravelAgencyTemplatesQuery = { __typename?: 'Query', travelAgencyTemplates?: { __typename?: 'TravelAgency', applications?: Array<{ __typename?: 'Application', destination?: { __typename?: 'Destination', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null, attractions?: Array<{ __typename?: 'Attraction', name?: string | null }> | null } | null }> | null } | null };
+export type TravelAgencyTemplatesQuery = { __typename?: 'Query', travelAgencyTemplates?: { __typename?: 'TravelAgency', name?: string | null, applications?: Array<{ __typename?: 'Application', destination?: { __typename?: 'Destination', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null, attractions?: Array<{ __typename?: 'Attraction', name?: string | null }> | null } | null }> | null } | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -571,9 +578,50 @@ export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
 export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
 export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
+export const AttractionsDocument = gql`
+    query attractions($where: DestinationWhereUniqueInput!) {
+  destination(where: $where) {
+    name
+    description
+    attractions {
+      name
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useAttractionsQuery__
+ *
+ * To run a query within a React component, call `useAttractionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAttractionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAttractionsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useAttractionsQuery(baseOptions: Apollo.QueryHookOptions<AttractionsQuery, AttractionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AttractionsQuery, AttractionsQueryVariables>(AttractionsDocument, options);
+      }
+export function useAttractionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AttractionsQuery, AttractionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AttractionsQuery, AttractionsQueryVariables>(AttractionsDocument, options);
+        }
+export type AttractionsQueryHookResult = ReturnType<typeof useAttractionsQuery>;
+export type AttractionsLazyQueryHookResult = ReturnType<typeof useAttractionsLazyQuery>;
+export type AttractionsQueryResult = Apollo.QueryResult<AttractionsQuery, AttractionsQueryVariables>;
 export const TravelAgencyTemplatesDocument = gql`
     query travelAgencyTemplates($where: TravelAgencyWhereUniqueInput!) {
   travelAgencyTemplates(where: $where) {
+    name
     applications {
       destination {
         id
