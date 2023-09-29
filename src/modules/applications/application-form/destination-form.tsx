@@ -11,9 +11,41 @@ import CardCarousel from '../../../shared/components/card-carousel'
 import Modal from '../../../shared/components/modal'
 import CardItem from '../../../shared/components/card-item'
 import { useAttractionsQuery, useTravelAgencyTemplatesQuery, useUserQuery } from '../../../shared/generated/graphql-schema'
+import LoadingComponent from '../../../shared/components/loading.component'
 
 interface DestinationFormProps {
   lsKey: string
+}
+
+type AgencyTemplate = {
+  applications: Destination[],
+  name: string
+}
+
+type User = {
+  email: string
+  id: number
+  uuid: string
+  person: {
+    firstName: string
+    lastName: string
+    birthdate: Date | string
+  }
+  phoneNumber?: string
+}
+
+type Attraction = {
+  id?: number
+  name: string
+  images?: string[]
+  description?: string
+}
+
+type Destination = {
+  attractions: Attraction[]
+  description: string
+  images: string[],
+  name: string
 }
 
 //eliminar, informacion quemada
@@ -82,19 +114,20 @@ const attractions = [
 ]
 
 const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormProps) => {
+  const [destinies, setDestinies] = useState<AgencyTemplate | null>(null)
   const router = useRouter()
   const [destiny, setDestiny] = useState('')
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttractions, setSelectedAttractions] = useState([])
 
-  const data = useTravelAgencyTemplatesQuery({
+  const agencyTemplates = useTravelAgencyTemplatesQuery({
     variables: {
       where: {
         slug: 'FantasticTravel'
       }
     }
-  })
+  }).data
 
   const user = useUserQuery({
     variables: {
@@ -111,10 +144,6 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
       }
     }
   })
-
-  console.log('destinos: ', data.data)
-  console.log('user: ', user.data)
-  console.log('attractions: ', attractions2.data)
 
   const selectDestiny = (clickedDestiny: string) => {
     setDestiny(clickedDestiny)
@@ -159,12 +188,12 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         alignItems={'center'}
         width={'100%'}
       >
-        {
-          destinies.map((destiny, i) => (
+        {destinies === null ? <LoadingComponent /> :
+          destinies.applications.map((destiny, i) => (
             <CardCarousel
               images={destiny.images}
-              title={destiny.title}
-              description={destiny.place}
+              title={destiny.name}
+              description={destiny.description}
               onCLick={selectDestiny}
               key={i}
             />
