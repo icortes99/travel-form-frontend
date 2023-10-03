@@ -3,17 +3,19 @@ import { Card, CardBody, Image, Stack, Heading, Text } from '@chakra-ui/react'
 
 interface CardItemProps {
   obj: {
-    image: string
-    title: string
+    id: number
+    name: string
+    images: string | string[]
     description: string
   }
-  onClick?: (param: string) => void
+  onClick?: (param: number) => void
+  width?: string
 }
 
-const CardItem: FC<CardItemProps> = ({ obj, onClick }: CardItemProps) => {
+const CardItem: FC<CardItemProps> = ({ obj, onClick, width }: CardItemProps) => {
   const handleClick = () => {
     if (onClick) {
-      onClick(obj.title)
+      onClick(obj.id)
     }
   }
 
@@ -25,13 +27,15 @@ const CardItem: FC<CardItemProps> = ({ obj, onClick }: CardItemProps) => {
       margin={'0'}
       onClick={handleClick}
       backgroundColor={'transparent'}
+      width={width}
     >
       <Image
         objectFit='cover'
         maxW={{ base: '100%' }}
+        minW={{ base: '100%' }}
         maxH={{ base: '9rem' }}
-        src={obj.image}
-        alt={`${obj.title} image`}
+        src={typeof obj.images === 'string' ? obj.images : obj.images[0]}
+        alt={`${obj.name} image`}
         marginBottom={'.5rem'}
         borderRadius={'.7rem'}
       />
@@ -43,7 +47,7 @@ const CardItem: FC<CardItemProps> = ({ obj, onClick }: CardItemProps) => {
             py='1'
             color={`white.text`}
           >
-            {obj.title}
+            {obj.name}
           </Heading>
 
           <Text

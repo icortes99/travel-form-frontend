@@ -528,14 +528,14 @@ export type AttractionsQueryVariables = Exact<{
 }>;
 
 
-export type AttractionsQuery = { __typename?: 'Query', destination?: { __typename?: 'Destination', name?: string | null, description?: string | null, attractions?: Array<{ __typename?: 'Attraction', name?: string | null, id?: number | null }> | null } | null };
+export type AttractionsQuery = { __typename?: 'Query', destination?: { __typename?: 'Destination', attractions?: Array<{ __typename?: 'Attraction', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null }> | null } | null };
 
 export type TravelAgencyTemplatesQueryVariables = Exact<{
   where: TravelAgencyWhereUniqueInput;
 }>;
 
 
-export type TravelAgencyTemplatesQuery = { __typename?: 'Query', travelAgencyTemplates?: { __typename?: 'TravelAgency', name?: string | null, applications?: Array<{ __typename?: 'Application', destination?: { __typename?: 'Destination', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null, attractions?: Array<{ __typename?: 'Attraction', name?: string | null }> | null } | null }> | null } | null };
+export type TravelAgencyTemplatesQuery = { __typename?: 'Query', travelAgencyTemplates?: { __typename?: 'TravelAgency', name?: string | null, applications?: Array<{ __typename?: 'Application', destination?: { __typename?: 'Destination', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null } | null }> | null } | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -581,11 +581,11 @@ export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<Create
 export const AttractionsDocument = gql`
     query attractions($where: DestinationWhereUniqueInput!) {
   destination(where: $where) {
-    name
-    description
     attractions {
-      name
       id
+      name
+      images
+      description
     }
   }
 }
@@ -628,9 +628,6 @@ export const TravelAgencyTemplatesDocument = gql`
         name
         images
         description
-        attractions {
-          name
-        }
       }
     }
   }

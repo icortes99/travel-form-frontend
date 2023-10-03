@@ -11,13 +11,16 @@ import Carousel from './carousel'
 import Button from './button'
 
 interface CardCarouselProps {
-  images: string[]
-  title: string
-  description: string
-  onCLick: (selected: string) => void
+  obj: {
+    images: string[]
+    name: string
+    description: string
+    id: number
+  }
+  onCLick: (selected: number) => void
 }
 
-const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, onCLick }: CardCarouselProps) => {
+const CardCarousel: FC<CardCarouselProps> = ({ obj, onCLick }: CardCarouselProps) => {
   return (
     <Card
       maxW='sm'
@@ -27,7 +30,7 @@ const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, onCLi
       margin={{ sm: '0 0 1.5rem 0', lg: '0 .75rem 1.5rem' }}
       boxShadow={'1px 6px 10px 0px rgba(0,0,0,0.44)'}
     >
-      <Carousel images={images} />
+      <Carousel images={obj.images} />
       <CardBody py={3}>
         <Stack mt='0' spacing='0'>
           <Heading
@@ -35,7 +38,7 @@ const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, onCLi
             size='md'
             color={`white.text`}
           >
-            {title}
+            {obj.name}
           </Heading>
           <Box
             display={'flex'}
@@ -50,11 +53,11 @@ const CardCarousel: FC<CardCarouselProps> = ({ images, title, description, onCLi
               marginBottom={'.3rem'}
               color={`white.text`}
             >
-              {description}
+              {obj.description}
             </Text>
             <Button
               text='Seleccionar'
-              onClick={() => onCLick(title)}
+              onClick={() => onCLick(obj.id)}
               variant='solid'
               size='sm'
             />

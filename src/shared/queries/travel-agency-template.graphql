@@ -7,9 +7,6 @@ query travelAgencyTemplates ($where: TravelAgencyWhereUniqueInput!){
         name
         images
         description
-        attractions {
-          name
-        }
       }
     }
   }

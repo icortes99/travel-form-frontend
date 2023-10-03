@@ -1,10 +1,10 @@
 query attractions($where: DestinationWhereUniqueInput!){
   destination(where: $where){
-    name
-    description
     attractions {
-      name
       id
+      name
+      images
+      description
     }
   }
 }
