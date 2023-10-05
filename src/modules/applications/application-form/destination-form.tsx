@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Box,
@@ -17,22 +17,36 @@ interface DestinationFormProps {
   lsKey: string
 }
 
+/*function UseAttractions(destinationID: number) {
+  const [fetchAttractions, { data, loading, error }] = async () => {
+    useAttractionsLazyQuery({
+      variables: {
+        where: {
+          id: destinationID
+        }
+      }
+    })
+  }
+
+  return { fetchAttractions, data, loading, error }
+}*/
+
 const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormProps) => {
   const router = useRouter()
-  const [destiny, setDestiny] = useState(-1)
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttractions, setSelectedAttractions] = useState([])
+  const agency = JSON.parse(window.localStorage.getItem('agency'))
 
   const agencyTemplates: any = useTravelAgencyTemplatesQuery({
     variables: {
       where: {
-        slug: 'FantasticTravel'
+        slug: agency
       }
     }
   })
 
-  const attractions: any = useAttractionsQuery({
+  const attractions: any = useAttractionsLazyQuery({
     variables: {
       where: {
         id: 2
@@ -41,18 +55,18 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   })
 
   const selectDestiny = (clickedDestiny: number) => {
-    setDestiny(() => clickedDestiny)
     //consultar las atracciones del destino 'destiny' e inicializarlas en el modal
     onOpen()
   }
 
+  //falta tomar el valor de destinationID
   const nextStep = () => {
     const data = {
-      destination: destiny,
+      destination: 1,
       attractions: selectedAttractions
     }
     window.localStorage.setItem(lsKey, JSON.stringify(data))
-    router.push(`/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=2`)
+    router.push(`/application/FantasticTravel?step=2`)
   }
 
   const handleCheckbox = (attraction: number) => {
@@ -85,7 +99,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
       >
         {
           agencyTemplates.loading === true ? <Loading area={'partial'} /> :
-            agencyTemplates.data.travelAgencyTemplates.applications.map((destiny, i: number) => (
+            agencyTemplates.data.travelAgencyTemplates.applications.map((destiny: any, i: number) => (
               <CardCarousel
                 obj={destiny.destination}
                 onCLick={selectDestiny}
@@ -102,17 +116,16 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         onSubmit={nextStep}
         submitText={selectedAttractions.length === 0 ? 'Omitir' : 'Continuar'}
       >
-        {console.log('attssss: ', attractions)}
+        {console.log('atts: ', attractions)}
         {
           (attractions.loading === false) ?
-            attractions.data.destination.attractions.map((item, i) => (
+            attractions.data.destination.attractions.map((item: any, i: number) => (
               <>
-                {console.log('attractions: ', attractions)}
                 <Box
                   key={i}
                   display='flex'
                   cursor={'pointer'}
-                  backgroundColor={selectedAttractions.includes(item.title) ? `white.itemPink` : `white.white`}
+                  backgroundColor={selectedAttractions.includes(item.id) ? `white.itemPink` : `white.white`}
                   _hover={{ backgroundColor: '#ffe6ea' }}
                   borderRadius={'.9rem'}
                 >
@@ -130,8 +143,8 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                       colorScheme='pink'
                       margin={'0 1rem'}
                       height={'1.6rem'}
-                      isChecked={selectedAttractions.includes(item.title) ? true : false}
-                      onChange={() => (handleCheckbox(item.title))}
+                      isChecked={selectedAttractions.includes(item.id) ? true : false}
+                      onChange={() => (handleCheckbox(item.id))}
                     />
                   </Box>
                 </Box>
@@ -143,7 +156,8 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                   />
                 }
               </>
-            )) : <Loading area='partial' />
+            ))
+            : <Loading area='partial' />
         }
       </Modal>
     </FormTemplate>
