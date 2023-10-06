@@ -327,7 +327,6 @@ export type Query = {
   hotelsInDestinationAgency?: Maybe<Array<HotelDestination>>;
   suite?: Maybe<Suite>;
   travelAgency?: Maybe<TravelAgency>;
-  travelAgencyTemplates?: Maybe<TravelAgency>;
   user?: Maybe<User>;
 };
 
@@ -368,11 +367,6 @@ export type QuerySuiteArgs = {
 
 
 export type QueryTravelAgencyArgs = {
-  where: TravelAgencyWhereUniqueInput;
-};
-
-
-export type QueryTravelAgencyTemplatesArgs = {
   where: TravelAgencyWhereUniqueInput;
 };
 
@@ -503,26 +497,26 @@ export type UserWhereUniqueInput = {
   uuid?: InputMaybe<Scalars['String']>;
 };
 
-export type CreateApplicationMutationVariables = Exact<{
-  data: ApplicationCreateInput;
+export type AgencyDestiniesQueryVariables = Exact<{
+  where: TravelAgencyWhereUniqueInput;
 }>;
 
 
-export type CreateApplicationMutation = { createApplication: { id?: number | null } };
+export type AgencyDestiniesQuery = { travelAgency?: { applications?: Array<{ uuid?: string | null, destination?: { uuid?: string | null, name?: string | null, images?: Array<string> | null, description?: string | null } | null }> | null } | null };
 
 export type AttractionsQueryVariables = Exact<{
   where: DestinationWhereUniqueInput;
 }>;
 
 
-export type AttractionsQuery = { destination?: { attractions?: Array<{ id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null }> | null } | null };
+export type AttractionsQuery = { destination?: { attractions?: Array<{ uuid?: string | null, name?: string | null, images?: Array<string> | null, description?: string | null }> | null } | null };
 
-export type TravelAgencyTemplatesQueryVariables = Exact<{
-  where: TravelAgencyWhereUniqueInput;
+export type CreateApplicationMutationVariables = Exact<{
+  data: ApplicationCreateInput;
 }>;
 
 
-export type TravelAgencyTemplatesQuery = { travelAgencyTemplates?: { name?: string | null, applications?: Array<{ uuid?: string | null, destination?: { uuid?: string | null, name?: string | null, images?: Array<string> | null, description?: string | null } | null }> | null } | null };
+export type CreateApplicationMutation = { createApplication: { id?: number | null } };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -532,44 +526,54 @@ export type UserQueryVariables = Exact<{
 export type UserQuery = { user?: { id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null, person?: { firstName?: string | null, lastName?: string | null, birthdate?: any | null } | null } | null };
 
 
-export const CreateApplicationDocument = gql`
-    mutation createApplication($data: ApplicationCreateInput!) {
-  createApplication(data: $data) {
-    id
+export const AgencyDestiniesDocument = gql`
+    query agencyDestinies($where: TravelAgencyWhereUniqueInput!) {
+  travelAgency(where: $where) {
+    applications {
+      uuid
+      destination {
+        uuid
+        name
+        images
+        description
+      }
+    }
   }
 }
     `;
-export type CreateApplicationMutationFn = Apollo.MutationFunction<CreateApplicationMutation, CreateApplicationMutationVariables>;
 
 /**
- * __useCreateApplicationMutation__
+ * __useAgencyDestiniesQuery__
  *
- * To run a mutation, you first call `useCreateApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useAgencyDestiniesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAgencyDestiniesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [createApplicationMutation, { data, loading, error }] = useCreateApplicationMutation({
+ * const { data, loading, error } = useAgencyDestiniesQuery({
  *   variables: {
- *      data: // value for 'data'
+ *      where: // value for 'where'
  *   },
  * });
  */
-export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<CreateApplicationMutation, CreateApplicationMutationVariables>) {
+export function useAgencyDestiniesQuery(baseOptions: Apollo.QueryHookOptions<AgencyDestiniesQuery, AgencyDestiniesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateApplicationMutation, CreateApplicationMutationVariables>(CreateApplicationDocument, options);
+        return Apollo.useQuery<AgencyDestiniesQuery, AgencyDestiniesQueryVariables>(AgencyDestiniesDocument, options);
       }
-export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
-export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
-export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
+export function useAgencyDestiniesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AgencyDestiniesQuery, AgencyDestiniesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AgencyDestiniesQuery, AgencyDestiniesQueryVariables>(AgencyDestiniesDocument, options);
+        }
+export type AgencyDestiniesQueryHookResult = ReturnType<typeof useAgencyDestiniesQuery>;
+export type AgencyDestiniesLazyQueryHookResult = ReturnType<typeof useAgencyDestiniesLazyQuery>;
+export type AgencyDestiniesQueryResult = Apollo.QueryResult<AgencyDestiniesQuery, AgencyDestiniesQueryVariables>;
 export const AttractionsDocument = gql`
     query attractions($where: DestinationWhereUniqueInput!) {
   destination(where: $where) {
     attractions {
-      id
+      uuid
       name
       images
       description
@@ -605,50 +609,39 @@ export function useAttractionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type AttractionsQueryHookResult = ReturnType<typeof useAttractionsQuery>;
 export type AttractionsLazyQueryHookResult = ReturnType<typeof useAttractionsLazyQuery>;
 export type AttractionsQueryResult = Apollo.QueryResult<AttractionsQuery, AttractionsQueryVariables>;
-export const TravelAgencyTemplatesDocument = gql`
-    query travelAgencyTemplates($where: TravelAgencyWhereUniqueInput!) {
-  travelAgencyTemplates(where: $where) {
-    name
-    applications {
-      uuid
-      destination {
-        uuid
-        name
-        images
-        description
-      }
-    }
+export const CreateApplicationDocument = gql`
+    mutation createApplication($data: ApplicationCreateInput!) {
+  createApplication(data: $data) {
+    id
   }
 }
     `;
+export type CreateApplicationMutationFn = Apollo.MutationFunction<CreateApplicationMutation, CreateApplicationMutationVariables>;
 
 /**
- * __useTravelAgencyTemplatesQuery__
+ * __useCreateApplicationMutation__
  *
- * To run a query within a React component, call `useTravelAgencyTemplatesQuery` and pass it any options that fit your needs.
- * When your component renders, `useTravelAgencyTemplatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useCreateApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useTravelAgencyTemplatesQuery({
+ * const [createApplicationMutation, { data, loading, error }] = useCreateApplicationMutation({
  *   variables: {
- *      where: // value for 'where'
+ *      data: // value for 'data'
  *   },
  * });
  */
-export function useTravelAgencyTemplatesQuery(baseOptions: Apollo.QueryHookOptions<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>) {
+export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<CreateApplicationMutation, CreateApplicationMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>(TravelAgencyTemplatesDocument, options);
+        return Apollo.useMutation<CreateApplicationMutation, CreateApplicationMutationVariables>(CreateApplicationDocument, options);
       }
-export function useTravelAgencyTemplatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>(TravelAgencyTemplatesDocument, options);
-        }
-export type TravelAgencyTemplatesQueryHookResult = ReturnType<typeof useTravelAgencyTemplatesQuery>;
-export type TravelAgencyTemplatesLazyQueryHookResult = ReturnType<typeof useTravelAgencyTemplatesLazyQuery>;
-export type TravelAgencyTemplatesQueryResult = Apollo.QueryResult<TravelAgencyTemplatesQuery, TravelAgencyTemplatesQueryVariables>;
+export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
+export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
+export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
 export const UserDocument = gql`
     query user($where: UserWhereUniqueInput!) {
   user(where: $where) {

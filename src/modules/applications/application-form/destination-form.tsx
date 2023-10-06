@@ -10,7 +10,7 @@ import FormTemplate from './form-template'
 import CardCarousel from '../../../shared/components/card-carousel.component'
 import Modal from '../../../shared/components/modal.component'
 import CardItem from '../../../shared/components/card-item.component'
-import { useAttractionsLazyQuery, useTravelAgencyTemplatesQuery } from '../../../shared/generated/graphql-schema'
+import { useAttractionsLazyQuery, useAgencyDestiniesQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
 
 interface DestinationFormProps {
@@ -24,7 +24,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   const [selectedAttractions, setSelectedAttractions] = useState([])
   const agency = 'FantasticTravel'
 
-  const travelAgencyResponse = useTravelAgencyTemplatesQuery({
+  const travelAgencyResponse = useAgencyDestiniesQuery({
     variables: {
       where: {
         slug: agency
@@ -47,14 +47,13 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
     onOpen()
   }, [])
 
-  //falta tomar el valor de destinationID
   const nextStep = () => {
     const data = {
-      destination: 1,
+      destination: agency,
       attractions: selectedAttractions
     }
     window.localStorage.setItem(lsKey, JSON.stringify(data))
-    router.push(`/application/FantasticTravel?step=2`)
+    router.push(`/application/${agency}?step=2`)
   }
 
   const handleCheckbox = (attraction: string) => {
@@ -71,11 +70,9 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
     onClose()
   }
 
-  const agencyApplications = travelAgencyResponse?.data?.travelAgencyTemplates?.applications ?? []
+  const agencyApplications = travelAgencyResponse?.data?.travelAgency?.applications ?? []
 
   const destinationAttractions = attractionsResponse?.data?.destination?.attractions ?? []
-
-  console.log('agency applications: ', agencyApplications)
 
   return (
     <FormTemplate
@@ -111,7 +108,6 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         onSubmit={nextStep}
         submitText={selectedAttractions.length === 0 ? 'Omitir' : 'Continuar'}
       >
-        {console.log('atts: ', attractionsResponse)}
         {
           (!attractionsResponse.loading) ?
             destinationAttractions.map((item, i) => (
@@ -120,13 +116,13 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                   key={i}
                   display='flex'
                   cursor={'pointer'}
-                  backgroundColor={selectedAttractions.includes(item.id) ? `white.itemPink` : `white.white`}
+                  backgroundColor={selectedAttractions.includes(item.uuid) ? `white.itemPink` : `white.white`}
                   _hover={{ backgroundColor: '#ffe6ea' }}
                   borderRadius={'.9rem'}
                 >
                   <CardItem
                     data={item}
-                    onClickhandleCheckbox={handleCheckbox}
+                    onClick={handleCheckbox}
                     width={'90%'}
                   />
                   <Box
