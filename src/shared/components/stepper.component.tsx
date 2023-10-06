@@ -23,7 +23,7 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
       display={'flex'}
       width={'100%'}
       marginBottom={'1.7rem'}
-      justifyContent={'center'}
+      justifyContent={{ sm: 'center', md: 'center', lg: 'flex-end' }}
     >
       {/*
         steps.map((step, i) => (

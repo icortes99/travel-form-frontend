@@ -20,7 +20,7 @@ interface ContactViewProps {
 
 const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
   const router = useRouter()
-
+  const agency = 'FantasticTravel'
   const countryCodes = ['CR', 'PA', 'ES']
 
   const schema = yup.object().shape({
@@ -42,7 +42,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       console.log('contact view: ', values)
-      router.push('/application?step=3&agency=fantasticTravel')
+      router.push(`/application?step=3&agency=fantasticTravel`)
     }
   })
 
@@ -149,7 +149,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
               justifyContent={'space-evenly'}
             >
               <Button
-                onClick={() => router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=3')}
+                onClick={() => router.push(`/application/${agency}?step=3`)}
                 text='Atrás'
                 variant='outline'
               />

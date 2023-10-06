@@ -23,6 +23,7 @@ interface InfoViewProps {
 
 const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const router = useRouter()
+  const agency = 'FantasticTravel'
 
   const cantidad = []
   for (let i = 1; i <= 40; i++) {
@@ -58,7 +59,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=3')
+      router.push(`/application/${agency}?step=3`)
     }
   })
 
@@ -252,7 +253,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
             margin={'2rem 0'}
           >
             <Button
-              onClick={() => router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=1')}
+              onClick={() => router.push(`/application/${agency}?step=1`)}
               text='Atrás'
               variant='outline'
             />

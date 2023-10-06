@@ -14,6 +14,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button.component'
+import Carousel from '../../../shared/components/carousel.component'
 
 interface HotelViewProps {
   lsKey: string
@@ -22,6 +23,7 @@ interface HotelViewProps {
 const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
   const router = useRouter()
   const habitaciones = []
+  const agency = 'FantasticTravel'
   const passengers = 2
   for (let i = 1; i <= passengers; i++) {
     habitaciones.push(i)
@@ -49,7 +51,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=4')
+      router.push(`/application/${agency}?step=4`)
     }
   })
 
@@ -62,10 +64,15 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
   //eliminar, informacion quemada
   const hotels = ['Disney', 'Universal', 'Other']
 
+  //eliminar
+  const hotelImages = [
+    'https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'
+  ]
+
   return (
     <FormTemplate
       title='Hospedaje'
-      description='Comenzaremos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.'
+      description='Continuamos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.'
       step={2}
     >
       <form
@@ -84,15 +91,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
             flexDirection={'column'}
             alignItems={'center'}
           > {/* COLUMNA 1 */}
-            <Image
-              maxWidth={'25rem'}
-              width={'100%'}
-              aspectRatio={'1/1'}
-              objectFit={'cover'}
-              borderRadius={'.9rem'}
-              alt='hotel image'
-              src='https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'
-            />
+            <Carousel images={hotelImages} mask={false} />
             <FormControl
               marginTop={'1.5rem'}
             >
@@ -179,7 +178,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
           margin={{ sm: '.5rem 0 2rem', lg: '1.5rem 0 2rem' }}
         >
           <Button
-            onClick={() => router.push('/application/f95a3f7e-6a1f-4326-8718-fa439a3c5306?step=2')}
+            onClick={() => router.push(`/application/${agency}?step=2`)}
             text='Atrás'
             variant='outline'
           />

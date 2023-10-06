@@ -53,8 +53,8 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
           display={'flex'}
           height={'auto'}
           alignItems={'center'}
-          justifyContent={'center'}
-          padding={'0 1.5rem'}
+          justifyContent={{ md: 'center', lg: 'flex-end' }}
+          padding={{ md: '0 1.5rem', lg: '0 0 0 1.5rem' }}
           width={{ sm: '100%', md: '30%', lg: '20%' }}
         >
           <Stepper currentStep={step} />

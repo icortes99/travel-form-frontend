@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { FC, useCallback, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Box,
@@ -89,7 +89,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         width={'100%'}
       >
         {
-          !travelAgencyResponse.loading ?
+          (!travelAgencyResponse.loading) ?
             agencyApplications.map((application) => (
               <CardCarousel
                 data={application.destination}

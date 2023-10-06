@@ -9,6 +9,11 @@
   cursor: pointer;
 }
 
+.arrow__disabled {
+  fill: #c0c0c0ee!important;
+  cursor: default!important;
+}
+
 .arrow__left {
   left: .2rem;
 }

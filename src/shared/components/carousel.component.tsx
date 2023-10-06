@@ -2,39 +2,41 @@ import { FC, useState } from 'react'
 import { useKeenSlider } from 'keen-slider/react'
 import styles from '../../../styles/carousel.module.css'
 import { Box, Image } from '@chakra-ui/react'
-/*import {
-  Image
-} from '@chakra-ui/react'*/
-//import Image from 'next/image'
 
 interface CarouselProps {
   images: string[]
+  mask?: boolean
 }
 
 interface ArrowProps {
   left: boolean,
   onClick: (param) => void
+  disabled?: boolean
 }
 
-const Arrow: FC<ArrowProps> = ({ left, onClick }: ArrowProps) => {
+const Arrow: FC<ArrowProps> = ({ left, onClick, disabled = false }: ArrowProps) => {
   return (
     <svg
-      onClick={onClick}
-      className={`${styles.arrow} ${left ? `${styles.arrow__left}` : `${styles.arrow__right}`}`}
+      onClick={disabled ? null : onClick}
+      className={`${styles.arrow} ${left ? `${styles.arrow__left}` : `${styles.arrow__right}`} ${disabled && `${styles.arrow__disabled}`}`}
       xmlns='http://www.w3.org/2000/svg'
       viewBox="0 0 24 24"
     >
-      {left && (
-        <path d='M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z' />
-      )}
-      {!left && (
-        <path d='M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z' />
-      )}
+      {
+        left && (
+          <path d='M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z' />
+        )
+      }
+      {
+        !left && (
+          <path d='M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z' />
+        )
+      }
     </svg>
   )
 }
 
-const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
+const Carousel: FC<CarouselProps> = ({ images, mask = true }: CarouselProps) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const [sliderRef, instanceRef] = useKeenSlider(
@@ -58,22 +60,15 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
     <Box
       ref={sliderRef}
       height={'18.5rem'}
+      maxHeight={'18.5rem'}
+      maxWidth={'20rem'}
       position={'relative'}
       overflow={'hidden'}
       width={'100%'}
-      borderTopLeftRadius={'.9rem'}
-      borderTopRightRadius={'.9rem'}
-      clipPath={'ellipse(90% 85% at 50% 15%)'}
+      borderRadius={'.9rem'}
+      clipPath={mask ? 'ellipse(90% 85% at 50% 15%)' : ''}
+      aspectRatio={'1/1'}
     >
-      {
-        /*<Image
-          src={image[0]}
-          alt='image test'
-          width={500}
-          height={500}
-        />*/
-        //error: https://nextjs.org/docs/messages/next-image-unconfigured-host
-      }
       <Box>
         {
           images.map((src, idx) => (
@@ -90,6 +85,7 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
                 width={'100%'}
                 height={'100%'}
                 objectFit={'cover'}
+                aspectRatio={'1/1'}
                 top={0}
               />
             </Box>
@@ -104,6 +100,7 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
               onClick={(e) =>
                 e.stopPropagation() || instanceRef.current?.prev()
               }
+              disabled={images.length <= 1}
             />
 
             <Arrow
@@ -111,6 +108,7 @@ const Carousel: FC<CarouselProps> = ({ images }: CarouselProps) => {
               onClick={(e) =>
                 e.stopPropagation() || instanceRef.current?.next()
               }
+              disabled={images.length <= 1}
             />
 
             {/* DOTS */}
