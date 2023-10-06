@@ -8,7 +8,7 @@ import {
   ModalBody,
   ModalCloseButton
 } from '@chakra-ui/react'
-import Button from './button'
+import Button from './button.component'
 
 interface ModalProps {
   title: string

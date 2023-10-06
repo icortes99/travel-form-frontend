@@ -17,7 +17,6 @@ export type Scalars = {
 };
 
 export type Application = {
-  __typename?: 'Application';
   applicationAttractions?: Maybe<Array<ApplicationAttraction>>;
   contactPreference?: Maybe<ContactPreference>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -40,7 +39,6 @@ export type Application = {
 };
 
 export type ApplicationAttraction = {
-  __typename?: 'ApplicationAttraction';
   application: Application;
   applicationId: Scalars['Float'];
   attraction: Attraction;
@@ -76,7 +74,6 @@ export type ApplicationWhereUniqueInput = {
 };
 
 export type Attraction = {
-  __typename?: 'Attraction';
   applicationAttractions?: Maybe<Array<ApplicationAttraction>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
@@ -119,7 +116,6 @@ export enum ContactPreference {
 }
 
 export type Destination = {
-  __typename?: 'Destination';
   applications?: Maybe<Array<Application>>;
   attractions?: Maybe<Array<Attraction>>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -154,7 +150,6 @@ export type DestinationWhereUniqueInput = {
 };
 
 export type Hotel = {
-  __typename?: 'Hotel';
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   hotelDestinations?: Maybe<Array<HotelDestination>>;
@@ -183,7 +178,6 @@ export type HotelDesinationWhereUniqueInput = {
 };
 
 export type HotelDestination = {
-  __typename?: 'HotelDestination';
   destination?: Maybe<Destination>;
   destinationId?: Maybe<Scalars['Int']>;
   hotel?: Maybe<Hotel>;
@@ -225,7 +219,6 @@ export enum LeadSource {
 }
 
 export type Mutation = {
-  __typename?: 'Mutation';
   createApplication: Application;
   createAttraction: Attraction;
   createDestination: Destination;
@@ -277,7 +270,6 @@ export type MutationCreateUserArgs = {
 };
 
 export type Passengers = {
-  __typename?: 'Passengers';
   application: Application;
   applicationId: Scalars['Float'];
   person: Person;
@@ -296,7 +288,6 @@ export type PassengersCreateWithoutApplicationInput = {
 };
 
 export type Person = {
-  __typename?: 'Person';
   birthdate?: Maybe<Scalars['DateTime']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
@@ -328,7 +319,6 @@ export type PersonCreateWithoutUserInput = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   application?: Maybe<Application>;
   attraction?: Maybe<Attraction>;
   destination?: Maybe<Destination>;
@@ -392,7 +382,6 @@ export type QueryUserArgs = {
 };
 
 export type Suite = {
-  __typename?: 'Suite';
   basedPrice?: Maybe<Scalars['Float']>;
   description?: Maybe<Scalars['String']>;
   feePerAdult?: Maybe<Scalars['Float']>;
@@ -426,7 +415,6 @@ export type SuiteWhereUniqueInput = {
 };
 
 export type TravelAgency = {
-  __typename?: 'TravelAgency';
   applications?: Maybe<Array<Application>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   hotelDestinations?: Maybe<Array<HotelDestination>>;
@@ -481,7 +469,6 @@ export enum TripObjective {
 }
 
 export type User = {
-  __typename?: 'User';
   applications?: Maybe<Array<Application>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   email?: Maybe<Scalars['String']>;
@@ -521,28 +508,28 @@ export type CreateApplicationMutationVariables = Exact<{
 }>;
 
 
-export type CreateApplicationMutation = { __typename?: 'Mutation', createApplication: { __typename?: 'Application', id?: number | null } };
+export type CreateApplicationMutation = { createApplication: { id?: number | null } };
 
 export type AttractionsQueryVariables = Exact<{
   where: DestinationWhereUniqueInput;
 }>;
 
 
-export type AttractionsQuery = { __typename?: 'Query', destination?: { __typename?: 'Destination', attractions?: Array<{ __typename?: 'Attraction', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null }> | null } | null };
+export type AttractionsQuery = { destination?: { attractions?: Array<{ id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null }> | null } | null };
 
 export type TravelAgencyTemplatesQueryVariables = Exact<{
   where: TravelAgencyWhereUniqueInput;
 }>;
 
 
-export type TravelAgencyTemplatesQuery = { __typename?: 'Query', travelAgencyTemplates?: { __typename?: 'TravelAgency', name?: string | null, applications?: Array<{ __typename?: 'Application', destination?: { __typename?: 'Destination', id?: number | null, name?: string | null, images?: Array<string> | null, description?: string | null } | null }> | null } | null };
+export type TravelAgencyTemplatesQuery = { travelAgencyTemplates?: { name?: string | null, applications?: Array<{ uuid?: string | null, destination?: { uuid?: string | null, name?: string | null, images?: Array<string> | null, description?: string | null } | null }> | null } | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null, person?: { __typename?: 'Person', firstName?: string | null, lastName?: string | null, birthdate?: any | null } | null } | null };
+export type UserQuery = { user?: { id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null, person?: { firstName?: string | null, lastName?: string | null, birthdate?: any | null } | null } | null };
 
 
 export const CreateApplicationDocument = gql`
@@ -623,8 +610,9 @@ export const TravelAgencyTemplatesDocument = gql`
   travelAgencyTemplates(where: $where) {
     name
     applications {
+      uuid
       destination {
-        id
+        uuid
         name
         images
         description

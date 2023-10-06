@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import InputString from './input'
-import InputDate from './input-date'
-import InputDropdown from './input-dropdown'
+import InputString from './input.component'
+import InputDate from './input-date.component'
+import InputDropdown from './input-dropdown.component'
 import { Box, FormLabel, Heading } from '@chakra-ui/react'
 
 interface PassengerProps {

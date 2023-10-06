@@ -7,20 +7,20 @@ import {
   Text,
   Box
 } from '@chakra-ui/react'
-import Carousel from './carousel'
-import Button from './button'
+import Carousel from './carousel.component'
+import Button from './button.component'
 
 interface CardCarouselProps {
-  obj: {
-    images: string[]
-    name: string
-    description: string
-    id: number
+  data: {
+    uuid?: string
+    name?: string
+    description?: string
+    images?: string[]
   }
-  onCLick: (selected: number) => void
+  onCLick: (uuid: string) => void
 }
 
-const CardCarousel: FC<CardCarouselProps> = ({ obj, onCLick }: CardCarouselProps) => {
+const CardCarousel: FC<CardCarouselProps> = ({ data: { uuid = '', name = '', description = '', images = [] }, onCLick }: CardCarouselProps) => {
   return (
     <Card
       maxW='sm'
@@ -30,7 +30,7 @@ const CardCarousel: FC<CardCarouselProps> = ({ obj, onCLick }: CardCarouselProps
       margin={{ sm: '0 0 1.5rem 0', lg: '0 .75rem 1.5rem' }}
       boxShadow={'1px 6px 10px 0px rgba(0,0,0,0.44)'}
     >
-      <Carousel images={obj.images} />
+      <Carousel images={images} />
       <CardBody py={3}>
         <Stack mt='0' spacing='0'>
           <Heading
@@ -38,7 +38,7 @@ const CardCarousel: FC<CardCarouselProps> = ({ obj, onCLick }: CardCarouselProps
             size='md'
             color={`white.text`}
           >
-            {obj.name}
+            {name}
           </Heading>
           <Box
             display={'flex'}
@@ -53,11 +53,11 @@ const CardCarousel: FC<CardCarouselProps> = ({ obj, onCLick }: CardCarouselProps
               marginBottom={'.3rem'}
               color={`white.text`}
             >
-              {obj.description}
+              {description}
             </Text>
             <Button
               text='Seleccionar'
-              onClick={() => onCLick(obj.id)}
+              onClick={() => onCLick(uuid)}
               variant='solid'
               size='sm'
             />

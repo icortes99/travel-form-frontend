@@ -1,4 +1,4 @@
-import { FC, memo } from 'react'
+import { FC } from 'react'
 import styles from '../../../styles/loader.module.css'
 
 interface LoadingProps {
@@ -13,4 +13,4 @@ const Loading: FC<LoadingProps> = ({ area = 'full' }: LoadingProps) => {
   )
 }
 
-export default memo(Loading)
+export default Loading

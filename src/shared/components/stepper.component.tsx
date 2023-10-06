@@ -1,5 +1,5 @@
 import { FC, createElement } from 'react'
-import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons'
+import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons.component'
 import {
   Box,
   Text,

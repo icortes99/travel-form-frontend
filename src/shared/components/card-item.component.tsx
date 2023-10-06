@@ -2,21 +2,19 @@ import { FC } from 'react'
 import { Card, CardBody, Image, Stack, Heading, Text } from '@chakra-ui/react'
 
 interface CardItemProps {
-  obj: {
-    id: number
-    name: string
-    images: string | string[]
-    description: string
+  data: {
+    uuid?: string
+    name?: string
+    images?: string | string[]
+    description?: string
   }
-  onClick?: (param: number) => void
+  onClick?: (param: string) => void
   width?: string
 }
 
-const CardItem: FC<CardItemProps> = ({ obj, onClick, width }: CardItemProps) => {
+const CardItem: FC<CardItemProps> = ({ data: { uuid = '', name = '', description = '', images = [] }, onClick, width }: CardItemProps) => {
   const handleClick = () => {
-    if (onClick) {
-      onClick(obj.id)
-    }
+    onClick && onClick(uuid)
   }
 
   return (
@@ -34,8 +32,8 @@ const CardItem: FC<CardItemProps> = ({ obj, onClick, width }: CardItemProps) => 
         maxW={{ base: '100%' }}
         minW={{ base: '100%' }}
         maxH={{ base: '9rem' }}
-        src={typeof obj.images === 'string' ? obj.images : obj.images[0]}
-        alt={`${obj.name} image`}
+        src={typeof images === 'string' ? images : images[0]}
+        alt={`${name} image`}
         marginBottom={'.5rem'}
         borderRadius={'.7rem'}
       />
@@ -47,7 +45,7 @@ const CardItem: FC<CardItemProps> = ({ obj, onClick, width }: CardItemProps) => 
             py='1'
             color={`white.text`}
           >
-            {obj.name}
+            {name}
           </Heading>
 
           <Text
@@ -55,7 +53,7 @@ const CardItem: FC<CardItemProps> = ({ obj, onClick, width }: CardItemProps) => 
             marginBottom={0}
             color={`white.subTitles`}
           >
-            {obj.description}
+            {description}
           </Text>
         </CardBody>
       </Stack>

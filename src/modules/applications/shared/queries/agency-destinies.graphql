@@ -1,0 +1,13 @@
+query agencyDestinies ($where: TravelAgencyWhereUniqueInput!){
+  travelAgency(where: $where ){
+    applications {
+      uuid
+      destination {
+        uuid
+        name
+        images
+        description
+      }
+    }
+  }
+}

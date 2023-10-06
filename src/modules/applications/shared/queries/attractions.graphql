@@ -1,7 +1,7 @@
 query attractions($where: DestinationWhereUniqueInput!){
   destination(where: $where){
     attractions {
-      id
+      uuid
       name
       images
       description

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Box,
@@ -7,38 +7,24 @@ import {
   Divider
 } from '@chakra-ui/react'
 import FormTemplate from './form-template'
-import CardCarousel from '../../../shared/components/card-carousel'
-import Modal from '../../../shared/components/modal'
-import CardItem from '../../../shared/components/card-item'
-import { useAttractionsLazyQuery, useAttractionsQuery, useTravelAgencyTemplatesQuery } from '../../../shared/generated/graphql-schema'
+import CardCarousel from '../../../shared/components/card-carousel.component'
+import Modal from '../../../shared/components/modal.component'
+import CardItem from '../../../shared/components/card-item.component'
+import { useAttractionsLazyQuery, useTravelAgencyTemplatesQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
 
 interface DestinationFormProps {
   lsKey: string
 }
 
-/*function UseAttractions(destinationID: number) {
-  const [fetchAttractions, { data, loading, error }] = async () => {
-    useAttractionsLazyQuery({
-      variables: {
-        where: {
-          id: destinationID
-        }
-      }
-    })
-  }
-
-  return { fetchAttractions, data, loading, error }
-}*/
-
 const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormProps) => {
   const router = useRouter()
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttractions, setSelectedAttractions] = useState([])
-  const agency = JSON.parse(window.localStorage.getItem('agency'))
+  const agency = 'FantasticTravel'
 
-  const agencyTemplates: any = useTravelAgencyTemplatesQuery({
+  const travelAgencyResponse = useTravelAgencyTemplatesQuery({
     variables: {
       where: {
         slug: agency
@@ -46,18 +32,20 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
     }
   })
 
-  const attractions: any = useAttractionsLazyQuery({
-    variables: {
-      where: {
-        id: 2
-      }
-    }
-  })
+  const [fetchAttractions, attractionsResponse] = useAttractionsLazyQuery()
 
-  const selectDestiny = (clickedDestiny: number) => {
-    //consultar las atracciones del destino 'destiny' e inicializarlas en el modal
+  const onDestinationSelection = useCallback(async (clickedDestiny: string) => {
+    await fetchAttractions({
+      fetchPolicy: 'cache-and-network',
+      variables: {
+        where: {
+          uuid: clickedDestiny
+        }
+      }
+    })
+
     onOpen()
-  }
+  }, [])
 
   //falta tomar el valor de destinationID
   const nextStep = () => {
@@ -69,7 +57,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
     router.push(`/application/FantasticTravel?step=2`)
   }
 
-  const handleCheckbox = (attraction: number) => {
+  const handleCheckbox = (attraction: string) => {
     const index = selectedAttractions.indexOf(attraction)
 
     if (index === -1)
@@ -82,6 +70,12 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
     setSelectedAttractions([])
     onClose()
   }
+
+  const agencyApplications = travelAgencyResponse?.data?.travelAgencyTemplates?.applications ?? []
+
+  const destinationAttractions = attractionsResponse?.data?.destination?.attractions ?? []
+
+  console.log('agency applications: ', agencyApplications)
 
   return (
     <FormTemplate
@@ -98,14 +92,15 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         width={'100%'}
       >
         {
-          agencyTemplates.loading === true ? <Loading area={'partial'} /> :
-            agencyTemplates.data.travelAgencyTemplates.applications.map((destiny: any, i: number) => (
+          !travelAgencyResponse.loading ?
+            agencyApplications.map((application) => (
               <CardCarousel
-                obj={destiny.destination}
-                onCLick={selectDestiny}
-                key={i}
+                data={application.destination}
+                onCLick={onDestinationSelection}
+                key={application.uuid}
               />
             ))
+            : <Loading area={'partial'} />
         }
       </Box>
       <Modal
@@ -116,10 +111,10 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         onSubmit={nextStep}
         submitText={selectedAttractions.length === 0 ? 'Omitir' : 'Continuar'}
       >
-        {console.log('atts: ', attractions)}
+        {console.log('atts: ', attractionsResponse)}
         {
-          (attractions.loading === false) ?
-            attractions.data.destination.attractions.map((item: any, i: number) => (
+          (!attractionsResponse.loading) ?
+            destinationAttractions.map((item, i) => (
               <>
                 <Box
                   key={i}
@@ -130,8 +125,8 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                   borderRadius={'.9rem'}
                 >
                   <CardItem
-                    obj={item}
-                    onClick={handleCheckbox}
+                    data={item}
+                    onClickhandleCheckbox={handleCheckbox}
                     width={'90%'}
                   />
                   <Box
@@ -143,13 +138,13 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                       colorScheme='pink'
                       margin={'0 1rem'}
                       height={'1.6rem'}
-                      isChecked={selectedAttractions.includes(item.id) ? true : false}
-                      onChange={() => (handleCheckbox(item.id))}
+                      isChecked={selectedAttractions.includes(item.uuid) ? true : false}
+                      onChange={() => (handleCheckbox(item.uuid))}
                     />
                   </Box>
                 </Box>
                 {
-                  (attractions.data.destination.attractions.length - 1) > i &&
+                  (destinationAttractions.length - 1) > i &&
                   <Divider
                     key={i + 100}
                     margin={'1rem 0 1.5rem'}

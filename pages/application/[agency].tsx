@@ -17,7 +17,6 @@ export default function Application() {
   useStepValidation({ min: 1, max: 4 })
     .then(() => {
       setValidation('loaded')
-      window.localStorage.setItem(localStorageKeys[4], JSON.stringify(agency))
     })
     .catch(err => setValidation('failed'))
 

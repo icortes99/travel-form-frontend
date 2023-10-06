@@ -4,15 +4,15 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { LeadSource, ContactPreference } from '../../../shared/generated/graphql-schema'
 import FormTemplate from './form-template'
-import Input from '../../../shared/components/input'
-import InputDropdown from '../../../shared/components/input-dropdown'
+import Input from '../../../shared/components/input.component'
+import InputDropdown from '../../../shared/components/input-dropdown.component'
 import {
   FormControl,
   FormLabel,
   Box,
   Image,
 } from '@chakra-ui/react'
-import Button from '../../../shared/components/button'
+import Button from '../../../shared/components/button.component'
 
 interface ContactViewProps {
   lsKey: string

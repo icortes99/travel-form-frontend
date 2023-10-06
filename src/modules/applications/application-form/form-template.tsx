@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Stepper from '../../../shared/components/stepper'
+import Stepper from '../../../shared/components/stepper.component'
 import {
   Heading,
   Text,

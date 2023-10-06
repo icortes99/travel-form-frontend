@@ -4,10 +4,10 @@ import { useFormik } from 'formik'
 import FormTemplate from './form-template'
 import * as yup from 'yup'
 import { TripObjective } from '../../../shared/generated/graphql-schema'
-import Input from '../../../shared/components/input'
-import InputDate from '../../../shared/components/input-date'
-import InputDropdown from '../../../shared/components/input-dropdown'
-import InputRadioOptions from '../../../shared/components/input-radio-options'
+import Input from '../../../shared/components/input.component'
+import InputDate from '../../../shared/components/input-date.component'
+import InputDropdown from '../../../shared/components/input-dropdown.component'
+import InputRadioOptions from '../../../shared/components/input-radio-options.component'
 import {
   FormControl,
   FormLabel,
@@ -15,7 +15,7 @@ import {
   Divider,
   Text
 } from '@chakra-ui/react'
-import Button from '../../../shared/components/button'
+import Button from '../../../shared/components/button.component'
 
 interface InfoViewProps {
   lsKey: string

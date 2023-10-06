@@ -3,8 +3,8 @@ import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import FormTemplate from './form-template'
-import InputDropdown from '../../../shared/components/input-dropdown'
-import Passenger from '../../../shared/components/passenger'
+import InputDropdown from '../../../shared/components/input-dropdown.component'
+import Passenger from '../../../shared/components/passenger.component'
 import {
   Box,
   Divider,
@@ -13,7 +13,7 @@ import {
   Image,
   Text
 } from '@chakra-ui/react'
-import Button from '../../../shared/components/button'
+import Button from '../../../shared/components/button.component'
 
 interface HotelViewProps {
   lsKey: string
