@@ -44,6 +44,7 @@ const CardItem: FC<CardItemProps> = ({ data: { uuid = '', name = '', description
             size='md'
             py='1'
             color={`white.text`}
+            marginBottom={'.3rem'}
           >
             {name}
           </Heading>

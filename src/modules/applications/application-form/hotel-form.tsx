@@ -91,7 +91,12 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
             flexDirection={'column'}
             alignItems={'center'}
           > {/* COLUMNA 1 */}
-            <Carousel images={hotelImages} mask={false} />
+            <Box
+              maxWidth={{ sm: '25rem', md: '25rem', lg: '100%' }}
+              width={'100%'}
+            >
+              <Carousel images={hotelImages} mask={false} />
+            </Box>
             <FormControl
               marginTop={'1.5rem'}
             >

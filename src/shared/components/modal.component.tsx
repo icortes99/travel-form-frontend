@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import {
-  Modal,
+  Modal as ChakraModal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton
 } from '@chakra-ui/react'
+import Poppins from '../font/font'
 import Button from './button.component'
 
 interface ModalProps {
@@ -22,9 +23,9 @@ interface ModalProps {
   submitText: string
 }
 
-const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose, size = 'lg', onSubmit, submitText }: ModalProps) => {
+const Modal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose, size = 'lg', onSubmit, submitText }: ModalProps) => {
   return (
-    <Modal
+    <ChakraModal
       onClose={onClose}
       finalFocusRef={finalFocusRef}
       isOpen={isOpen}
@@ -34,11 +35,12 @@ const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButto
       <ModalOverlay />
       <ModalContent
         backgroundColor={'white'}
+        className={Poppins.className}
       >
         <ModalHeader
           py={0}
           marginTop={'.3rem'}
-          padding={'.5rem 1rem'}
+          padding={'.6rem 1rem .5rem'}
           fontWeight={'normal'}
           fontSize={'normal'}
           color={`white.text`}
@@ -66,8 +68,8 @@ const CustomModal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButto
           />
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </ChakraModal>
   )
 }
 
-export default CustomModal
+export default Modal

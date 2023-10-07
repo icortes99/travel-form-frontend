@@ -63,13 +63,6 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     }
   })
 
-  //eliminar, informacion quemada
-  const objetivos = [
-    'Vacaciones',
-    'Viaje en pareja',
-    'Viaje familiar'
-  ]
-
   return (
     <FormTemplate
       title='Acerca del viaje'

@@ -61,7 +61,6 @@ const Carousel: FC<CarouselProps> = ({ images, mask = true }: CarouselProps) => 
       ref={sliderRef}
       height={'18.5rem'}
       maxHeight={'18.5rem'}
-      maxWidth={'20rem'}
       position={'relative'}
       overflow={'hidden'}
       width={'100%'}
@@ -85,7 +84,6 @@ const Carousel: FC<CarouselProps> = ({ images, mask = true }: CarouselProps) => 
                 width={'100%'}
                 height={'100%'}
                 objectFit={'cover'}
-                aspectRatio={'1/1'}
                 top={0}
               />
             </Box>
