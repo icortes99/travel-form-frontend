@@ -1,10 +1,9 @@
-import EnglishDisctionary from './en.language'
+import EnglishDictionary from './en.language'
 import SpanishDictionary from './es.language'
-import { LanguagesDictionary } from '../types/languages.type'
-import Dictionary from '../types'
+import { Dictionary, LanguagesDictionary } from '../types'
 
 const LanguageDictionary: Record<keyof LanguagesDictionary, Dictionary> = {
-  en: EnglishDisctionary,
+  en: EnglishDictionary,
   es: SpanishDictionary
 }
 

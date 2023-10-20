@@ -4,8 +4,8 @@ import { GlobalState } from './../constants'
 
 import { RecoilStateDictionary } from '../recoil'
 
-const useGlobalState = <T>(state: GlobalState) => {
-  return useRecoilState<T>(RecoilStateDictionary[state])
+const useGlobalState = (state: GlobalState) => {
+  return useRecoilState(RecoilStateDictionary[state])
 }
 
 export default useGlobalState

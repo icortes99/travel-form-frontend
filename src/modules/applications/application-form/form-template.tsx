@@ -5,11 +5,12 @@ import {
   Text,
   Box
 } from '@chakra-ui/react'
+import { DictionaryLeaves } from '../../../shared/types'
 
 interface FormTemplateProps {
   children: any,
-  title: string,
-  description: string
+  title: DictionaryLeaves,
+  description: DictionaryLeaves
   step: number
 }
 

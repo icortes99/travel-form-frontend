@@ -19,7 +19,7 @@ import { Languages } from '../types'
 const router = useRouter()
 
 const useTranslation = () => {
-  const [language, setLanguage] = useGlobalState<LanguageState>(GlobalState.LANGUAGE)
+  const [language, setLanguage] = useGlobalState(GlobalState.LANGUAGE)
 
   const t: Translator = useCallback((path) => {
     return _.get(LanguageDictionary[DictionaryService.parseLanguageToDictionaryField(language)], path);

@@ -48,8 +48,8 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
 
   return (
     <FormTemplate
-      title='Contacto'
-      description='En este último paso, recopilamos la información para contactarte, como te gustaría ser contactado y agendaremos una reunión online.'
+      title={'applicationForm.contact.title'}
+      description={'applicationForm.contact.description'}
       step={3}
     >
       <form

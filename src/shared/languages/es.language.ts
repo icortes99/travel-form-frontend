@@ -1,7 +1,7 @@
 import { ContactPreference, LeadSource, TripObjective } from '../generated/graphql-schema'
-import { LanguageDictionary, mapEnumKeysToValues, Languages } from '../types'
+import { Dictionary, mapEnumKeysToValues, Languages } from '../types'
 
-const SpanishDictionary: LanguageDictionary = {
+const SpanishDictionary: Dictionary = {
   languagePrefix: {
     en: Languages.en,
     es: Languages.es
