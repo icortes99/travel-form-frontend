@@ -71,8 +71,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
 
   return (
     <FormTemplate
-      title='Hospedaje'
-      description='Continuamos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.'
+      title={'applicationForm.lodging.title'}
+      description={'applicationForm.lodging.description'}
       step={2}
     >
       <form

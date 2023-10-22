@@ -77,8 +77,8 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
 
   return (
     <FormTemplate
-      title='Escoge un destino'
-      description='Comenzaremos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.'
+      title={'applicationForm.destiny.title'}
+      description='applicationForm.destiny.description'
       step={0}
     >
       <Box

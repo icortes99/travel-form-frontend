@@ -65,8 +65,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
 
   return (
     <FormTemplate
-      title='Acerca del viaje'
-      description='Ahora, es necesario un poco más de información acerca de ti y sobre el viaje para calcular un estimado y otros trámites pertinentes.'
+      title={'applicationForm.info.title'}
+      description={'applicationForm.info.description'}
       step={1}
     >
       <Box

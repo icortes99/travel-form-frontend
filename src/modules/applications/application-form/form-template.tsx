@@ -6,6 +6,7 @@ import {
   Box
 } from '@chakra-ui/react'
 import { DictionaryLeaves } from '../../../shared/types'
+import { useTranslation } from '../../../shared/hooks'
 
 interface FormTemplateProps {
   children: any,
@@ -15,6 +16,8 @@ interface FormTemplateProps {
 }
 
 const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, step }: FormTemplateProps) => {
+  const { t } = useTranslation()
+
   return (
     <Box
       marginTop={'1.5rem'}
@@ -40,14 +43,14 @@ const FormTemplate: FC<FormTemplateProps> = ({ children, title, description, ste
             as={'h1'}
             color={`white.text`}
           >
-            {title}
+            {t(title)}
           </Heading>
           <Text
             color={`white.subTitles`}
             marginBottom={'1.5rem'}
             maxWidth={'100%'}
           >
-            {description}
+            {t(description)}
           </Text>
         </Box>
         <Box

@@ -16,9 +16,8 @@ import { LanguageState, Translator } from '../types'
 
 import { Languages } from '../types'
 
-const router = useRouter()
-
 const useTranslation = () => {
+  const router = useRouter()
   const [language, setLanguage] = useGlobalState(GlobalState.LANGUAGE)
 
   const t: Translator = useCallback((path) => {
