@@ -1,21 +1,30 @@
-import { FC, createElement } from 'react'
+import React, { FC, createElement } from 'react'
 import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons.component'
 import {
   Box,
   Text,
   Heading
 } from '@chakra-ui/react'
+import { DictionaryLeaves } from '../types'
+import { useTranslation } from '../hooks'
 
 interface StepperProps {
   currentStep: number
 }
 
+interface StepProps {
+  title: DictionaryLeaves
+  description: DictionaryLeaves,
+  icon: FC
+}
+
 const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
-  const steps = [
-    { title: 'Destino', description: 'Paso 1/4', icon: CastleSVG },
-    { title: 'Acerca de ', description: 'Paso 2/4', icon: InfoSVG },
-    { title: 'Hospedaje', description: 'Paso 3/4', icon: HotelSVG },
-    { title: 'Contacto', description: 'Paso 4/4', icon: ContactSVG }
+  const { t } = useTranslation()
+  const steps: StepProps[] = [
+    { title: 'applicationForm.destiny.stepName', description: 'applicationForm.destiny.step', icon: CastleSVG },
+    { title: 'applicationForm.info.stepName', description: 'applicationForm.info.step', icon: InfoSVG },
+    { title: 'applicationForm.lodging.stepName', description: 'applicationForm.lodging.step', icon: HotelSVG },
+    { title: 'applicationForm.contact.stepName', description: 'applicationForm.contact.step', icon: ContactSVG }
   ]
 
   return (
@@ -80,7 +89,7 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
             color={`white.subTitles`}
             margin={0}
           >
-            {steps[currentStep].description}
+            {t(steps[currentStep].description)}
           </Text>
           <Heading
             as={'h2'}
@@ -90,7 +99,7 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
             fontWeight={500}
             color={`white.text`}
           >
-            {steps[currentStep].title}
+            {t(steps[currentStep].title)}
           </Heading>
         </Box>
       </Box>

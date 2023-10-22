@@ -20,7 +20,7 @@ const SpanishDictionary: Dictionary = {
       title: 'Acerca del viaje',
       description: `Ahora, es necesario un poco más de información acerca de ti y sobre el viaje para calcular un estimado y otros trámites pertinentes.`,
       step: 'Paso 2/4',
-      stepName: 'About',
+      stepName: 'Acerca de',
       questions: {
         name: 'Npmbre',
         lastName: 'Apellido',
