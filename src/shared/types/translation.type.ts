@@ -57,4 +57,4 @@ export interface Dictionary {
   }
 }
 
-export type DictionaryLeaves = Leaves<Dictionary, 4>
+export type DictionaryLeaves = Leaves<Dictionary, 5>

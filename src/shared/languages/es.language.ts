@@ -13,6 +13,7 @@ const SpanishDictionary: Dictionary = {
       step: 'Paso 1/4',
       stepName: 'Destino',
       questions: {
+        modalTitle: 'Nos gustaría saber cuáles atracciones son las que más te llaman la atención para centrar el viaje en torno a ellas:',
         destination: 'destinationUUID'
       }
     },
@@ -22,7 +23,7 @@ const SpanishDictionary: Dictionary = {
       step: 'Paso 2/4',
       stepName: 'Acerca de',
       questions: {
-        name: 'Npmbre',
+        name: 'Nombre',
         lastName: 'Apellido',
         birthdate: 'Fecha de nacimiento',
         entryDate: 'Fecha de entrada',
@@ -47,7 +48,8 @@ const SpanishDictionary: Dictionary = {
         passenger: 'Pasajero',
         name: 'Nombre',
         lastName: 'Apellido',
-        birthdate: 'Fecha de nacimiento'
+        birthdate: 'Fecha de nacimiento',
+        room: 'Habitación'
       }
     },
     contact: {

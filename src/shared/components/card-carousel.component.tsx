@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import Carousel from './carousel.component'
 import Button from './button.component'
+import { useTranslation } from '../hooks'
 
 interface CardCarouselProps {
   data: {
@@ -21,6 +22,8 @@ interface CardCarouselProps {
 }
 
 const CardCarousel: FC<CardCarouselProps> = ({ data: { uuid = '', name = '', description = '', images = [] }, onCLick }: CardCarouselProps) => {
+  const { t } = useTranslation()
+
   return (
     <Card
       maxW='sm'
@@ -56,7 +59,7 @@ const CardCarousel: FC<CardCarouselProps> = ({ data: { uuid = '', name = '', des
               {description}
             </Text>
             <Button
-              text='Seleccionar'
+              text={t('buttons.select')}
               onClick={() => onCLick(uuid)}
               variant='solid'
               size='sm'

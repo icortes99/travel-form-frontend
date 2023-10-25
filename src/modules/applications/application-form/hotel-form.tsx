@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button.component'
 import Carousel from '../../../shared/components/carousel.component'
+import { useTranslation } from '../../../shared/hooks'
 
 interface HotelViewProps {
   lsKey: string
@@ -22,6 +23,7 @@ interface HotelViewProps {
 
 const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
   const router = useRouter()
+  const { t } = useTranslation()
   const habitaciones = []
   const agency = 'FantasticTravel'
   const passengers = 2
@@ -103,7 +105,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Hotel de preferencia:</FormLabel>
+                <FormLabel>{t('applicationForm.lodging.questions.hotel')}</FormLabel>
                 <InputDropdown
                   options={hotels}
                   name='hotel'
@@ -113,7 +115,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
                 />
               </Box>
               <Box>
-                <FormLabel>Número de habitaciones:</FormLabel>
+                <FormLabel>{t('applicationForm.lodging.questions.rooms')}</FormLabel>
                 <InputDropdown
                   options={habitaciones}
                   name='rooms'
@@ -142,7 +144,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
             <Text
               marginBottom={'1.5rem'}
             >
-              Por defecto, tú serás asignado a la habitación A en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.
+              {t('applicationForm.lodging.questions.message')}
             </Text>
             <Box>
               {
@@ -184,11 +186,11 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
         >
           <Button
             onClick={() => router.push(`/application/${agency}?step=2`)}
-            text='Atrás'
+            text={t('buttons.back')}
             variant='outline'
           />
           <Button
-            text='Continuar'
+            text={t('buttons.next')}
             type='submit'
           />
         </Box>

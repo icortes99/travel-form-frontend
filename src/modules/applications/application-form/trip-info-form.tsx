@@ -16,6 +16,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button.component'
+import { useTranslation } from '../../../shared/hooks'
 
 interface InfoViewProps {
   lsKey: string
@@ -24,6 +25,7 @@ interface InfoViewProps {
 const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
+  const { t } = useTranslation()
 
   const cantidad = []
   for (let i = 1; i <= 40; i++) {
@@ -88,10 +90,10 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Nombre:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.name')}:</FormLabel>
                 <Input
                   name='name'
-                  placeholder='Tu nombre'
+                  placeholder='Leonardo'
                   value={formik.values.name}
                   onChange={formik.handleChange}
                 />
@@ -102,10 +104,10 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Apellido:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.lastName')}:</FormLabel>
                 <Input
                   name='lastname'
-                  placeholder='Tu apellido'
+                  placeholder='Silva'
                   value={formik.values.lastname}
                   onChange={formik.handleChange}
                 />
@@ -113,7 +115,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Fecha de nacimiento:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.birthdate')}:</FormLabel>
                 <InputDate
                   name='birth'
                   placeholder='mm/dd/aaaa'
@@ -143,7 +145,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Fecha de entrada:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.entryDate')}:</FormLabel>
                 <InputDate
                   name='startDate'
                   placeholder='mm/dd/aaaa'
@@ -154,7 +156,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Fecha de salida:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.departureDate')}:</FormLabel>
                 <InputDate
                   name='exitDate'
                   placeholder='mm/dd/aaaa'
@@ -165,10 +167,10 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>País de residencia:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.residenceCountry')}:</FormLabel>
                 <Input
                   name='country'
-                  placeholder='País donde vives'
+                  placeholder='Costa Rica'
                   value={formik.values.country}
                   onChange={formik.handleChange}
                 />
@@ -176,10 +178,10 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Objetivo del viaje:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.tripObjective')}:</FormLabel>
                 <InputDropdown
                   name='tripObjective'
-                  placeholder='Por qué quieres viajar'
+                  placeholder='Solo'
                   options={Object.values(TripObjective)}
                   value={formik.values.tripObjective}
                   onChange={formik.handleChange}
@@ -188,7 +190,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel marginBottom={'1rem'}>¿Viajas con acompañantes?</FormLabel>
+                <FormLabel marginBottom={'1rem'}>{t('applicationForm.info.questions.companions')}</FormLabel>
                 <InputRadioOptions
                   name='companions'
                   value={formik.values.companions}
@@ -198,7 +200,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel>Número de acompañantes:</FormLabel>
+                <FormLabel>{t('applicationForm.info.questions.cantCompanions')}:</FormLabel>
                 <InputDropdown
                   name='cantityCompanions'
                   placeholder='1...30'
@@ -226,7 +228,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               <Box
                 marginBottom={'1.5rem'}
               >
-                <FormLabel marginBottom={'1rem'}>¿Tienes permiso de entrada al país?</FormLabel>
+                <FormLabel marginBottom={'1rem'}>{t('applicationForm.info.questions.entryPermission')}</FormLabel>
                 <InputRadioOptions
                   name='entryPermission'
                   value={formik.values.entryPermission}
@@ -234,7 +236,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 />
               </Box>
               <Text>
-                La información es relevante para saber si necesitas algún proceso previo para el viaje tal como la solicitud de la visa. Además, así podremos saber si planeas tus vacaciones en temporada de más alta demanda.
+                {t('applicationForm.info.questions.text')}
               </Text>
             </Box>
           </FormControl>
@@ -247,11 +249,11 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
           >
             <Button
               onClick={() => router.push(`/application/${agency}?step=1`)}
-              text='Atrás'
+              text={t('buttons.back')}
               variant='outline'
             />
             <Button
-              text='Continuar'
+              text={t('buttons.next')}
               type='submit'
             />
           </Box>

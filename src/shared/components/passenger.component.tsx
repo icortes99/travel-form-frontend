@@ -3,6 +3,7 @@ import InputString from './input.component'
 import InputDate from './input-date.component'
 import InputDropdown from './input-dropdown.component'
 import { Box, FormLabel, Heading } from '@chakra-ui/react'
+import { useTranslation } from '../hooks'
 
 interface PassengerProps {
   passengerId: number
@@ -13,6 +14,7 @@ interface PassengerProps {
 
 const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: PassengerProps) => {
   const optionRooms = []
+  const { t } = useTranslation()
   for (let i = 1; i <= rooms; i++) {
     optionRooms.push(i)
   }
@@ -32,7 +34,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
         fontSize={'1.5rem'}
         margin={'0'}
       >
-        Pasajero {passengerId}
+        {t('applicationForm.lodging.questions.passenger')} {passengerId}
       </Heading>
       <Box
         display={{ sm: 'block', lg: 'grid' }}
@@ -43,7 +45,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
           <FormLabel
             marginTop={'1rem'}
           >
-            Nombre:
+            {t('applicationForm.lodging.questions.name')}:
           </FormLabel>
           <InputString
             name={'name'}
@@ -56,7 +58,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
           <FormLabel
             marginTop={'1rem'}
           >
-            Apellido:
+            {t('applicationForm.lodging.questions.lastName')}:
           </FormLabel>
           <InputString
             name={'lastName'}
@@ -69,7 +71,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
           <FormLabel
             marginTop={'1rem'}
           >
-            Fecha de nacimiento:
+            {t('applicationForm.lodging.questions.birthdate')}:
           </FormLabel>
           <InputDate
             name={'birth'}
@@ -84,7 +86,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
           <FormLabel
             marginTop={'1rem'}
           >
-            Habitacion:
+            {t('applicationForm.lodging.questions.room')}:
           </FormLabel>
           <InputDropdown
             name={'room'}

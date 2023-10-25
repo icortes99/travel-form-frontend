@@ -13,6 +13,7 @@ import {
   Image,
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button.component'
+import { useTranslation } from '../../../shared/hooks'
 
 interface ContactViewProps {
   lsKey: string
@@ -21,6 +22,7 @@ interface ContactViewProps {
 const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
+  const { t } = useTranslation()
   const countryCodes = ['CR', 'PA', 'ES']
 
   const schema = yup.object().shape({
@@ -70,10 +72,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
             <Box
               marginBottom={'1.5rem'}
             >
-              <FormLabel>Correo:</FormLabel>
+              <FormLabel>{t('applicationForm.contact.questions.email')}:</FormLabel>
               <Input
                 name='email'
-                placeholder='Tu correo aquí'
+                placeholder='no-email@gmail.com'
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
@@ -81,7 +83,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
             <Box
               marginBottom={'1.5rem'}
             >
-              <FormLabel>Teléfono:</FormLabel>
+              <FormLabel>{t('applicationForm.contact.questions.phone')}:</FormLabel>
               <Box
                 display={'grid'}
                 gridTemplateColumns={'repeat(1, 1fr) 60%'}
@@ -96,7 +98,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
                 />
                 <Input
                   name='phone'
-                  placeholder='Teléfono'
+                  placeholder='8888 9999'
                   value={formik.values.phone}
                   onChange={formik.handleChange}
                 />
@@ -105,7 +107,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
             <Box
               marginBottom={'1.5rem'}
             >
-              <FormLabel>Preferencia de contacto:</FormLabel>
+              <FormLabel>{t('applicationForm.contact.questions.contactPreference')}:</FormLabel>
               <InputDropdown
                 name='contactPreference'
                 placeholder='Método de contacto'
@@ -117,10 +119,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
             <Box
               marginBottom={'1.5rem'}
             >
-              <FormLabel>¿Cómo diste con nosotros?:</FormLabel>
+              <FormLabel>{t('applicationForm.contact.questions.leadSource')}:</FormLabel>
               <InputDropdown
                 name='leadSource'
-                placeholder='Método de contacto'
+                placeholder='WhatsApp'
                 options={Object.values(LeadSource)}
                 value={formik.values.leadSource}
                 onChange={formik.handleChange}
@@ -150,12 +152,12 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
             >
               <Button
                 onClick={() => router.push(`/application/${agency}?step=3`)}
-                text='Atrás'
+                text={t('buttons.back')}
                 variant='outline'
               />
               <Button
                 onClick={() => { }}
-                text='Finalizar'
+                text={t('buttons.submit')}
                 type='submit'
               />
             </Box>

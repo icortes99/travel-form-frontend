@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import Poppins from '../font/font'
 import Button from './button.component'
+import { useTranslation } from '../hooks'
 
 interface ModalProps {
   title: string
@@ -24,6 +25,8 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = false, isOpen, onClose, size = 'lg', onSubmit, submitText }: ModalProps) => {
+  const { t } = useTranslation()
+
   return (
     <ChakraModal
       onClose={onClose}
@@ -57,7 +60,7 @@ const Modal: FC<ModalProps> = ({ title, children, finalFocusRef, exitButton = fa
           justifyContent={'space-evenly'}
         >
           <Button
-            text='Atras'
+            text={t('buttons.back')}
             onClick={onClose}
             variant='outline'
           />

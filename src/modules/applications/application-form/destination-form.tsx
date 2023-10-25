@@ -10,6 +10,7 @@ import FormTemplate from './form-template'
 import CardCarousel from '../../../shared/components/card-carousel.component'
 import { useAttractionsLazyQuery, useAgencyDestiniesQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
+import { useTranslation } from '../../../shared/hooks'
 
 const Modal = lazy(() => import('../../../shared/components/modal.component'))
 const CardItem = lazy(() => import('../../../shared/components/card-item.component'))
@@ -24,6 +25,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttractions, setSelectedAttractions] = useState([])
   const agency = 'FantasticTravel'
+  const { t } = useTranslation()
 
   const travelAgencyResponse = useAgencyDestiniesQuery({
     variables: {
@@ -103,12 +105,12 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
       </Box>
       <Suspense fallback={<Loading />}>
         <Modal
-          title='Nos gustaría saber cuáles atracciones son las que más te llaman la atención para centrar el viaje en torno a ellas:'
+          title={t('applicationForm.destiny.questions.modalTitle')}
           finalFocusRef={modalRef}
           isOpen={isOpen}
           onClose={closeModal}
           onSubmit={nextStep}
-          submitText={selectedAttractions.length === 0 ? 'Omitir' : 'Continuar'}
+          submitText={t('buttons.next')}
         >
           {
             (!attractionsResponse.loading) ?

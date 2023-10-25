@@ -13,6 +13,7 @@ const EnglishDisctionary: Dictionary = {
       step: 'Step 1/4',
       stepName: 'Destiny',
       questions: {
+        modalTitle: "We'd like to know which attractions catch your eye the most so we can plan the trip around them:",
         destination: 'destinationUUID'
       }
     },
@@ -47,7 +48,8 @@ const EnglishDisctionary: Dictionary = {
         passenger: 'Passenger',
         name: 'Name',
         lastName: 'Last name',
-        birthdate: 'Birthdate'
+        birthdate: 'Birthdate',
+        room: 'Room'
       }
     },
     contact: {
