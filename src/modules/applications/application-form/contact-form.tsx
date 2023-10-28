@@ -22,7 +22,7 @@ interface ContactViewProps {
 const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
-  const { t } = useTranslation()
+  const { t, enumT } = useTranslation()
   const countryCodes = ['CR', 'PA', 'ES']
 
   const schema = yup.object().shape({
@@ -114,7 +114,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
               <InputDropdown
                 name='contactPreference'
                 placeholder='Método de contacto'
-                options={Object.values(ContactPreference)}
+                options={enumT('enums.contactPreference')}
                 value={formik.values.contactPreference}
                 onChange={formik.handleChange}
               />
@@ -126,7 +126,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
               <InputDropdown
                 name='leadSource'
                 placeholder='WhatsApp'
-                options={Object.values(LeadSource)}
+                options={enumT('enums.leadSource')}
                 value={formik.values.leadSource}
                 onChange={formik.handleChange}
               />
