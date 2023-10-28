@@ -32,24 +32,26 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
   }
 
   const passengerSchema = yup.object().shape({
-    name: yup.string().required(),
-    lastName: yup.string().required(),
-    birth: yup.date().required(),
-    room: yup.string().required()
+    name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
+    lastName: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
+    birth: yup.date().max(new Date(), t('error.invalidDate')).required(t('error.required')),
+    room: yup.string().required(t('error.required'))
   })
 
   const schema = yup.object().shape({
-    hotel: yup.string().required(),
-    rooms: yup.number().required(),
+    hotel: yup.string().required(t('error.required')),
+    rooms: yup.number().required(t('error.required')),
     passengersData: yup.array().of(passengerSchema)
   })
 
+  const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
+    hotel: '',
+    rooms: '',
+    passengersData: Array(passengers).fill({ name: '', lastName: '', birth: '', room: '' })
+  }
+
   const formik = useFormik({
-    initialValues: {
-      hotel: '',
-      rooms: '',
-      passengersData: Array(passengers).fill({ name: '', lastName: '', birth: '', room: '' })
-    },
+    initialValues,
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))

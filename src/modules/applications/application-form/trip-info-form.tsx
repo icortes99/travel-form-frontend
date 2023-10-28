@@ -25,7 +25,7 @@ interface InfoViewProps {
 const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
-  const { t } = useTranslation()
+  const { t, enumT } = useTranslation()
 
   const cantidad = []
   for (let i = 1; i <= 40; i++) {
@@ -33,31 +33,33 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   }
 
   const schema = yup.object().shape({
-    name: yup.string().min(3, 'Debe ser de minimo 3 caracteres').required('Tu nombre es requerido'),
-    lastname: yup.string().min(3).required(),
-    birth: yup.date().max(new Date()).required(),
-    startDate: yup.date().min(new Date()).required(),
-    exitDate: yup.date().min(yup.ref('startDate')).required(),
-    country: yup.string().min(3).required(),
-    tripObjective: yup.string().oneOf(Object.values(TripObjective)).required(),
-    companions: yup.string().oneOf(['Si', 'No', 'Yes']).required(),
-    cantityCompanions: yup.number().required(),
-    entryPermission: yup.string().oneOf(['Si', 'No', 'Yes']).required()
+    name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
+    lastname: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
+    birth: yup.date().max(new Date(), t('error.invalidDate')).required(t('error.required')),
+    startDate: yup.date().min(new Date(), t('error.invalidDate')).required(t('error.required')),
+    exitDate: yup.date().min(yup.ref('startDate'), t('error.invalidDate')).required(t('error.required')),
+    country: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
+    tripObjective: yup.string().oneOf(Object.values(TripObjective)).required(t('error.required')),
+    companions: yup.string().oneOf(['Si', 'No', 'Yes']).required(t('error.required')),
+    cantityCompanions: yup.number().required(t('error.required')),
+    entryPermission: yup.string().oneOf(['Si', 'No', 'Yes']).required(t('error.required'))
   })
 
+  const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
+    name: '',
+    lastname: '',
+    birth: '',
+    startDate: '',
+    exitDate: '',
+    country: '',
+    tripObjective: '',
+    companions: '',
+    cantityCompanions: 0,
+    entryPermission: ''
+  }
+
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      lastname: '',
-      birth: '',
-      startDate: '',
-      exitDate: '',
-      country: '',
-      tripObjective: '',
-      companions: '',
-      cantityCompanions: 0,
-      entryPermission: ''
-    },
+    initialValues,
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
@@ -98,7 +100,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   onChange={formik.handleChange}
                 />
                 {formik.touched.name && formik.errors.name ? (
-                  <div>{formik.errors.name}</div>
+                  <div>{formik.errors.name.toString()}</div>
                 ) : null}
               </Box>
               <Box
@@ -182,7 +184,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 <InputDropdown
                   name='tripObjective'
                   placeholder='Solo'
-                  options={Object.values(TripObjective)}
+                  options={enumT('enums.tripObjective')}
                   value={formik.values.tripObjective}
                   onChange={formik.handleChange}
                 />

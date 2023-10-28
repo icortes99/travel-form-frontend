@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Select } from '@chakra-ui/react'
 
 interface DropdownProps {
-  options: string[],
+  options: string[] | Record<string, string>,
   name: string,
   placeholder: string
   value?: string | number
@@ -21,14 +21,21 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
       onChange={onChange}
     >
       {
-        options.map((opt, i) => (
-          <option
-            key={i}
-            value={opt}
-          >
-            {opt}
-          </option>
-        ))
+        Array.isArray(options) ?
+          options.map((opt, i) => (
+            <option
+              key={i}
+              value={opt}
+            >
+              {opt}
+            </option>
+          ))
+          :
+          Object.keys(options).map((key, i) => (
+            <option key={i} value={key}>
+              {options[key]}
+            </option>
+          ))
       }
     </Select>
   )

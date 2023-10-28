@@ -103,6 +103,13 @@ const SpanishDictionary: Dictionary = {
     back: 'Atrás',
     next: 'Continuar',
     submit: 'Enviar'
+  },
+  error: {
+    required: 'Este campo es requerido',
+    tooShort: 'Mas caracteres necesarios',
+    tooLong: 'Menos caracteres necesarios',
+    invalidEmail: 'Correo inválido',
+    invalidDate: 'Fecha inválida'
   }
 }
 

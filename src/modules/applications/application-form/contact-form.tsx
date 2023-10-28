@@ -26,24 +26,27 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
   const countryCodes = ['CR', 'PA', 'ES']
 
   const schema = yup.object().shape({
-    email: yup.string().email().required(),
+    email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
     countryCode: yup.string().oneOf(countryCodes),
-    phone: yup.number().required(),
+    phone: yup.number().required(t('error.required')),
     contactPreference: yup.string().oneOf(Object.values(ContactPreference)),
     leadSource: yup.string().oneOf(Object.values(LeadSource))
   })
 
+  const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
+    email: '',
+    countryCode: '',
+    phone: '',
+    contactPreference: '',
+    leadSource: ''
+  }
+
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      countryCode: '',
-      phone: '',
-      contactPreference: '',
-      leadSource: ''
-    },
+    initialValues,
     validationSchema: schema,
     onSubmit: values => {
       console.log('contact view: ', values)
+      window.localStorage.setItem(lsKey, JSON.stringify(values))
       router.push(`/application?step=3&agency=fantasticTravel`)
     }
   })

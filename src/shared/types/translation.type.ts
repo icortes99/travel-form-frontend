@@ -1,4 +1,4 @@
-import { Leaves } from '.'
+import { Leaves, Nodes } from '.'
 import { ContactPreference, LeadSource, TripObjective } from '../generated/graphql-schema'
 
 export enum Languages {
@@ -9,6 +9,11 @@ export enum Languages {
 export type LanguagesDictionary = {
   en: string
   es: string
+}
+
+export type EnumLanguagesDictionary = {
+  en: Record<string, string>
+  es: Record<string, string>
 }
 
 export function mapEnumKeysToValues(enumObj: Record<string, string>, enumValues: Record<string, string>): Record<string, string> {
@@ -33,6 +38,8 @@ interface PageTemplate {
 
 export type Translator = (path: DictionaryLeaves) => string
 
+export type TranslatorEnum = (path: DictionaryNodes) => Record<string, string>
+
 export interface Dictionary {
   languagePrefix: {
     en: Languages.en,
@@ -54,7 +61,16 @@ export interface Dictionary {
     back: string,
     next: string,
     submit: string
+  },
+  error: {
+    required: string,
+    tooShort: string,
+    tooLong: string,
+    invalidEmail: string,
+    invalidDate: string
   }
 }
 
 export type DictionaryLeaves = Leaves<Dictionary, 5>
+
+export type DictionaryNodes = Nodes<Dictionary, 2>

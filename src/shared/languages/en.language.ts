@@ -103,6 +103,13 @@ const EnglishDisctionary: Dictionary = {
     back: 'Back',
     next: 'Continue',
     submit: 'Submit'
+  },
+  error: {
+    required: 'This field is required',
+    tooShort: 'More characters needed',
+    tooLong: 'Less characters needed',
+    invalidEmail: 'Email address is invalid',
+    invalidDate: 'Date is invalid'
   }
 }
 

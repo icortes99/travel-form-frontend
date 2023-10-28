@@ -1,20 +1,11 @@
 import { useCallback } from 'react'
-
 import { useRouter } from 'next/router'
-
 import _ from 'lodash'
-
 import { useGlobalState } from '.'
-
 import LanguageDictionary from '../languages'
-
 import { DictionaryService, StorageService } from '../services'
-
 import { GlobalState } from '../constants'
-
-import { LanguageState, Translator } from '../types'
-
-import { Languages } from '../types'
+import { Languages, Translator, TranslatorEnum } from '../types'
 
 const useTranslation = () => {
   const router = useRouter()
@@ -24,6 +15,11 @@ const useTranslation = () => {
     return _.get(LanguageDictionary[DictionaryService.parseLanguageToDictionaryField(language)], path);
   }, [language])
 
+  const enumT: TranslatorEnum = useCallback((path) => {
+    const translation = _.get(LanguageDictionary[DictionaryService.parseLanguageToDictionaryEnum(language)], path)
+    return translation as Record<string, string>
+  }, [language])
+
   const switchLanguage = useCallback(async (selectedLanguage: Languages, isReloadRequired: boolean = false) => {
     await StorageService.setLanguage(selectedLanguage)
     setLanguage(selectedLanguage)
@@ -31,7 +27,7 @@ const useTranslation = () => {
     if (isReloadRequired) router.reload()
   }, [language])
 
-  return { language, setLanguage, switchLanguage, t }
+  return { language, setLanguage, switchLanguage, t, enumT }
 }
 
 export default useTranslation;
