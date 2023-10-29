@@ -81,6 +81,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
                 placeholder='no-email@gmail.com'
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                isOk={true}
               />
             </Box>
             <Box
@@ -98,12 +99,14 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
                   options={['CR', 'PA', 'ES']}
                   value={formik.values.countryCode}
                   onChange={formik.handleChange}
+                  isOk={true}
                 />
                 <Input
                   name='phone'
                   placeholder='8888 9999'
                   value={formik.values.phone}
                   onChange={formik.handleChange}
+                  isOk={true}
                 />
               </Box>
             </Box>
@@ -117,6 +120,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
                 options={enumT('enums.contactPreference')}
                 value={formik.values.contactPreference}
                 onChange={formik.handleChange}
+                isOk={true}
               />
             </Box>
             <Box
@@ -129,6 +133,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
                 options={enumT('enums.leadSource')}
                 value={formik.values.leadSource}
                 onChange={formik.handleChange}
+                isOk={true}
               />
             </Box>
           </FormControl>

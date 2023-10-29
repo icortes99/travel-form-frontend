@@ -6,18 +6,21 @@ interface InputProps {
   placeholder: string
   value?: string
   onChange?: (e: any) => void
+  isOk: boolean
+  onBlur?: (e: any) => void
 }
 
-const Input: FC<InputProps> = ({ name, placeholder, value, onChange }: InputProps) => {
+const Input: FC<InputProps> = ({ name, placeholder, value, onChange, isOk, onBlur }: InputProps) => {
   return (
     <ChakraInput
       name={name}
       placeholder={placeholder}
-      errorBorderColor='#3182ce'
+      errorBorderColor={isOk ? 'white.skyBlue' : 'white.error'}
       isRequired
       isInvalid
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
     />
   )
 }

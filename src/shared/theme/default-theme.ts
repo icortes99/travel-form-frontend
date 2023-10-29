@@ -21,10 +21,11 @@ const colors = {
     btnColor: '#111042',
     subTitles: '#636363',
     text: '#000000',
-    skyBlue: '#00C4C8',
+    skyBlue: '#3182ce',
     pink: '#B5456E',
     itemPink: '#ffe6ea',
-    white: '#ffffff'
+    white: '#ffffff',
+    error: '#ff4747'
   }
 }
 

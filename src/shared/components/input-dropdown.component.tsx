@@ -7,18 +7,21 @@ interface DropdownProps {
   placeholder: string
   value?: string | number
   onChange?: (e: any) => void
+  isOk: boolean
+  onBlur?: (e: any) => void
 }
 
-const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, onChange }: DropdownProps) => {
+const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, onChange, isOk, onBlur }: DropdownProps) => {
   return (
     <Select
       name={name}
       placeholder={placeholder}
-      errorBorderColor='#3182ce'
+      errorBorderColor={isOk ? 'white.skyBlue' : 'white.error'}
       isRequired
       isInvalid
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
     >
       {
         Array.isArray(options) ?

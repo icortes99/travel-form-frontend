@@ -114,6 +114,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
                   placeholder='Tu hotel de preferencia'
                   value={formik.values.hotel}
                   onChange={formik.handleChange}
+                  isOk={true}
                 />
               </Box>
               <Box>
@@ -124,6 +125,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
                   placeholder='Las habitaciones que gustes'
                   value={formik.values.rooms}
                   onChange={formik.handleChange}
+                  isOk={true}
                 />
               </Box>
             </FormControl>

@@ -98,6 +98,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   placeholder='Leonardo'
                   value={formik.values.name}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.name && !!formik.errors.name)}
+                  onBlur={formik.handleBlur}
                 />
                 {formik.touched.name && formik.errors.name ? (
                   <div>{formik.errors.name.toString()}</div>
@@ -112,6 +114,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   placeholder='Silva'
                   value={formik.values.lastname}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.lastname && !!formik.errors.lastname)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
               <Box
@@ -123,6 +127,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   placeholder='mm/dd/aaaa'
                   value={formik.values.birth}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.birth && !!formik.errors.birth)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
             </Box>
@@ -153,6 +159,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   placeholder='mm/dd/aaaa'
                   value={formik.values.startDate}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.startDate && !!formik.errors.startDate)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
               <Box
@@ -164,6 +172,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   placeholder='mm/dd/aaaa'
                   value={formik.values.exitDate}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.exitDate && !!formik.errors.exitDate)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
               <Box
@@ -175,6 +185,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   placeholder='Costa Rica'
                   value={formik.values.country}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.country && !!formik.errors.country)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
               <Box
@@ -187,6 +199,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   options={enumT('enums.tripObjective')}
                   value={formik.values.tripObjective}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.tripObjective && !!formik.errors.tripObjective)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
               <Box
@@ -209,6 +223,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   options={cantidad}
                   value={formik.values.cantityCompanions}
                   onChange={formik.handleChange}
+                  isOk={!(formik.touched.cantityCompanions && !!formik.errors.cantityCompanions)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
             </Box>

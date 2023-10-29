@@ -6,9 +6,11 @@ interface InputDateProps {
   placeholder: string
   value?: string
   onChange?: (e: any) => void
+  isOk: boolean
+  onBlur?: (e: any) => void
 }
 
-const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange }: InputDateProps) => {
+const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange, isOk, onBlur }: InputDateProps) => {
   return (
     <Input
       name={name}
@@ -17,9 +19,10 @@ const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange }: I
       type='date'
       isRequired
       isInvalid
-      errorBorderColor='#3182ce'
+      errorBorderColor={isOk ? 'white.skyBlue' : 'white.error'}
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
     />
   )
 }
