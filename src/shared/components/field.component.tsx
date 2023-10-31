@@ -18,13 +18,14 @@ interface FieldProps {
     onBlur?: (e: any) => void
   }
   error?: string
+  styles?: Record<string, string>
 }
 
-const Field: FC<FieldProps> = ({ label, input, error }: FieldProps) => {
+const Field: FC<FieldProps> = ({ label, input, error, styles }: FieldProps) => {
   const { t } = useTranslation()
 
   return (
-    <Box>
+    <Box {...styles}>
       <FormLabel>{t(label)}:</FormLabel>
       <Input
         name={input.name}

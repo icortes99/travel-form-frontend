@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button.component'
 import { useTranslation } from '../../../shared/hooks'
+import FieldDropdown from '../../../shared/components/field-dropdown.component'
 
 interface InfoViewProps {
   lsKey: string
@@ -189,20 +190,20 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   onBlur={formik.handleBlur}
                 />
               </Box>
-              <Box
-                marginBottom={'1.5rem'}
-              >
-                <FormLabel>{t('applicationForm.info.questions.tripObjective')}:</FormLabel>
-                <InputDropdown
-                  name='tripObjective'
-                  placeholder='Solo'
-                  options={enumT('enums.tripObjective')}
-                  value={formik.values.tripObjective}
-                  onChange={formik.handleChange}
-                  isOk={!(formik.touched.tripObjective && !!formik.errors.tripObjective)}
-                  onBlur={formik.handleBlur}
-                />
-              </Box>
+              <FieldDropdown
+                label={'applicationForm.info.questions.tripObjective'}
+                input={{
+                  name: 'tripObjective',
+                  placeholder: 'Solo',
+                  options: 'enums.tripObjective',
+                  value: formik.values.tripObjective,
+                  onChange: formik.handleChange,
+                  isOk: !(formik.touched.tripObjective && !!formik.errors.tripObjective),
+                  onBlur: formik.handleBlur
+                }}
+                error=''
+                styles={{ marginBottom: '1.5rem' }}
+              />
               <Box
                 marginBottom={'1.5rem'}
               >

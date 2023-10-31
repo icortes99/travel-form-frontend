@@ -7,7 +7,7 @@ import { DictionaryLeaves, DictionaryNodes } from '../types'
 import { useTranslation } from '../hooks'
 import InputDropdown from './input-dropdown.component'
 
-interface FieldProps {
+interface FieldDropdownProps {
   label: DictionaryLeaves
   input: {
     options: string[] | DictionaryNodes
@@ -19,13 +19,14 @@ interface FieldProps {
     onBlur?: (e: any) => void
   }
   error?: string
+  styles?: Record<string, string>
 }
 
-const Field: FC<FieldProps> = ({ label, input, error }: FieldProps) => {
+const FieldDropdown: FC<FieldDropdownProps> = ({ label, input, error, styles }: FieldDropdownProps) => {
   const { t, enumT } = useTranslation()
 
   return (
-    <Box>
+    <Box {...styles}>
       <FormLabel>{t(label)}:</FormLabel>
       <InputDropdown
         name={input.name}
@@ -41,4 +42,4 @@ const Field: FC<FieldProps> = ({ label, input, error }: FieldProps) => {
   )
 }
 
-export default Field
+export default FieldDropdown

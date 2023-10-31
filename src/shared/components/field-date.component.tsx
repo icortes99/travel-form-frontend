@@ -7,7 +7,7 @@ import { DictionaryLeaves } from '../types'
 import { useTranslation } from '../hooks'
 import InputDate from './input-date.component'
 
-interface FieldProps {
+interface FieldDateProps {
   label: DictionaryLeaves
   input: {
     name: string
@@ -18,13 +18,14 @@ interface FieldProps {
     onBlur?: (e: any) => void
   }
   error?: string
+  styles?: Record<string, string>
 }
 
-const Field: FC<FieldProps> = ({ label, input, error }: FieldProps) => {
+const FieldDate: FC<FieldDateProps> = ({ label, input, error, styles }: FieldDateProps) => {
   const { t } = useTranslation()
 
   return (
-    <Box>
+    <Box {...styles}>
       <FormLabel>{t(label)}:</FormLabel>
       <InputDate
         name={input.name}
@@ -39,4 +40,4 @@ const Field: FC<FieldProps> = ({ label, input, error }: FieldProps) => {
   )
 }
 
-export default Field
+export default FieldDate
