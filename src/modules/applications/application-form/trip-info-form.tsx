@@ -90,7 +90,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               width={{ sm: '100%', lg: 'calc(100% / 4)' }}
             > { /* COLUMNA 1 */}
               <Box
-                marginBottom={'1.5rem'}
+                marginBottom={{ sm: '1.5rem', md: '1.5rem', lg: '3rem' }}
               >
                 <FormLabel>{t('applicationForm.info.questions.name')}:</FormLabel>
                 <Input
@@ -106,7 +106,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 ) : null}
               </Box>
               <Box
-                marginBottom={'1.5rem'}
+                marginBottom={{ sm: '1.5rem', md: '1.5rem', lg: '3rem' }}
               >
                 <FormLabel>{t('applicationForm.info.questions.lastName')}:</FormLabel>
                 <Input
@@ -148,7 +148,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
               width={{ sm: '100%', lg: 'calc(100% / 2)' }}
               display={{ sm: 'block', lg: 'grid' }}
               gridTemplateColumns={'repeat(2, 1fr)'}
-              gridGap={'1.5rem'}
+              gridGap={'1.5rem 2rem'}
             > { /* COLUMNA 2 */}
               <Box
                 marginBottom={'1.5rem'}

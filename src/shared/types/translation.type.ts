@@ -1,4 +1,4 @@
-import { Leaves, Nodes } from '.'
+import { Leaves, Paths } from '.'
 import { ContactPreference, LeadSource, TripObjective } from '../generated/graphql-schema'
 
 export enum Languages {
@@ -73,4 +73,4 @@ export interface Dictionary {
 
 export type DictionaryLeaves = Leaves<Dictionary, 5>
 
-export type DictionaryNodes = Nodes<Dictionary, 2>
+export type DictionaryNodes = Paths<Dictionary, 2>
