@@ -18,7 +18,7 @@ interface FieldProps {
     onBlur?: (e: any) => void
   }
   error?: string
-  styles?: Record<string, string>
+  styles?: Record<string, string | Object>
 }
 
 const Field: FC<FieldProps> = ({ label, input, error, styles }: FieldProps) => {
@@ -35,7 +35,9 @@ const Field: FC<FieldProps> = ({ label, input, error, styles }: FieldProps) => {
         isOk={input.isOk}
         onBlur={input.onBlur}
       />
-      { /* ERROR */}
+      {
+        error && <Box>{error}</Box>
+      }
     </Box>
   )
 }
