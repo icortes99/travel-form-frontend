@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react'
 import Button from '../../../shared/components/button.component'
 import { useTranslation } from '../../../shared/hooks'
+import Field from '../../../shared/components/field.component'
+import FieldDropdown from '../../../shared/components/field-dropdown.component'
 
 interface ContactViewProps {
   lsKey: string
@@ -72,18 +74,19 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
             gridTemplateRows={'repeat(2, 1fr)'}
             gap={'1.5rem'}
           >
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>{t('applicationForm.contact.questions.email')}:</FormLabel>
-              <Input
-                name='email'
-                placeholder='no-email@gmail.com'
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                isOk={true}
-              />
-            </Box>
+            <Field
+              label={'applicationForm.contact.questions.email'}
+              input={{
+                name: 'email',
+                placeholder: 'no-mail@gmail.com',
+                value: formik.values.email,
+                onChange: formik.handleChange,
+                isOk: !(formik.touched.email && !!formik.errors.email),
+                onBlur: formik.handleBlur
+              }}
+              error={formik.touched.email && formik.errors.email && formik.errors.email.toString()}
+              styles={{ marginBottom: '1.5rem' }}
+            />
             <Box
               marginBottom={'1.5rem'}
             >
@@ -110,32 +113,34 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
                 />
               </Box>
             </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>{t('applicationForm.contact.questions.contactPreference')}:</FormLabel>
-              <InputDropdown
-                name='contactPreference'
-                placeholder='Método de contacto'
-                options={enumT('enums.contactPreference')}
-                value={formik.values.contactPreference}
-                onChange={formik.handleChange}
-                isOk={true}
-              />
-            </Box>
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>{t('applicationForm.contact.questions.leadSource')}:</FormLabel>
-              <InputDropdown
-                name='leadSource'
-                placeholder='WhatsApp'
-                options={enumT('enums.leadSource')}
-                value={formik.values.leadSource}
-                onChange={formik.handleChange}
-                isOk={true}
-              />
-            </Box>
+            <FieldDropdown
+              label={'applicationForm.contact.questions.contactPreference'}
+              input={{
+                name: 'contactPreference',
+                options: 'enums.contactPreference',
+                placeholder: 'Whatsapp',
+                value: formik.values.contactPreference,
+                onChange: formik.handleChange,
+                isOk: !(formik.touched.contactPreference && !!formik.errors.contactPreference),
+                onBlur: formik.handleBlur
+              }}
+              error={formik.touched.contactPreference && formik.errors.contactPreference && formik.errors.contactPreference.toString()}
+              styles={{ marginBottom: '1.5rem' }}
+            />
+            <FieldDropdown
+              label={'applicationForm.contact.questions.leadSource'}
+              input={{
+                name: 'leadSource',
+                options: 'enums.leadSource',
+                placeholder: 'Instagram',
+                value: formik.values.leadSource,
+                onChange: formik.handleChange,
+                isOk: !(formik.touched.leadSource && !!formik.errors.leadSource),
+                onBlur: formik.handleBlur
+              }}
+              error={formik.touched.leadSource && formik.errors.leadSource && formik.errors.leadSource.toString()}
+              styles={{ marginBottom: '1.5rem' }}
+            />
           </FormControl>
           <Box
             display={'flex'}

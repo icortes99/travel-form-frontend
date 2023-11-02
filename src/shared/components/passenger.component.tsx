@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import InputString from './input.component'
-import InputDate from './input-date.component'
-import InputDropdown from './input-dropdown.component'
-import { Box, FormLabel, Heading } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { useTranslation } from '../hooks'
+import Field from './field.component'
+import FieldDate from './field-date.component'
+import FieldDropdown from './field-dropdown.component'
 
 interface PassengerProps {
   passengerId: number
@@ -41,61 +41,55 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
         gridTemplateColumns={'repeat(3, 1fr) 15%'}
         gridGap={'1.5rem'}
       >
-        <Box>
-          <FormLabel
-            marginTop={'1rem'}
-          >
-            {t('applicationForm.lodging.questions.name')}:
-          </FormLabel>
-          <InputString
-            name={'name'}
-            placeholder={`Nombre del pasajero ${passengerId}`}
-            value={value.name}
-            onChange={(e) => handleChange('name', e.target.value)}
-          />
-        </Box>
-        <Box>
-          <FormLabel
-            marginTop={'1rem'}
-          >
-            {t('applicationForm.lodging.questions.lastName')}:
-          </FormLabel>
-          <InputString
-            name={'lastName'}
-            placeholder={`Apellido del pasajero ${passengerId}`}
-            value={value.lastName}
-            onChange={(e) => handleChange('lastName', e.target.value)}
-          />
-        </Box>
-        <Box>
-          <FormLabel
-            marginTop={'1rem'}
-          >
-            {t('applicationForm.lodging.questions.birthdate')}:
-          </FormLabel>
-          <InputDate
-            name={'birth'}
-            placeholder={`Edad del pasajero ${passengerId}`}
-            value={value.birth}
-            onChange={(e) => handleChange('birth', e.target.value)}
-          />
-        </Box>
-        <Box
-          width={{ sm: '100%', lg: '100%' }}
-        >
-          <FormLabel
-            marginTop={'1rem'}
-          >
-            {t('applicationForm.lodging.questions.room')}:
-          </FormLabel>
-          <InputDropdown
-            name={'room'}
-            placeholder={`Habitación del pasajero ${passengerId}`}
-            options={optionRooms}
-            value={value.room}
-            onChange={(e) => handleChange('room', e.target.value)}
-          />
-        </Box>
+        <Field
+          label={'applicationForm.lodging.questions.name'}
+          input={{
+            name: 'name',
+            placeholder: 'Linda',
+            value: value.name,
+            onChange: (e) => handleChange('name', e.target.value),
+            isOk: true,
+            onBlur: () => { }
+          }}
+          styles={{ marginTop: '1rem' }}
+        />
+        <Field
+          label={'applicationForm.lodging.questions.lastName'}
+          input={{
+            name: 'lastName',
+            placeholder: 'Smith',
+            value: value.lastName,
+            onChange: (e) => handleChange('lastName', e.target.value),
+            isOk: true,
+            onBlur: () => { }
+          }}
+          styles={{ marginTop: '1rem' }}
+        />
+        <FieldDate
+          label={'applicationForm.lodging.questions.birthdate'}
+          input={{
+            name: 'birth',
+            placeholder: 'mm/dd/yyyy',
+            value: value.birth,
+            onChange: (e) => handleChange('birth', e.target.value),
+            isOk: true,
+            onBlur: () => { }
+          }}
+          styles={{ marginTop: '1rem' }}
+        />
+        <FieldDropdown
+          label={'applicationForm.lodging.questions.room'}
+          input={{
+            options: optionRooms,
+            name: 'room',
+            placeholder: 'A, B, ...',
+            value: value.room,
+            onChange: (e) => handleChange('room', e.target.value),
+            isOk: true,
+            onBlur: () => { }
+          }}
+          styles={{ marginTop: '1rem' }}
+        />
       </Box>
     </Box>
   )

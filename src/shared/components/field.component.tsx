@@ -6,6 +6,7 @@ import {
 import { DictionaryLeaves } from '../types'
 import { useTranslation } from '../hooks'
 import Input from './input.component'
+import Error from './error.component'
 
 interface FieldProps {
   label: DictionaryLeaves
@@ -36,7 +37,7 @@ const Field: FC<FieldProps> = ({ label, input, error, styles }: FieldProps) => {
         onBlur={input.onBlur}
       />
       {
-        error && <Box>{error}</Box>
+        error && <Error message={error} />
       }
     </Box>
   )

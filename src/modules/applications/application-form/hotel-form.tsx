@@ -16,6 +16,7 @@ import {
 import Button from '../../../shared/components/button.component'
 import Carousel from '../../../shared/components/carousel.component'
 import { useTranslation } from '../../../shared/hooks'
+import FieldDropdown from '../../../shared/components/field-dropdown.component'
 
 interface HotelViewProps {
   lsKey: string
@@ -104,30 +105,33 @@ const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
             <FormControl
               marginTop={'1.5rem'}
             >
-              <Box
-                marginBottom={'1.5rem'}
-              >
-                <FormLabel>{t('applicationForm.lodging.questions.hotel')}</FormLabel>
-                <InputDropdown
-                  options={hotels}
-                  name='hotel'
-                  placeholder='Tu hotel de preferencia'
-                  value={formik.values.hotel}
-                  onChange={formik.handleChange}
-                  isOk={true}
-                />
-              </Box>
-              <Box>
-                <FormLabel>{t('applicationForm.lodging.questions.rooms')}</FormLabel>
-                <InputDropdown
-                  options={habitaciones}
-                  name='rooms'
-                  placeholder='Las habitaciones que gustes'
-                  value={formik.values.rooms}
-                  onChange={formik.handleChange}
-                  isOk={true}
-                />
-              </Box>
+              <FieldDropdown
+                label={'applicationForm.lodging.questions.hotel'}
+                input={{
+                  options: hotels,
+                  name: 'hotel',
+                  placeholder: 'Disney Hotel',
+                  value: formik.values.hotel,
+                  onChange: formik.handleChange,
+                  isOk: !(formik.touched.hotel && !!formik.errors.hotel),
+                  onBlur: formik.handleBlur
+                }}
+                error={formik.touched.hotel && formik.errors.hotel && formik.errors.hotel.toString()}
+                styles={{ marginBottom: '1.5rem' }}
+              />
+              <FieldDropdown
+                label={'applicationForm.lodging.questions.rooms'}
+                input={{
+                  options: habitaciones,
+                  name: 'rooms',
+                  placeholder: '1..20',
+                  value: formik.values.rooms,
+                  onChange: formik.handleChange,
+                  isOk: !(formik.touched.rooms && !!formik.errors.rooms),
+                  onBlur: formik.handleBlur
+                }}
+                error={formik.touched.rooms && formik.errors.rooms && formik.errors.rooms.toString()}
+              />
             </FormControl>
           </Box>
           <Divider
