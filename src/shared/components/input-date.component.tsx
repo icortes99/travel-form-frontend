@@ -11,6 +11,8 @@ interface InputDateProps {
 }
 
 const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange, isOk, onBlur }: InputDateProps) => {
+  const borderColor = isOk ? 'white.skyBlue' : 'white.error'
+
   return (
     <Input
       name={name}
@@ -19,10 +21,12 @@ const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange, isO
       type='date'
       isRequired
       isInvalid
-      errorBorderColor={isOk ? 'white.skyBlue' : 'white.error'}
+      errorBorderColor={borderColor}
+      focusBorderColor={borderColor}
       value={value}
       onChange={onChange}
       onBlur={onBlur}
+      transition={'0.5s'}
     />
   )
 }

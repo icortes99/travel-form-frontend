@@ -31,8 +31,8 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
     countryCode: yup.string().oneOf(countryCodes),
     phone: yup.number().required(t('error.required')),
-    contactPreference: yup.string().oneOf(Object.values(ContactPreference)),
-    leadSource: yup.string().oneOf(Object.values(LeadSource))
+    contactPreference: yup.string().oneOf(Object.keys(ContactPreference)),
+    leadSource: yup.string().oneOf(Object.keys(LeadSource))
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {

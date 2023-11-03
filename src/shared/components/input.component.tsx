@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Input as ChakraInput } from '@chakra-ui/react'
+import { Input as ChakraInput, border } from '@chakra-ui/react'
 
 interface InputProps {
   name: string,
@@ -11,16 +11,20 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({ name, placeholder, value, onChange, isOk, onBlur }: InputProps) => {
+  const borderColor = isOk ? 'white.skyBlue' : 'white.error'
+
   return (
     <ChakraInput
       name={name}
       placeholder={placeholder}
-      errorBorderColor={isOk ? 'white.skyBlue' : 'white.error'}
+      errorBorderColor={borderColor}
+      focusBorderColor={borderColor}
       isRequired
       isInvalid
       value={value}
       onChange={onChange}
       onBlur={onBlur}
+      transition={'0.5s'}
     />
   )
 }

@@ -39,7 +39,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     startDate: yup.date().min(new Date(), t('error.invalidDate')).required(t('error.required')),
     exitDate: yup.date().min(yup.ref('startDate'), t('error.invalidDate')).required(t('error.required')),
     country: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
-    tripObjective: yup.string().oneOf(Object.values(TripObjective)).required(t('error.required')),
+    tripObjective: yup.string().oneOf(Object.keys(TripObjective)).required(t('error.required')),
     companions: yup.string().oneOf(['Si', 'No', 'Yes']).required(t('error.required')),
     cantityCompanions: yup.number().required(t('error.required')),
     entryPermission: yup.string().oneOf(['Si', 'No', 'Yes']).required(t('error.required'))

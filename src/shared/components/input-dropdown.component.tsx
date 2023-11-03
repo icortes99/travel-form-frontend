@@ -12,16 +12,20 @@ interface DropdownProps {
 }
 
 const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, onChange, isOk, onBlur }: DropdownProps) => {
+  const borderColor = isOk ? 'white.skyBlue' : 'white.error'
+
   return (
     <Select
       name={name}
       placeholder={placeholder}
-      errorBorderColor={isOk ? 'white.skyBlue' : 'white.error'}
+      errorBorderColor={borderColor}
+      focusBorderColor={borderColor}
       isRequired
       isInvalid
       value={value}
       onChange={onChange}
       onBlur={onBlur}
+      transition={'0.5s'}
     >
       {
         Array.isArray(options) ?

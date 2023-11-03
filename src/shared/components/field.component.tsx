@@ -36,9 +36,7 @@ const Field: FC<FieldProps> = ({ label, input, error, styles }: FieldProps) => {
         isOk={input.isOk}
         onBlur={input.onBlur}
       />
-      {
-        error && <Error message={error} />
-      }
+      <Error message={error} />
     </Box>
   )
 }

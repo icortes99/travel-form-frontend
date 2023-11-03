@@ -6,6 +6,7 @@ import {
 import { DictionaryLeaves, DictionaryNodes } from '../types'
 import { useTranslation } from '../hooks'
 import InputDropdown from './input-dropdown.component'
+import Error from './error.component'
 
 interface FieldDropdownProps {
   label: DictionaryLeaves
@@ -37,7 +38,7 @@ const FieldDropdown: FC<FieldDropdownProps> = ({ label, input, error, styles }: 
         isOk={input.isOk}
         onBlur={input.onBlur}
       />
-      {/* ERROR */}
+      <Error message={error} />
     </Box>
   )
 }

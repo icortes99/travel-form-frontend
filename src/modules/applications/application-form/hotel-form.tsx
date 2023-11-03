@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import FormTemplate from './form-template'
-import InputDropdown from '../../../shared/components/input-dropdown.component'
 import Passenger from '../../../shared/components/passenger.component'
 import {
   Box,
@@ -20,17 +19,20 @@ import FieldDropdown from '../../../shared/components/field-dropdown.component'
 
 interface HotelViewProps {
   lsKey: string
+  passengersKey: string
 }
 
-const HotelView: FC<HotelViewProps> = ({ lsKey }: HotelViewProps) => {
+const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps) => {
   const router = useRouter()
   const { t } = useTranslation()
   const habitaciones = []
   const agency = 'FantasticTravel'
-  const passengers = 2
+  const passengers = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions
   for (let i = 1; i <= passengers; i++) {
     habitaciones.push(i)
   }
+
+  console.log('passengers: ', passengers)
 
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),

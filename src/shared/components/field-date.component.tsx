@@ -6,6 +6,7 @@ import {
 import { DictionaryLeaves } from '../types'
 import { useTranslation } from '../hooks'
 import InputDate from './input-date.component'
+import Error from './error.component'
 
 interface FieldDateProps {
   label: DictionaryLeaves
@@ -35,7 +36,7 @@ const FieldDate: FC<FieldDateProps> = ({ label, input, error, styles }: FieldDat
         isOk={input.isOk}
         onBlur={input.onBlur}
       />
-      { /* ERROR */}
+      <Error message={error} />
     </Box>
   )
 }
