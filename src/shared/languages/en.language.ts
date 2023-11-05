@@ -44,7 +44,7 @@ const EnglishDisctionary: Dictionary = {
       questions: {
         hotel: 'Preferred hotel',
         rooms: 'Number of rooms',
-        message: 'By default, you will be assigned to room A on all occasions, so keep this in mind when assigning the rooms.',
+        message: 'By default, you will be assigned to room 1 on all occasions, so keep this in mind when assigning the rooms.',
         passenger: 'Passenger',
         name: 'Name',
         lastName: 'Last name',
@@ -110,6 +110,10 @@ const EnglishDisctionary: Dictionary = {
     tooLong: 'Less characters needed',
     invalidEmail: 'Email address is invalid',
     invalidDate: 'Date is invalid'
+  },
+  basicWords: {
+    yes: 'Yes',
+    no: 'No'
   }
 }
 

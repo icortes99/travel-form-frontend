@@ -68,6 +68,10 @@ export interface Dictionary {
     tooLong: string,
     invalidEmail: string,
     invalidDate: string
+  },
+  basicWords: {
+    yes: string,
+    no: string
   }
 }
 

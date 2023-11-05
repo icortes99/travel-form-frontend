@@ -1,0 +1,8 @@
+query hotels($where: HotelsInDesinationAgencyWhereUniqueInput!){
+  hotelsInDestinationAgency(where: $where){
+    hotel {
+      name
+      images
+    }
+  }
+}

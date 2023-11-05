@@ -1,13 +1,11 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import FormTemplate from './form-template'
 import { TripObjective } from '../../../shared/generated/graphql-schema'
-import InputRadioOptions from '../../../shared/components/input-radio-options.component'
 import {
   FormControl,
-  FormLabel,
   Box,
   Divider,
   Text
@@ -17,6 +15,7 @@ import { useTranslation } from '../../../shared/hooks'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
 import FieldDate from '../../../shared/components/field-date.component'
 import Field from '../../../shared/components/field.component'
+import FieldRadioOptions from '../../../shared/components/field-radio-options.component'
 
 interface InfoViewProps {
   lsKey: string
@@ -25,10 +24,11 @@ interface InfoViewProps {
 const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
-  const { t, enumT } = useTranslation()
+  const { t } = useTranslation()
+  const [areCompanions, setAreCompanions] = useState<boolean>(false)
 
   const cantidad = []
-  for (let i = 1; i <= 40; i++) {
+  for (let i = 1; i <= 15; i++) {
     cantidad.push(i.toString())
   }
 
@@ -40,9 +40,9 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     exitDate: yup.date().min(yup.ref('startDate'), t('error.invalidDate')).required(t('error.required')),
     country: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     tripObjective: yup.string().oneOf(Object.keys(TripObjective)).required(t('error.required')),
-    companions: yup.string().oneOf(['Si', 'No', 'Yes']).required(t('error.required')),
+    companions: yup.boolean().required(t('error.required')),
     cantityCompanions: yup.number().required(t('error.required')),
-    entryPermission: yup.string().oneOf(['Si', 'No', 'Yes']).required(t('error.required'))
+    entryPermission: yup.boolean().required(t('error.required'))
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
@@ -66,6 +66,23 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
       router.push(`/application/${agency}?step=3`)
     }
   })
+
+  const handleMoreCompanions = (selected) => {
+    formik.setFieldValue('companions', selected)
+    if (selected === 'true')
+      setAreCompanions(true)
+    else {
+      setAreCompanions(false)
+      formik.setFieldValue('cantityCompanions', 0)
+    }
+  }
+
+  useEffect(() => {
+    if (initialValues.companions === 'true')
+      setAreCompanions(true)
+    else
+      setAreCompanions(false)
+  }, [])
 
   return (
     <FormTemplate
@@ -200,17 +217,17 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 error={formik.touched.tripObjective && formik.errors.tripObjective && formik.errors.tripObjective.toString()}
                 styles={{ marginBottom: '1.5rem' }}
               />
-              <Box
-                marginBottom={'1.5rem'}
-              >
-                <FormLabel marginBottom={'1rem'}>{t('applicationForm.info.questions.companions')}</FormLabel>
-                <InputRadioOptions
-                  name='companions'
-                  value={formik.values.companions}
-                  onChange={(newValue) => formik.setFieldValue('companions', newValue)}
-                />
-              </Box>
-              <FieldDropdown
+              <FieldRadioOptions
+                label={'applicationForm.info.questions.companions'}
+                input={{
+                  name: 'companions',
+                  value: formik.values.companions,
+                  onChange: (newValue) => handleMoreCompanions(newValue)
+                }}
+                error={formik.touched.companions && formik.errors.companions && formik.errors.companions.toString()}
+                styles={{ marginBottom: '1.5rem', paddingBottom: '.5rem' }}
+              />
+              {areCompanions && <FieldDropdown
                 label={'applicationForm.info.questions.cantCompanions'}
                 input={{
                   name: 'cantityCompanions',
@@ -223,7 +240,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 }}
                 error={formik.touched.cantityCompanions && formik.errors.cantityCompanions && formik.errors.cantityCompanions.toString()}
                 styles={{ marginBottom: '1.5rem' }}
-              />
+              />}
             </Box>
             <Divider
               margin={'.5rem 0 1.5rem 0'}
@@ -240,16 +257,16 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
             <Box
               width={{ sm: '100%', lg: 'calc(100% / 4)' }}
             > { /* COLUMNA 3 */}
-              <Box
-                marginBottom={'1.5rem'}
-              >
-                <FormLabel marginBottom={'1rem'}>{t('applicationForm.info.questions.entryPermission')}</FormLabel>
-                <InputRadioOptions
-                  name='entryPermission'
-                  value={formik.values.entryPermission}
-                  onChange={(newValue) => formik.setFieldValue('entryPermission', newValue)}
-                />
-              </Box>
+              <FieldRadioOptions
+                label={'applicationForm.info.questions.entryPermission'}
+                input={{
+                  name: 'entryPermission',
+                  value: formik.values.entryPermission,
+                  onChange: (newValue) => formik.setFieldValue('entryPermission', newValue)
+                }}
+                error={formik.touched.entryPermission && formik.errors.entryPermission && formik.errors.entryPermission.toString()}
+                styles={{ marginBottom: '1.5rem', paddingBottom: '.5rem' }}
+              />
               <Text>
                 {t('applicationForm.info.questions.text')}
               </Text>

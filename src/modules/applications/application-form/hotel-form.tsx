@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -31,8 +31,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
   for (let i = 1; i <= passengers; i++) {
     habitaciones.push(i)
   }
-
-  console.log('passengers: ', passengers)
+  const [roomsSelected, setRoomsSelected] = useState<number>(1)
 
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
@@ -61,6 +60,11 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
       router.push(`/application/${agency}?step=4`)
     }
   })
+
+  const handleRoomsSelection = (value) => {
+    setRoomsSelected(value)
+    formik.handleChange({ target: { name: 'rooms', value: value } })
+  }
 
   const handlePassengerChange = (index: number, updatedPassengerData: any) => {
     const updatedPassengersData = [...formik.values.passengersData]
@@ -124,11 +128,11 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
               <FieldDropdown
                 label={'applicationForm.lodging.questions.rooms'}
                 input={{
-                  options: habitaciones,
+                  options: passengers > 0 ? habitaciones : ['1'],
                   name: 'rooms',
-                  placeholder: '1..20',
+                  placeholder: '1, 2, 3...',
                   value: formik.values.rooms,
-                  onChange: formik.handleChange,
+                  onChange: (e) => handleRoomsSelection(e.target.value),
                   isOk: !(formik.touched.rooms && !!formik.errors.rooms),
                   onBlur: formik.handleBlur
                 }}
@@ -166,7 +170,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
                         <Passenger
                           key={i}
                           passengerId={i + 1}
-                          rooms={habitaciones.length}
+                          rooms={roomsSelected}
                           value={formik.values.passengersData[i]}
                           onChange={(updatedValue) => handlePassengerChange(i, updatedValue)}
                         />

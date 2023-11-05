@@ -8,10 +8,15 @@ import { useTranslation } from '../hooks'
 import InputDropdown from './input-dropdown.component'
 import Error from './error.component'
 
+interface Flag {
+  countryCode: string
+  svg: any
+}
+
 interface FieldDropdownProps {
   label: DictionaryLeaves
   input: {
-    options: string[] | DictionaryNodes
+    options: string[] | DictionaryNodes | Flag[]
     name: string
     placeholder: string
     value?: string | number

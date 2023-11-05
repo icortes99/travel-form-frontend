@@ -12,7 +12,7 @@ interface PassengerProps {
   onChange: any
 }
 
-const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: PassengerProps) => {
+const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value = { name: '', lastName: '', birth: '', room: '' }, onChange }: PassengerProps) => {
   const optionRooms = []
   const { t } = useTranslation()
   for (let i = 1; i <= rooms; i++) {
@@ -82,7 +82,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value, onChange }: 
           input={{
             options: optionRooms,
             name: 'room',
-            placeholder: 'A, B, ...',
+            placeholder: '1, 2, ...',
             value: value.room,
             onChange: (e) => handleChange('room', e.target.value),
             isOk: true,

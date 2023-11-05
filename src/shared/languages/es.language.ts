@@ -44,7 +44,7 @@ const SpanishDictionary: Dictionary = {
       questions: {
         hotel: 'Hotel de preferencia',
         rooms: 'Número de habitaciones',
-        message: 'Por defecto, tú serás asignado a la habitación A en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.',
+        message: 'Por defecto, tú serás asignado a la habitación 1 en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.',
         passenger: 'Pasajero',
         name: 'Nombre',
         lastName: 'Apellido',
@@ -110,6 +110,10 @@ const SpanishDictionary: Dictionary = {
     tooLong: 'Menos caracteres necesarios',
     invalidEmail: 'Correo inválido',
     invalidDate: 'Fecha inválida'
+  },
+  basicWords: {
+    yes: 'Si',
+    no: 'No'
   }
 }
 
