@@ -23,6 +23,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   const router = useRouter()
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [selectedDestiny, setSelectedDestiny] = useState<string>('')
   const [selectedAttractions, setSelectedAttractions] = useState([])
   const agency = 'FantasticTravel'
   const { t } = useTranslation()
@@ -48,11 +49,13 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
     })
 
     onOpen()
+    setSelectedDestiny(clickedDestiny)
   }, [])
 
   const nextStep = () => {
+    console.log('destiny: ', selectedDestiny)
     const data = {
-      destination: agency,
+      destination: selectedDestiny,
       attractions: selectedAttractions
     }
     window.localStorage.setItem(lsKey, JSON.stringify(data))
@@ -92,7 +95,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
         width={'100%'}
       >
         {
-          (!travelAgencyResponse.loading) ?
+          (!travelAgencyResponse.loading) ? (
             agencyApplications.map((application) => (
               <CardCarousel
                 data={application.destination}
@@ -100,7 +103,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                 key={application.uuid}
               />
             ))
-            : <Loading area={'partial'} />
+          ) : <Loading area={'partial'} />
         }
       </Box>
       <Suspense fallback={<Loading />}>
@@ -113,11 +116,11 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
           submitText={t('buttons.next')}
         >
           {
-            (!attractionsResponse.loading) ?
+            (!attractionsResponse.loading) ? (
               destinationAttractions.map((item, i) => (
                 <>
                   <Box
-                    key={i}
+                    key={item.uuid}
                     display='flex'
                     cursor={'pointer'}
                     backgroundColor={selectedAttractions.includes(item.uuid) ? `white.itemPink` : `white.white`}
@@ -146,7 +149,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                   {
                     (destinationAttractions.length - 1) > i &&
                     <Divider
-                      key={i + 100}
+                      key={i}
                       margin={'1.5rem 0'}
                       border={'.01rem solid rgba(128, 128, 128, 0.5)'}
                       maxWidth={'99%'}
@@ -154,7 +157,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                   }
                 </>
               ))
-              : <Loading area='partial' />
+            ) : <Loading area='partial' />
           }
         </Modal>
       </Suspense>

@@ -29,7 +29,7 @@ export default function Application() {
           <Suspense fallback={<Loading />}>
             {stepNumber === 1 && <DestinationForm lsKey={localStorageKeys[0]} />}
             {stepNumber === 2 && <TripInfoForm lsKey={localStorageKeys[1]} />}
-            {stepNumber === 3 && <HotelForm lsKey={localStorageKeys[2]} passengersKey={localStorageKeys[1]} />}
+            {stepNumber === 3 && <HotelForm lsKey={localStorageKeys[2]} passengersKey={localStorageKeys[1]} destinyKey={localStorageKeys[0]} />}
             {stepNumber === 4 && <ContactForm lsKey={localStorageKeys[3]} />}
           </Suspense>
           :

@@ -1,8 +1,9 @@
-query hotels($where: HotelsInDesinationAgencyWhereUniqueInput!){
+query hotelsInDestiny($where: HotelsInDesinationAgencyWhereUniqueInput!){
   hotelsInDestinationAgency(where: $where){
     hotel {
       name
       images
+      uuid
     }
   }
 }

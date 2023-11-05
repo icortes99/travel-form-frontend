@@ -1936,14 +1936,14 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "destinationId",
+            "name": "destination",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
+                "kind": "INPUT_OBJECT",
+                "name": "DestinationWhereUniqueInput",
                 "ofType": null
               }
             },

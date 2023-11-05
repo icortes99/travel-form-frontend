@@ -14,9 +14,10 @@ interface DropdownProps {
   onChange?: (e: any) => void
   isOk: boolean
   onBlur?: (e: any) => void
+  type?: 'normal' | 'callback'
 }
 
-const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, onChange, isOk, onBlur }: DropdownProps) => {
+const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, onChange, isOk, onBlur, type = 'normal' }: DropdownProps) => {
   const borderColor = isOk ? 'white.skyBlue' : 'white.error'
 
   return (
@@ -28,7 +29,7 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
       isRequired
       isInvalid
       value={value}
-      onChange={onChange}
+      onChange={type === 'normal' ? onChange : (e) => onChange(e.target.value)}
       onBlur={onBlur}
       transition={'0.5s'}
     >

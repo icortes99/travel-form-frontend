@@ -206,7 +206,7 @@ export type HotelWhereUniqueInput = {
 };
 
 export type HotelsInDesinationAgencyWhereUniqueInput = {
-  destinationId: Scalars['Int'];
+  destination: DestinationWhereUniqueInput;
   travelAgency: TravelAgencyWhereUniqueInput;
 };
 
@@ -518,12 +518,12 @@ export type CreateApplicationMutationVariables = Exact<{
 
 export type CreateApplicationMutation = { createApplication: { id?: number | null } };
 
-export type HotelsQueryVariables = Exact<{
+export type HotelsInDestinyQueryVariables = Exact<{
   where: HotelsInDesinationAgencyWhereUniqueInput;
 }>;
 
 
-export type HotelsQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, images?: Array<string> | null } | null }> | null };
+export type HotelsInDestinyQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, images?: Array<string> | null, uuid?: string | null } | null }> | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -649,44 +649,45 @@ export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
 export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
 export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
-export const HotelsDocument = gql`
-    query hotels($where: HotelsInDesinationAgencyWhereUniqueInput!) {
+export const HotelsInDestinyDocument = gql`
+    query hotelsInDestiny($where: HotelsInDesinationAgencyWhereUniqueInput!) {
   hotelsInDestinationAgency(where: $where) {
     hotel {
       name
       images
+      uuid
     }
   }
 }
     `;
 
 /**
- * __useHotelsQuery__
+ * __useHotelsInDestinyQuery__
  *
- * To run a query within a React component, call `useHotelsQuery` and pass it any options that fit your needs.
- * When your component renders, `useHotelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHotelsInDestinyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHotelsInDestinyQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHotelsQuery({
+ * const { data, loading, error } = useHotelsInDestinyQuery({
  *   variables: {
  *      where: // value for 'where'
  *   },
  * });
  */
-export function useHotelsQuery(baseOptions: Apollo.QueryHookOptions<HotelsQuery, HotelsQueryVariables>) {
+export function useHotelsInDestinyQuery(baseOptions: Apollo.QueryHookOptions<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HotelsQuery, HotelsQueryVariables>(HotelsDocument, options);
+        return Apollo.useQuery<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>(HotelsInDestinyDocument, options);
       }
-export function useHotelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HotelsQuery, HotelsQueryVariables>) {
+export function useHotelsInDestinyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HotelsQuery, HotelsQueryVariables>(HotelsDocument, options);
+          return Apollo.useLazyQuery<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>(HotelsInDestinyDocument, options);
         }
-export type HotelsQueryHookResult = ReturnType<typeof useHotelsQuery>;
-export type HotelsLazyQueryHookResult = ReturnType<typeof useHotelsLazyQuery>;
-export type HotelsQueryResult = Apollo.QueryResult<HotelsQuery, HotelsQueryVariables>;
+export type HotelsInDestinyQueryHookResult = ReturnType<typeof useHotelsInDestinyQuery>;
+export type HotelsInDestinyLazyQueryHookResult = ReturnType<typeof useHotelsInDestinyLazyQuery>;
+export type HotelsInDestinyQueryResult = Apollo.QueryResult<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>;
 export const UserDocument = gql`
     query user($where: UserWhereUniqueInput!) {
   user(where: $where) {

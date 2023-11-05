@@ -16,22 +16,48 @@ import Button from '../../../shared/components/button.component'
 import Carousel from '../../../shared/components/carousel.component'
 import { useTranslation } from '../../../shared/hooks'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
+import { useHotelsInDestinyQuery } from '../../../shared/generated/graphql-schema'
+import Loading from '../../../shared/components/loading.component'
 
 interface HotelViewProps {
   lsKey: string
   passengersKey: string
+  destinyKey: string
 }
 
-const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps) => {
+const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: HotelViewProps) => {
   const router = useRouter()
   const { t } = useTranslation()
   const habitaciones = []
   const agency = 'FantasticTravel'
   const passengers = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions
+  const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey)).destination
   for (let i = 1; i <= passengers; i++) {
     habitaciones.push(i)
   }
+
+  //default hotel view
+  const [hotelSelected, setHotelSelected] = useState({
+    images: ['https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'],
+    name: 'Default Hotel',
+    uuid: ''
+  })
+
   const [roomsSelected, setRoomsSelected] = useState<number>(1)
+  const hotelsInDestinyResponse = useHotelsInDestinyQuery({
+    variables: {
+      where: {
+        destination: {
+          uuid: destiny
+        },
+        travelAgency: {
+          slug: agency
+        }
+      }
+    }
+  })
+
+  console.log('hotels fetch: ', hotelsInDestinyResponse.data)
 
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
@@ -72,13 +98,21 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
     formik.setFieldValue('passengersData', updatedPassengersData)
   }
 
-  //eliminar, informacion quemada
-  const hotels = ['Disney', 'Universal', 'Other']
+  const handleHotelChange = (hotelId: string) => {
+    const selectedHotel = hotelsInDestinyResponse.data.hotelsInDestinationAgency.find(i => i.hotel.uuid === hotelId).hotel
+    setHotelSelected(prev => ({ ...prev, images: selectedHotel.images, name: selectedHotel.name, uuid: selectedHotel.uuid }))
+    formik.setFieldValue('hotel', selectedHotel.uuid)
+  }
 
-  //eliminar
-  const hotelImages = [
-    'https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'
-  ]
+  const getHotels = () => {
+    const result: Record<string, string> = {}
+
+    hotelsInDestinyResponse.data.hotelsInDestinationAgency.map(hotel => {
+      result[hotel.hotel.uuid] = hotel.hotel.name
+    })
+
+    return result
+  }
 
   return (
     <FormTemplate
@@ -102,43 +136,50 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
             flexDirection={'column'}
             alignItems={'center'}
           > {/* COLUMNA 1 */}
-            <Box
-              maxWidth={{ sm: '25rem', md: '25rem', lg: '100%' }}
-              width={'100%'}
-            >
-              <Carousel images={hotelImages} mask={false} />
-            </Box>
-            <FormControl
-              marginTop={'1.5rem'}
-            >
-              <FieldDropdown
-                label={'applicationForm.lodging.questions.hotel'}
-                input={{
-                  options: hotels,
-                  name: 'hotel',
-                  placeholder: 'Disney Hotel',
-                  value: formik.values.hotel,
-                  onChange: formik.handleChange,
-                  isOk: !(formik.touched.hotel && !!formik.errors.hotel),
-                  onBlur: formik.handleBlur
-                }}
-                error={formik.touched.hotel && formik.errors.hotel && formik.errors.hotel.toString()}
-                styles={{ marginBottom: '1.5rem' }}
-              />
-              <FieldDropdown
-                label={'applicationForm.lodging.questions.rooms'}
-                input={{
-                  options: passengers > 0 ? habitaciones : ['1'],
-                  name: 'rooms',
-                  placeholder: '1, 2, 3...',
-                  value: formik.values.rooms,
-                  onChange: (e) => handleRoomsSelection(e.target.value),
-                  isOk: !(formik.touched.rooms && !!formik.errors.rooms),
-                  onBlur: formik.handleBlur
-                }}
-                error={formik.touched.rooms && formik.errors.rooms && formik.errors.rooms.toString()}
-              />
-            </FormControl>
+            {
+              (!hotelsInDestinyResponse.loading) ? (
+                <>
+                  <Box
+                    maxWidth={{ sm: '25rem', md: '25rem', lg: '100%' }}
+                    width={'100%'}
+                  >
+                    <Carousel images={hotelSelected.images} mask={false} />
+                  </Box>
+                  <FormControl
+                    marginTop={'1.5rem'}
+                  >
+                    <FieldDropdown
+                      label={'applicationForm.lodging.questions.hotel'}
+                      input={{
+                        options: getHotels(),
+                        name: 'hotel',
+                        placeholder: hotelSelected.name,
+                        value: formik.values.hotel,
+                        onChange: handleHotelChange,
+                        isOk: !(formik.touched.hotel && !!formik.errors.hotel),
+                        onBlur: formik.handleBlur,
+                        type: 'callback'
+                      }}
+                      error={formik.touched.hotel && formik.errors.hotel && formik.errors.hotel.toString()}
+                      styles={{ marginBottom: '1.5rem' }}
+                    />
+                    <FieldDropdown
+                      label={'applicationForm.lodging.questions.rooms'}
+                      input={{
+                        options: passengers > 0 ? habitaciones : ['1'],
+                        name: 'rooms',
+                        placeholder: '1, 2, 3...',
+                        value: formik.values.rooms,
+                        onChange: (e) => handleRoomsSelection(e.target.value),
+                        isOk: !(formik.touched.rooms && !!formik.errors.rooms),
+                        onBlur: formik.handleBlur
+                      }}
+                      error={formik.touched.rooms && formik.errors.rooms && formik.errors.rooms.toString()}
+                    />
+                  </FormControl>
+                </>
+              ) : <Loading area='partial' />
+            }
           </Box>
           <Divider
             margin={'1.5rem 0'}
@@ -179,7 +220,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey }: HotelViewProps)
                             <Divider
                               margin={'.5rem 0 1rem 0'}
                               border={'.01rem solid rgba(128, 128, 128, 0.5)'}
-                              key={i * 100}
+                              key={i + 100}
                             /> : null
                         }
                       </>

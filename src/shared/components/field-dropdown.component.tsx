@@ -16,13 +16,14 @@ interface Flag {
 interface FieldDropdownProps {
   label: DictionaryLeaves
   input: {
-    options: string[] | DictionaryNodes | Flag[]
+    options: string[] | DictionaryNodes | Flag[] | Record<string, string>
     name: string
     placeholder: string
     value?: string | number
     onChange?: (e: any) => void
     isOk: boolean
     onBlur?: (e: any) => void
+    type?: 'normal' | 'callback'
   }
   error?: string
   styles?: Record<string, string>
@@ -37,11 +38,12 @@ const FieldDropdown: FC<FieldDropdownProps> = ({ label, input, error, styles }: 
       <InputDropdown
         name={input.name}
         placeholder={input.placeholder}
-        options={Array.isArray(input.options) ? input.options : enumT(input.options)}
+        options={(Array.isArray(input.options) || typeof input.options === 'object') ? input.options : enumT(input.options)}
         value={input.value}
         onChange={input.onChange}
         isOk={input.isOk}
         onBlur={input.onBlur}
+        type={input.type}
       />
       <Error message={error} />
     </Box>
