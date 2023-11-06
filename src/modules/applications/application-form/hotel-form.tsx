@@ -57,8 +57,6 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     }
   })
 
-  console.log('hotels fetch: ', hotelsInDestinyResponse.data)
-
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     lastName: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
@@ -99,7 +97,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   }
 
   const handleHotelChange = (hotelId: string) => {
-    const selectedHotel = hotelsInDestinyResponse.data.hotelsInDestinationAgency.find(i => i.hotel.uuid === hotelId).hotel
+    const selectedHotel = hotelsInDestinyResponse?.data?.hotelsInDestinationAgency?.find(i => i.hotel.uuid === hotelId).hotel || {}
     setHotelSelected(prev => ({ ...prev, images: selectedHotel.images, name: selectedHotel.name, uuid: selectedHotel.uuid }))
     formik.setFieldValue('hotel', selectedHotel.uuid)
   }
@@ -107,7 +105,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   const getHotels = () => {
     const result: Record<string, string> = {}
 
-    hotelsInDestinyResponse.data.hotelsInDestinationAgency.map(hotel => {
+    hotelsInDestinyResponse?.data?.hotelsInDestinationAgency?.map(hotel => {
       result[hotel.hotel.uuid] = hotel.hotel.name
     })
 

@@ -1,13 +1,8 @@
-import { FC, createElement } from 'react'
+import { FC } from 'react'
 import { Select } from '@chakra-ui/react'
 
-interface Flag {
-  countryCode: string
-  svg: any
-}
-
 interface DropdownProps {
-  options: string[] | Record<string, string> | Flag[]
+  options: string[] | Record<string, string>
   name: string
   placeholder: string
   value?: string | number
@@ -35,22 +30,6 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
     >
       {
         Array.isArray(options) ? (
-          /*typeof options[0] === 'string' ?
-            options.map((opt, i) => (
-              <option
-                key={i}
-                value={opt}
-              >
-                {opt}
-              </option>
-            )) : options.map((opt, i: number) => (
-              <option
-                key={i}
-                value={opt.countryCode}
-              >
-                Flag
-              </option>
-            ))*/
           options.map((opt, i) => (
             <option
               key={i}
@@ -59,12 +38,13 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
               {opt}
             </option>
           ))
-        ) :
+        ) : (
           Object.keys(options).map((key, i) => (
             <option key={i} value={key}>
               {options[key]}
             </option>
           ))
+        )
       }
     </Select>
   )

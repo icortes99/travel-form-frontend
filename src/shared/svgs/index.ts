@@ -19,32 +19,32 @@ import Spain from './spain.svg'
 import Uruguay from './uruguay.svg'
 import Venezuela from './venezuela.svg'
 
-const flagsData = {
-  Argentina: { countryCode: '+54', svg: Argentina },
-  Bolivia: { countryCode: '+591', svg: Bolivia },
-  Chile: { countryCode: '+56', svg: Chile },
-  Colombia: { countryCode: '+57', svg: Colombia },
-  CostaRica: { countryCode: '+506', svg: CostaRica },
-  Cuba: { countryCode: '+53', svg: Cuba },
-  Ecuador: { countryCode: '+593', svg: Ecuador },
-  Guatemala: { countryCode: '+502', svg: Guatemala },
-  Honduras: { countryCode: '+504', svg: Honduras },
-  Mexico: { countryCode: '+52', svg: Mexico },
-  Nicaragua: { countryCode: '+505', svg: Nicaragua },
-  Panama: { countryCode: '+507', svg: Panama },
-  Paraguay: { countryCode: '+595', svg: Paraguay },
-  Peru: { countryCode: '+51', svg: Peru },
-  PuertoRico: { countryCode: '+1', svg: PuertoRico },
-  RD: { countryCode: '+1', svg: RD },
-  Salvador: { countryCode: '+503', svg: Salvador },
-  Spain: { countryCode: '+34', svg: Spain },
-  Uruguay: { countryCode: '+598', svg: Uruguay },
-  Venezuela: { countryCode: '+58', svg: Venezuela }
-}
+const flagsData: Flag[] = [
+  { countryCode: '+54', svg: Argentina },
+  { countryCode: '+591', svg: Bolivia },
+  { countryCode: '+56', svg: Chile },
+  { countryCode: '+57', svg: Colombia },
+  { countryCode: '+506', svg: CostaRica },
+  { countryCode: '+53', svg: Cuba },
+  { countryCode: '+593', svg: Ecuador },
+  { countryCode: '+502', svg: Guatemala },
+  { countryCode: '+504', svg: Honduras },
+  { countryCode: '+52', svg: Mexico },
+  { countryCode: '+505', svg: Nicaragua },
+  { countryCode: '+507', svg: Panama },
+  { countryCode: '+595', svg: Paraguay },
+  { countryCode: '+51', svg: Peru },
+  { countryCode: '+1', svg: PuertoRico },
+  { countryCode: '+1', svg: RD },
+  { countryCode: '+503', svg: Salvador },
+  { countryCode: '+34', svg: Spain },
+  { countryCode: '+598', svg: Uruguay },
+  { countryCode: '+58', svg: Venezuela }
+]
 
 interface Flag {
   countryCode: string
   svg: any
 }
 
-export default Object.values(flagsData) as Array<Flag>
+export default flagsData

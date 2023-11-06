@@ -16,7 +16,6 @@ import Button from '../../../shared/components/button.component'
 import { useTranslation } from '../../../shared/hooks'
 import Field from '../../../shared/components/field.component'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
-import Flags from '../../../shared/svgs'
 
 interface ContactViewProps {
   lsKey: string
@@ -176,7 +175,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
               />
             </Box>
           </Box>
-
         </Box>
       </form>
     </FormTemplate>
