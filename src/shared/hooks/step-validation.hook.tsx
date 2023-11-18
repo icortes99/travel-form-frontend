@@ -1,28 +1,33 @@
-import { useEffect } from 'react'
+import { useEffect, startTransition } from 'react'
 import { useRouter } from 'next/router'
 
 interface StepValidationParams {
   min: number
   max: number
+  setValidation: (value: string) => void
 }
 
-const useStepValidation = ({ min, max }: StepValidationParams) => {
+const useStepValidation = ({ min, max, setValidation }: StepValidationParams) => {
   const router = useRouter()
   const { step } = router.query
 
-  return new Promise<void>((resolve, reject) => {
-    useEffect(() => {
+  useEffect(() => {
+    const validateStep = () => {
       if (router.isReady) {
-        const stepNumber = parseInt(step as string)
-        if (isNaN(stepNumber) || stepNumber < min || stepNumber > max) {
-          router.push('/404')
-          reject('Invalid step')
-        } else {
-          resolve()
-        }
+        startTransition(() => {
+          const stepNumber = parseInt(step as string)
+          if (isNaN(stepNumber) || stepNumber < min || stepNumber > max) {
+            router.push('/404')
+            setValidation('failed')
+          } else {
+            setValidation('loaded')
+          }
+        })
       }
-    }, [router.isReady])
-  })
+    }
+
+    validateStep()
+  }, [router.isReady, setValidation])
 }
 
 export default useStepValidation

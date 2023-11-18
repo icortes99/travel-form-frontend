@@ -1,8 +1,15 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { LeadSource, ContactPreference } from '../../../shared/generated/graphql-schema'
+import {
+  LeadSource,
+  ContactPreference,
+  useCreateApplicationMutation,
+  TripObjective,
+  ApplicationAttractionCreateWithoutApplicationInput,
+  PassengersCreateWithoutApplicationInput
+} from '../../../shared/generated/graphql-schema'
 import FormTemplate from './form-template'
 import Input from '../../../shared/components/input.component'
 import InputDropdown from '../../../shared/components/input-dropdown.component'
@@ -19,13 +26,16 @@ import FieldDropdown from '../../../shared/components/field-dropdown.component'
 
 interface ContactViewProps {
   lsKey: string
+  allLSkeys: string[]
 }
 
-const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
+const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
-  const { t, enumT } = useTranslation()
+  const { t } = useTranslation()
   const countryCodes = ['CR', 'PA', 'ES']
+  const [createApplication] = useCreateApplicationMutation()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const schema = yup.object().shape({
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
@@ -47,11 +57,82 @@ const ContactView: FC<ContactViewProps> = ({ lsKey }: ContactViewProps) => {
     initialValues,
     validationSchema: schema,
     onSubmit: values => {
-      console.log('contact view: ', values)
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      router.push(`/application?step=3&agency=fantasticTravel`)
+      //router.push(`/`)
+      submitApplication(values)
     }
   })
+
+  const submitApplication = (contactValues) => {
+    setLoading(true)
+
+    const destiny = JSON.parse(window.localStorage.getItem(allLSkeys[0]))
+    const tipInfo = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
+    const lodging = JSON.parse(window.localStorage.getItem(allLSkeys[2]))
+
+    //arrays: applications y passengers(person y suite)
+    const attractions: ApplicationAttractionCreateWithoutApplicationInput[] = destiny.attractions.map((attraction: string) => ({
+      attraction: { connect: { uuid: attraction } }
+    }))
+
+    //lodging.passengersData
+    const passengers: PassengersCreateWithoutApplicationInput[] = lodging.passengersData.map(passenger => ({
+      person: {
+        create: {
+          birthdate: passenger.birth,
+          firstName: passenger.name,
+          lastName: passenger.lastName
+        }
+      },
+      suite: {
+        connect: {
+          uuid: '' // FALTA OBTENER LA SUITE EN LA VISTA DE HOTEL **************************
+        }
+      }
+    }))
+
+    createApplication({
+      variables: {
+        //Destination and attractions
+        data: {
+          destination: { connect: { uuid: destiny.destination } },
+          applicationAttractions: {
+            create: attractions
+          },
+
+          //Enums
+          tripObjective: TripObjective[tipInfo.tripObjective],
+          contactPreference: ContactPreference[contactValues.contactPreference],
+          leadSource: LeadSource[contactValues.leadSource],
+
+          //Pepole involved
+          userCurrentLocation: tipInfo.country,
+          user: {
+            connect: {
+              email: '' // FALTA CONECTAR EL USUARIO O CREAR *****************************
+            }
+          },
+          hasEntryPermission: tipInfo.entryPermission === 'true' ? true : false,
+          passengers: tipInfo.companions === 'true' ? {
+            create: passengers
+          } : null,
+
+          //Time
+          startDate: tipInfo.startDate,
+          endDate: tipInfo.exitDate,
+
+          //Agency
+          travelAgency: {
+            connect: {
+              slug: agency
+            }
+          },
+        }
+      }
+    })
+
+    //router.push(`/`)
+  }
 
   return (
     <FormTemplate

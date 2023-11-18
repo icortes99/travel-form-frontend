@@ -18,16 +18,18 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
   return (
     <Select
       name={name}
-      placeholder={placeholder}
       errorBorderColor={borderColor}
       focusBorderColor={borderColor}
       isRequired
       isInvalid
-      value={value}
+      value={value === undefined ? 'novalue' : value}
       onChange={type === 'normal' ? onChange : (e) => onChange(e.target.value)}
       onBlur={onBlur}
       transition={'0.5s'}
     >
+      <option value={'novalue'} hidden style={{ color: 'grey' }}>
+        {placeholder}
+      </option>
       {
         Array.isArray(options) ? (
           options.map((opt, i) => (

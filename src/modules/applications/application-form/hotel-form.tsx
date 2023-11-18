@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useFormik } from 'formik'
+import { useFormik, FormikProvider } from 'formik'
 import * as yup from 'yup'
 import FormTemplate from './form-template'
 import Passenger from '../../../shared/components/passenger.component'
@@ -30,18 +30,20 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   const { t } = useTranslation()
   const habitaciones = []
   const agency = 'FantasticTravel'
-  const passengers = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions
-  const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey)).destination
-  for (let i = 1; i <= passengers; i++) {
-    habitaciones.push(i)
+  const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions || 0
+  const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey)).destination || ''
+  for (let i = 0; i <= passengersCant; i++) {
+    habitaciones.push(i + 1)
   }
 
-  //default hotel view
-  const [hotelSelected, setHotelSelected] = useState({
+  const defaultHotel = {
     images: ['https://mickeyvisit.com/wp-content/uploads/2020/01/top-off-site-walt-disney-world-hotels.jpg'],
     name: 'Default Hotel',
     uuid: ''
-  })
+  }
+
+  //default hotel view
+  const [hotelSelected, setHotelSelected] = useState(defaultHotel)
 
   const [roomsSelected, setRoomsSelected] = useState<number>(1)
   const hotelsInDestinyResponse = useHotelsInDestinyQuery({
@@ -73,7 +75,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     hotel: '',
     rooms: '',
-    passengersData: Array(passengers).fill({ name: '', lastName: '', birth: '', room: '' })
+    passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', birth: '', room: '' }))
   }
 
   const formik = useFormik({
@@ -90,9 +92,11 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     formik.handleChange({ target: { name: 'rooms', value: value } })
   }
 
-  const handlePassengerChange = (index: number, updatedPassengerData: any) => {
+  const handlePassengerChange = (passengerIndex: number, input: string, value: any) => {
     const updatedPassengersData = [...formik.values.passengersData]
-    updatedPassengersData[index] = updatedPassengerData
+    const updatedPassenger = { ...updatedPassengersData[passengerIndex] }
+    updatedPassenger[input] = value
+    updatedPassengersData[passengerIndex] = updatedPassenger
     formik.setFieldValue('passengersData', updatedPassengersData)
   }
 
@@ -110,6 +114,14 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     })
 
     return result
+  }
+
+  const handlePassengerBlur = (field: string, passengerIndex: number) => {
+    const updatedTouched = { ...formik.touched }
+    const passengersDataTouched = updatedTouched.passengersData || []
+    passengersDataTouched[passengerIndex] = { ...passengersDataTouched[passengerIndex], [field]: true }
+    updatedTouched.passengersData = passengersDataTouched
+    formik.setTouched(updatedTouched)
   }
 
   return (
@@ -151,7 +163,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
                       input={{
                         options: getHotels(),
                         name: 'hotel',
-                        placeholder: hotelSelected.name,
+                        placeholder: defaultHotel.name,
                         value: formik.values.hotel,
                         onChange: handleHotelChange,
                         isOk: !(formik.touched.hotel && !!formik.errors.hotel),
@@ -164,7 +176,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
                     <FieldDropdown
                       label={'applicationForm.lodging.questions.rooms'}
                       input={{
-                        options: passengers > 0 ? habitaciones : ['1'],
+                        options: passengersCant > 0 ? habitaciones : ['1'],
                         name: 'rooms',
                         placeholder: '1, 2, 3...',
                         value: formik.values.rooms,
@@ -200,33 +212,38 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
               {t('applicationForm.lodging.questions.message')}
             </Text>
             <Box>
-              {
-                (() => {
-                  const renderPassengers = []
-                  for (let i = 0; i < passengers; i++) {
-                    renderPassengers.push(
-                      <>
-                        <Passenger
-                          key={i}
-                          passengerId={i + 1}
-                          rooms={roomsSelected}
-                          value={formik.values.passengersData[i]}
-                          onChange={(updatedValue) => handlePassengerChange(i, updatedValue)}
-                        />
-                        {
-                          i < passengers - 1 ?
-                            <Divider
-                              margin={'.5rem 0 1rem 0'}
-                              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
-                              key={i + 100}
-                            /> : null
-                        }
-                      </>
-                    )
-                  }
-                  return renderPassengers
-                })()
-              }
+              <FormikProvider value={formik}>
+                {
+                  (() => {
+                    const renderPassengers = []
+                    for (let i = 0; i < passengersCant; i++) {
+                      renderPassengers.push(
+                        <>
+                          <Passenger
+                            key={i}
+                            passengerId={i + 1}
+                            rooms={roomsSelected}
+                            values={formik.values.passengersData[i]}
+                            onChange={handlePassengerChange}
+                            isOk={(formik.touched?.passengersData || [])[i]}
+                            errors={(formik.errors?.passengersData || [])[i]}
+                            onBlur={(field) => handlePassengerBlur(field, i)}
+                          />
+                          {
+                            i < passengersCant - 1 ?
+                              <Divider
+                                margin={'.5rem 0 1rem 0'}
+                                border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+                                key={i + 100}
+                              /> : null
+                          }
+                        </>
+                      )
+                    }
+                    return renderPassengers
+                  })()
+                }
+              </FormikProvider>
             </Box>
           </Box>
         </Box>

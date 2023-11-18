@@ -8,20 +8,23 @@ import FieldDropdown from './field-dropdown.component'
 interface PassengerProps {
   passengerId: number
   rooms: number
-  value: { name: string, lastName: string, birth: string, room: string }
-  onChange: any
+  values: { name: string, lastName: string, birth: string, room: string }
+  onChange: (passengerIndex: number, input: string, value: any) => void
+  isOk: { name: boolean, lastName: boolean, birth: boolean, room: boolean }
+  errors?: { name?: string, lastName?: string, birth?: string, room?: string }
+  onBlur?: (e: any) => void
 }
 
-const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value = { name: '', lastName: '', birth: '', room: '' }, onChange }: PassengerProps) => {
+const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, isOk = { name: false, lastName: false, birth: false, room: false }, errors, onBlur }: PassengerProps) => {
   const optionRooms = []
   const { t } = useTranslation()
   for (let i = 1; i <= rooms; i++) {
     optionRooms.push(i)
   }
 
-  const handleChange = (field: string, fieldValue: string) => {
-    const updatedValue = { ...value, [field]: fieldValue }
-    onChange(updatedValue)
+  const handleChange = (field: string, value: string) => {
+    const currentPassenger = passengerId - 1
+    onChange(currentPassenger, field, value)
   }
 
   return (
@@ -46,11 +49,12 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value = { name: '',
           input={{
             name: 'name',
             placeholder: 'Linda',
-            value: value.name,
+            value: values.name,
             onChange: (e) => handleChange('name', e.target.value),
-            isOk: true,
-            onBlur: () => { }
+            isOk: !(isOk?.name),
+            onBlur: () => onBlur('name')
           }}
+          error={(isOk?.name) && errors?.name}
           styles={{ marginTop: '1rem' }}
         />
         <Field
@@ -58,23 +62,26 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value = { name: '',
           input={{
             name: 'lastName',
             placeholder: 'Smith',
-            value: value.lastName,
+            value: values.lastName,
             onChange: (e) => handleChange('lastName', e.target.value),
-            isOk: true,
-            onBlur: () => { }
+            isOk: !(isOk?.lastName),
+            onBlur: () => onBlur('lastName')
           }}
-          styles={{ marginTop: '1rem' }}
+          error={(isOk?.lastName) && errors?.lastName}
+          styles={{ marginTop: '1rem' }
+          }
         />
         <FieldDate
           label={'applicationForm.lodging.questions.birthdate'}
           input={{
             name: 'birth',
             placeholder: 'mm/dd/yyyy',
-            value: value.birth,
+            value: values.birth,
             onChange: (e) => handleChange('birth', e.target.value),
-            isOk: true,
-            onBlur: () => { }
+            isOk: !(isOk?.birth),
+            onBlur: () => onBlur('birth')
           }}
+          error={(isOk?.birth) && errors?.birth}
           styles={{ marginTop: '1rem' }}
         />
         <FieldDropdown
@@ -83,11 +90,12 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, value = { name: '',
             options: optionRooms,
             name: 'room',
             placeholder: '1, 2, ...',
-            value: value.room,
+            value: values.room,
             onChange: (e) => handleChange('room', e.target.value),
-            isOk: true,
-            onBlur: () => { }
+            isOk: !(isOk?.room),
+            onBlur: () => onBlur('room')
           }}
+          error={(isOk?.room) && errors?.room}
           styles={{ marginTop: '1rem' }}
         />
       </Box>
