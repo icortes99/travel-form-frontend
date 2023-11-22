@@ -49,7 +49,10 @@ const EnglishDisctionary: Dictionary = {
         name: 'Name',
         lastName: 'Last name',
         birthdate: 'Birthdate',
-        room: 'Room'
+        room: 'Room',
+        roomTypeText: 'The room type determines the price and availability, as some room types are more sought after than others. For that reason, please let us know the room type(s) you prefer:',
+        selectType: 'Room type',
+        applyForAll: 'Apply for all rooms'
       }
     },
     contact: {

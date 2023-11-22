@@ -4,6 +4,10 @@ query hotelsInDestiny($where: HotelsInDesinationAgencyWhereUniqueInput!){
       name
       images
       uuid
+      suites {
+        name
+        uuid
+      }
     }
   }
 }

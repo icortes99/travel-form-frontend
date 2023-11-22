@@ -523,7 +523,7 @@ export type HotelsInDestinyQueryVariables = Exact<{
 }>;
 
 
-export type HotelsInDestinyQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, images?: Array<string> | null, uuid?: string | null } | null }> | null };
+export type HotelsInDestinyQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, images?: Array<string> | null, uuid?: string | null, suites?: Array<{ name?: string | null, uuid?: string | null }> | null } | null }> | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -656,6 +656,10 @@ export const HotelsInDestinyDocument = gql`
       name
       images
       uuid
+      suites {
+        name
+        uuid
+      }
     }
   }
 }

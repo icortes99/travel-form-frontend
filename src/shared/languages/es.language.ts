@@ -49,7 +49,10 @@ const SpanishDictionary: Dictionary = {
         name: 'Nombre',
         lastName: 'Apellido',
         birthdate: 'Fecha de nacimiento',
-        room: 'Habitación'
+        room: 'Habitación',
+        roomTypeText: 'El tipo de habitación determina el precio y la disponibilidad, ya que hay tipos de habitaciones más cotizados que otros. Por esa razón, indicanos el tipo de habitación(es) que deseas:',
+        selectType: 'Tipo de habitación',
+        applyForAll: 'Aplicar a todas las habitaciones'
       }
     },
     contact: {
