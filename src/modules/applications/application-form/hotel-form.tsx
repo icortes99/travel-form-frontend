@@ -104,7 +104,6 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     }
   })
 
-  const [roomTypes, setRoomTypes] = useState(initialValues.roomTypes)
   const [selectedRoom, setSelectedRoom] = useState<number>(1)
   const optionRooms = []
   const suitesInHotel = hotelSelected.suites.reduce((acc, obj) => ({ ...acc, [obj.uuid]: obj.name }), {})
@@ -162,10 +161,11 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
 
   const handleApplyForAll = () => {
     const typeValue = formik.values.roomTypes[selectedRoom - 1].type
-    generateRoomTypes(roomsSelected, typeValue)
+    formik.setFieldValue('roomTypes', generateRoomTypes(roomsSelected, typeValue))
   }
 
-  console.log('formik: ', formik.values.roomTypes)
+  console.log('hotel y habs: ', formik.values.hotel, ' ', formik.values.rooms)
+  //(formik.values.hotel !== '' && formik.values.rooms !== '')
 
   return (
     <FormTemplate
@@ -236,17 +236,18 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
           </Box>
           <Divider
             margin={'1.5rem 0'}
-            display={{ sm: 'block', lg: 'none' }}
+            display={{ sm: (formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none', lg: 'none' }}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Divider
             margin={'0 1.5rem'}
-            display={{ sm: 'none', lg: 'block' }}
+            display={{ sm: 'none', lg: (formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none' }}
             orientation='vertical'
             minHeight={'31rem'}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Box
+            display={(formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none'}
             width={{ sm: '100%', lg: '75%' }}
           > {/* COLUMNA 2 */}
             <Box>{ /* TIPO DE HABITACION */}

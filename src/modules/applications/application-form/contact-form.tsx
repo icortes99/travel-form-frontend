@@ -70,12 +70,22 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     const tipInfo = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
     const lodging = JSON.parse(window.localStorage.getItem(allLSkeys[2]))
 
-    //arrays: applications y passengers(person y suite)
     const attractions: ApplicationAttractionCreateWithoutApplicationInput[] = destiny.attractions.map((attraction: string) => ({
       attraction: { connect: { uuid: attraction } }
     }))
 
-    //lodging.passengersData
+    const getRoomType = (room: string): string => {
+      const roomParse: number = +room
+      const roomTypes = lodging.roomTypes
+      let result = ''
+      roomTypes.map((type) => {
+        if (type.roomNumber === roomParse) {
+          result = type.type
+        }
+      })
+      return result
+    }
+
     const passengers: PassengersCreateWithoutApplicationInput[] = lodging.passengersData.map(passenger => ({
       person: {
         create: {
@@ -86,10 +96,12 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
       },
       suite: {
         connect: {
-          uuid: '' // FALTA OBTENER LA SUITE EN LA VISTA DE HOTEL **************************
+          uuid: getRoomType(passenger.room)
         }
       }
     }))
+
+    console.log('attractions to submit: ', attractions)
 
     createApplication({
       variables: {
