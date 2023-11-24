@@ -101,7 +101,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
       }
     }))
 
-    console.log('attractions to submit: ', attractions)
+    //console.log('attractions to submit: ', attractions)
 
     createApplication({
       variables: {
