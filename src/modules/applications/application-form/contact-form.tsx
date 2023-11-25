@@ -67,7 +67,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     setLoading(true)
 
     const destiny = JSON.parse(window.localStorage.getItem(allLSkeys[0]))
-    const tipInfo = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
+    const tripInfo = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
     const lodging = JSON.parse(window.localStorage.getItem(allLSkeys[2]))
 
     const attractions: ApplicationAttractionCreateWithoutApplicationInput[] = destiny.attractions.map((attraction: string) => ({
@@ -113,25 +113,35 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
           },
 
           //Enums
-          tripObjective: TripObjective[tipInfo.tripObjective],
+          tripObjective: TripObjective[tripInfo.tripObjective],
           contactPreference: ContactPreference[contactValues.contactPreference],
           leadSource: LeadSource[contactValues.leadSource],
 
           //Pepole involved
-          userCurrentLocation: tipInfo.country,
+          userCurrentLocation: tripInfo.country,
           user: {
-            connect: {
-              email: '' // FALTA CONECTAR EL USUARIO O CREAR *****************************
+            create: {
+              email: contactValues.email,
+              password: "",
+              photo: "",
+              phoneNumber: `${contactValues.countryCode} ${contactValues.phone}`,
+              person: {
+                create: {
+                  firstName: tripInfo.name,
+                  lastName: tripInfo.lastname,
+                  birthdate: tripInfo.birth
+                }
+              }
             }
           },
-          hasEntryPermission: tipInfo.entryPermission === 'true' ? true : false,
-          passengers: tipInfo.companions === 'true' ? {
+          hasEntryPermission: tripInfo.entryPermission === 'true' ? true : false,
+          passengers: tripInfo.companions === 'true' ? {
             create: passengers
           } : null,
 
           //Time
-          startDate: tipInfo.startDate,
-          endDate: tipInfo.exitDate,
+          startDate: tripInfo.startDate,
+          endDate: tripInfo.exitDate,
 
           //Agency
           travelAgency: {

@@ -485,7 +485,8 @@ export type UserCreateInput = {
 };
 
 export type UserCreateNestedOneWithoutApplicationsInput = {
-  connect: UserWhereUniqueInput;
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  create?: InputMaybe<UserCreateInput>;
 };
 
 export type UserCreateNestedOneWithoutTravelAgencyInput = {
