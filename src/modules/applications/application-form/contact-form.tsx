@@ -35,7 +35,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
   const { t } = useTranslation()
   const countryCodes = ['CR', 'PA', 'ES']
   const [createApplication] = useCreateApplicationMutation()
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<{ loading: boolean, result: string }>({
+    loading: false,
+    result: ''
+  })
 
   const schema = yup.object().shape({
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
@@ -64,7 +67,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
   })
 
   const submitApplication = (contactValues) => {
-    setLoading(true)
+    setLoading((prev) => ({
+      ...prev,
+      loading: true
+    }))
 
     const destiny = JSON.parse(window.localStorage.getItem(allLSkeys[0]))
     const tripInfo = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
@@ -100,8 +106,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         }
       }
     }))
-
-    //console.log('attractions to submit: ', attractions)
 
     createApplication({
       variables: {
@@ -152,6 +156,18 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         }
       }
     })
+      .then((result) => setLoading((prev) => ({
+        ...prev,
+        result: 'success'
+      })))
+      .catch((err) => setLoading((prev) => ({
+        ...prev,
+        result: 'error'
+      })))
+      .finally(() => setLoading((prev) => ({
+        ...prev,
+        loading: false
+      })))
 
     //router.push(`/`)
   }

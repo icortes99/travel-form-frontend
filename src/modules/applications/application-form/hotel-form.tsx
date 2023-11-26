@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -29,8 +29,11 @@ interface HotelViewProps {
 const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: HotelViewProps) => {
   const router = useRouter()
   const { t } = useTranslation()
+  const isFirstRender = useRef(true)
   const habitaciones = []
   const agency = 'FantasticTravel'
+  const roomCantInLS: number = +(JSON.parse(window.localStorage.getItem(lsKey)).rooms)
+  const hotelUUIDInLS: string = JSON.parse(window.localStorage.getItem(lsKey)).hotel
   const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions || 0
   const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey)).destination || ''
   for (let i = 0; i <= passengersCant; i++) {
@@ -45,8 +48,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   }
 
   const [hotelSelected, setHotelSelected] = useState(defaultHotel)
-
-  const [roomsSelected, setRoomsSelected] = useState<number>(1)
+  const [roomsSelected, setRoomsSelected] = useState<number>(roomCantInLS ?? 1)
 
   const hotelsInDestinyResponse = useHotelsInDestinyQuery({
     variables: {
@@ -66,7 +68,18 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   }
 
   useEffect(() => {
-    formik.setFieldValue('roomTypes', generateRoomTypes(roomsSelected))
+    const selectedHotel = hotelsInDestinyResponse?.data?.hotelsInDestinationAgency?.find(i => i.hotel.uuid === hotelUUIDInLS).hotel || null
+    if (selectedHotel) {
+      setHotelSelected(prev => ({ ...prev, images: selectedHotel.images, name: selectedHotel.name, uuid: selectedHotel.uuid, suites: selectedHotel.suites }))
+    }
+  }, [hotelsInDestinyResponse])
+
+  useEffect(() => {
+    // esto provoca un error porque sobreescribe los valores iniciales del formik. Debe evitarse al entrar a la pagina
+    if (!isFirstRender.current)
+      formik.setFieldValue('roomTypes', generateRoomTypes(roomsSelected))
+    else
+      isFirstRender.current = false
   }, [roomsSelected])
 
   const passengerSchema = yup.object().shape({
@@ -90,8 +103,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     hotel: '',
-    rooms: '',
-    passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', birth: '', room: '' })),
+    rooms: 1,
+    passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', birth: '', room: 1 })),
     roomTypes: generateRoomTypes(roomsSelected)
   }
 
@@ -106,7 +119,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
 
   const [selectedRoom, setSelectedRoom] = useState<number>(1)
   const optionRooms = []
-  const suitesInHotel = hotelSelected.suites.reduce((acc, obj) => ({ ...acc, [obj.uuid]: obj.name }), {})
+  const suitesInHotel = hotelSelected?.suites?.reduce((acc, obj) => ({ ...acc, [obj.uuid]: obj.name }), {})
   for (let i = 1; i <= roomsSelected; i++) {
     optionRooms.push(i.toString())
   }
@@ -164,8 +177,9 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     formik.setFieldValue('roomTypes', generateRoomTypes(roomsSelected, typeValue))
   }
 
-  console.log('hotel y habs: ', formik.values.hotel, ' ', formik.values.rooms)
-  //(formik.values.hotel !== '' && formik.values.rooms !== '')
+  console.log('errors: ', formik.errors)
+  console.log('room types: ', formik.values.roomTypes)
+  console.log('initial values: ', initialValues.roomTypes)
 
   return (
     <FormTemplate
@@ -250,61 +264,61 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
             display={(formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none'}
             width={{ sm: '100%', lg: '75%' }}
           > {/* COLUMNA 2 */}
-            <Box>{ /* TIPO DE HABITACION */}
-              <Text
-                marginBottom={'1.5rem'}
-              >
-                {t('applicationForm.lodging.questions.roomTypeText')}
-              </Text>
-              <Box
-                display={{ md: 'block', lg: 'grid' }}
-                gridTemplateColumns={'1fr 1fr 1.2fr'}
-                gridGap={'0 1.5rem'}
-              >
-                <FieldDropdown
-                  label={'applicationForm.lodging.questions.room'}
-                  input={{
-                    options: optionRooms,
-                    name: 'roomType',
-                    placeholder: '1, 2, 3...',
-                    value: selectedRoom,
-                    onChange: (e) => handleRoomChange(e.target.value),
-                    isOk: true,
-                    onBlur: formik.handleBlur
-                  }}
-                  styles={{ marginBottom: '1.5rem' }}
-                />
-                <FieldDropdown
-                  label={'applicationForm.lodging.questions.selectType'}
-                  input={{
-                    options: suitesInHotel,
-                    name: 'selectType',
-                    placeholder: 'Familiar',
-                    value: formik.values.roomTypes[selectedRoom - 1].type,
-                    onChange: (e) => handleTypeChange(e.target.value),
-                    isOk: true,
-                    onBlur: formik.handleBlur
-                  }}
-                  styles={{ marginBottom: '1.5rem' }}
-                />
-                <Checkbox
-                  size='md'
-                  colorScheme='pink'
-                  margin={'0 .5rem 0 0'}
-                  onChange={() => handleApplyForAll()}
-                  spacing={'2.5'}
-                >
-                  {t('applicationForm.lodging.questions.applyForAll')}
-                </Checkbox>
-              </Box>
-            </Box>
+            {
+              (!hotelsInDestinyResponse.loading) ?
+                <Box>{ /* TIPO DE HABITACION */}
+                  <Text marginBottom={'1.5rem'}>
+                    {t('applicationForm.lodging.questions.roomTypeText')}
+                  </Text>
+                  <Box
+                    display={{ md: 'block', lg: 'grid' }}
+                    gridTemplateColumns={'1fr 1fr 1.2fr'}
+                    gridGap={'0 1.5rem'}
+                  >
+                    <FieldDropdown
+                      label={'applicationForm.lodging.questions.room'}
+                      input={{
+                        options: optionRooms,
+                        name: 'roomType',
+                        placeholder: '1, 2, 3...',
+                        value: selectedRoom,
+                        onChange: (e) => handleRoomChange(e.target.value),
+                        isOk: true,
+                        onBlur: formik.handleBlur
+                      }}
+                      styles={{ marginBottom: '1.5rem' }}
+                    />
+                    <FieldDropdown
+                      label={'applicationForm.lodging.questions.selectType'}
+                      input={{
+                        options: suitesInHotel,
+                        name: 'selectType',
+                        placeholder: 'Familiar',
+                        value: formik.values.roomTypes[selectedRoom - 1].type,
+                        onChange: (e) => handleTypeChange(e.target.value),
+                        isOk: true,
+                        onBlur: formik.handleBlur
+                      }}
+                      styles={{ marginBottom: '1.5rem' }}
+                    />
+                    <Checkbox
+                      size='md'
+                      colorScheme='pink'
+                      margin={'0 .5rem 0 0'}
+                      onChange={() => handleApplyForAll()}
+                      spacing={'2.5'}
+                    >
+                      {t('applicationForm.lodging.questions.applyForAll')}
+                    </Checkbox>
+                  </Box>
+                </Box>
+                : <Loading area='partial' />
+            }
             <Divider
               margin={{ sm: '1.5rem 0', md: '1.5rem 0', lg: '0 0 1.5rem' }}
               border={'.01rem solid rgba(128, 128, 128, 0.5)'}
             />
-            <Text
-              marginBottom={'1.5rem'}
-            >
+            <Text marginBottom={'1.5rem'}>
               {t('applicationForm.lodging.questions.message')}
             </Text>
             <Box>
