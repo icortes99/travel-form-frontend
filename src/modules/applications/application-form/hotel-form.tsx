@@ -75,7 +75,6 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   }, [hotelsInDestinyResponse])
 
   useEffect(() => {
-    // esto provoca un error porque sobreescribe los valores iniciales del formik. Debe evitarse al entrar a la pagina
     if (!isFirstRender.current)
       formik.setFieldValue('roomTypes', generateRoomTypes(roomsSelected))
     else
@@ -176,10 +175,6 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     const typeValue = formik.values.roomTypes[selectedRoom - 1].type
     formik.setFieldValue('roomTypes', generateRoomTypes(roomsSelected, typeValue))
   }
-
-  console.log('errors: ', formik.errors)
-  console.log('room types: ', formik.values.roomTypes)
-  console.log('initial values: ', initialValues.roomTypes)
 
   return (
     <FormTemplate
