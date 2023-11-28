@@ -177,6 +177,8 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
       title={'applicationForm.contact.title'}
       description={'applicationForm.contact.description'}
       step={3}
+      pageTitle={'applicationForm.contact.stepName'}
+      agencyName={agency}
     >
       <form
         onSubmit={formik.handleSubmit}

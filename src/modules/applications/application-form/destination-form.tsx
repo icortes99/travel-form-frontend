@@ -11,6 +11,7 @@ import CardCarousel from '../../../shared/components/card-carousel.component'
 import { useAttractionsLazyQuery, useAgencyDestiniesQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
 import { useTranslation } from '../../../shared/hooks'
+import Head from 'next/head'
 
 const Modal = lazy(() => import('../../../shared/components/modal.component'))
 const CardItem = lazy(() => import('../../../shared/components/card-item.component'))
@@ -85,6 +86,8 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
       title={'applicationForm.destiny.title'}
       description='applicationForm.destiny.description'
       step={0}
+      pageTitle={'applicationForm.destiny.stepName'}
+      agencyName={agency}
     >
       <Box
         display={'flex'}

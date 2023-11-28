@@ -181,6 +181,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
       title={'applicationForm.lodging.title'}
       description={'applicationForm.lodging.description'}
       step={2}
+      pageTitle={'applicationForm.lodging.stepName'}
+      agencyName={agency}
     >
       <form
         onSubmit={formik.handleSubmit}

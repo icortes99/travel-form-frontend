@@ -89,6 +89,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
       title={'applicationForm.info.title'}
       description={'applicationForm.info.description'}
       step={1}
+      pageTitle={'applicationForm.info.stepName'}
+      agencyName={agency}
     >
       <Box
         display={'flex'}
