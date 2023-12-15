@@ -7,7 +7,7 @@ import Poppins from '../src/shared/font/font'
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
-    uri: 'http://localhost:8080/graphql',
+    uri: process.env.NEXT_PUBLIC_API_URL,
     cache: new InMemoryCache({
       addTypename: false
     }),
