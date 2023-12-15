@@ -6,6 +6,11 @@ export enum Languages {
   es = 'ES'
 }
 
+export type LanguageOption = {
+  label: DictionaryLeaves,
+  value: Languages
+}
+
 export type LanguagesDictionary = {
   en: string
   es: string

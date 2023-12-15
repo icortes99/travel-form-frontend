@@ -9,8 +9,8 @@ interface ConstantValues {
 
 const DEFAULT_LANGUAGE: Languages = Languages.es
 const SUPPORTED_LANGUAGES: LanguageOption[] = [
-  { label: 'global.languagePrefix.es', value: Languages.es },
-  { label: 'global.languagePrefix.en', value: Languages.en }
+  { label: 'languagePrefix.es', value: Languages.es },
+  { label: 'languagePrefix.en', value: Languages.en }
 ]
 
 const Constants: ConstantValues = {
