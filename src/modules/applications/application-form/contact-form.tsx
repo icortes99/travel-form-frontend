@@ -156,10 +156,13 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         }
       }
     })
-      .then((result) => setLoading((prev) => ({
-        ...prev,
-        result: 'success'
-      })))
+      .then((result) => {
+        setLoading((prev) => ({
+          ...prev,
+          result: 'success'
+        }))
+        router.push('/')
+      })
       .catch((err) => setLoading((prev) => ({
         ...prev,
         result: 'error'
@@ -168,8 +171,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         ...prev,
         loading: false
       })))
-
-    //router.push(`/`)
   }
 
   return (

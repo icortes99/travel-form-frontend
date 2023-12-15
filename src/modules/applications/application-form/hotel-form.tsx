@@ -32,8 +32,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   const isFirstRender = useRef(true)
   const habitaciones = []
   const agency = 'FantasticTravel'
-  const roomCantInLS: number = +(JSON.parse(window.localStorage.getItem(lsKey)).rooms)
-  const hotelUUIDInLS: string = JSON.parse(window.localStorage.getItem(lsKey)).hotel
+  const roomCantInLS: number = +(JSON.parse(window.localStorage.getItem(lsKey))?.rooms)
+  const hotelUUIDInLS: string = JSON.parse(window.localStorage.getItem(lsKey))?.hotel || ''
   const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions || 0
   const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey)).destination || ''
   for (let i = 0; i <= passengersCant; i++) {
@@ -68,7 +68,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   }
 
   useEffect(() => {
-    const selectedHotel = hotelsInDestinyResponse?.data?.hotelsInDestinationAgency?.find(i => i.hotel.uuid === hotelUUIDInLS).hotel || null
+    const selectedHotel = hotelsInDestinyResponse?.data?.hotelsInDestinationAgency?.find(i => i.hotel.uuid === hotelUUIDInLS)?.hotel || null
     if (selectedHotel) {
       setHotelSelected(prev => ({ ...prev, images: selectedHotel.images, name: selectedHotel.name, uuid: selectedHotel.uuid, suites: selectedHotel.suites }))
     }
@@ -95,14 +95,14 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
 
   const schema = yup.object().shape({
     hotel: yup.string().required(t('error.required')),
-    rooms: yup.number().required(t('error.required')),
+    rooms: yup.number().required(t('error.required')).min(1, t('error.required')),
     passengersData: yup.array().of(passengerSchema),
     roomTypes: yup.array().of(roomTypeSchema)
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     hotel: '',
-    rooms: 1,
+    rooms: 0,
     passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', birth: '', room: 1 })),
     roomTypes: generateRoomTypes(roomsSelected)
   }
@@ -247,18 +247,18 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
           </Box>
           <Divider
             margin={'1.5rem 0'}
-            display={{ sm: (formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none', lg: 'none' }}
+            display={{ sm: (formik.values.hotel !== '' && formik.values.rooms !== 0) ? 'block' : 'none', lg: 'none' }}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Divider
             margin={'0 1.5rem'}
-            display={{ sm: 'none', lg: (formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none' }}
+            display={{ sm: 'none', lg: (formik.values.hotel !== '' && formik.values.rooms !== 0) ? 'block' : 'none' }}
             orientation='vertical'
             minHeight={'31rem'}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Box
-            display={(formik.values.hotel !== '' && formik.values.rooms !== '') ? 'block' : 'none'}
+            display={(formik.values.hotel !== '' && formik.values.rooms !== 0) ? 'block' : 'none'}
             width={{ sm: '100%', lg: '75%' }}
           > {/* COLUMNA 2 */}
             {
@@ -291,7 +291,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
                         options: suitesInHotel,
                         name: 'selectType',
                         placeholder: 'Familiar',
-                        value: formik.values.roomTypes[selectedRoom - 1].type,
+                        value: formik.values.roomTypes[selectedRoom - 1]?.type,
                         onChange: (e) => handleTypeChange(e.target.value),
                         isOk: true,
                         onBlur: formik.handleBlur
