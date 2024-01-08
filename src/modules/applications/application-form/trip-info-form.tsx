@@ -16,6 +16,7 @@ import FieldDropdown from '../../../shared/components/field-dropdown.component'
 import FieldDate from '../../../shared/components/field-date.component'
 import Field from '../../../shared/components/field.component'
 import FieldRadioOptions from '../../../shared/components/field-radio-options.component'
+import FieldQuantity from '../../../shared/components/filed-quantity.component'
 
 interface InfoViewProps {
   lsKey: string
@@ -35,7 +36,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const schema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     lastname: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
-    birth: yup.date().max(new Date(), t('error.invalidDate')).required(t('error.required')),
+    age: yup.number().min(15, t('error.tooYoung')).max(101, t('error.invalidAge')).required(t('error.required')),
     startDate: yup.date().min(new Date(), t('error.invalidDate')).required(t('error.required')),
     exitDate: yup.date().min(yup.ref('startDate'), t('error.invalidDate')).required(t('error.required')),
     country: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
@@ -48,7 +49,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     name: '',
     lastname: '',
-    birth: '',
+    age: '',
     startDate: '',
     exitDate: '',
     country: '',
@@ -134,17 +135,17 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 error={formik.touched.lastname && formik.errors.lastname && formik.errors.lastname.toString()}
                 styles={{ marginBottom: { sm: '1.5rem', md: '1.5rem', lg: '3rem' } }}
               />
-              <FieldDate
-                label={'applicationForm.info.questions.birthdate'}
+              <FieldQuantity
+                label={'applicationForm.info.questions.age'}
                 input={{
-                  name: 'birth',
-                  placeholder: 'mm/dd/aaaa',
-                  value: formik.values.birth,
+                  name: 'age',
+                  placeholder: '21',
+                  value: (formik.values.age > 0 && formik.values.age) || '',
                   onChange: formik.handleChange,
-                  isOk: !(formik.touched.birth && !!formik.errors.birth),
+                  isOk: !(formik.touched.age && !!formik.errors.age),
                   onBlur: formik.handleBlur
                 }}
-                error={formik.touched.birth && formik.errors.birth && formik.errors.birth.toString()}
+                error={formik.touched.age && formik.errors.age && formik.errors.age.toString()}
                 styles={{ marginBottom: '1.5rem' }}
               />
             </Box>
@@ -229,20 +230,23 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                 error={formik.touched.companions && formik.errors.companions && formik.errors.companions.toString()}
                 styles={{ marginBottom: '1.5rem', paddingBottom: '.5rem' }}
               />
-              {areCompanions && <FieldDropdown
-                label={'applicationForm.info.questions.cantCompanions'}
-                input={{
-                  name: 'cantityCompanions',
-                  placeholder: '1...30',
-                  options: cantidad,
-                  value: formik.values.cantityCompanions,
-                  onChange: formik.handleChange,
-                  isOk: !(formik.touched.cantityCompanions && !!formik.errors.cantityCompanions),
-                  onBlur: formik.handleBlur
-                }}
-                error={formik.touched.cantityCompanions && formik.errors.cantityCompanions && formik.errors.cantityCompanions.toString()}
-                styles={{ marginBottom: '1.5rem' }}
-              />}
+              {areCompanions &&
+                <FieldQuantity
+                  label={'applicationForm.info.questions.cantCompanions'}
+                  input={{
+                    name: 'cantityCompanions',
+                    placeholder: '2',
+                    value: formik.values.cantityCompanions > 0 ? formik.values.cantityCompanions : '',
+                    onChange: formik.handleChange,
+                    isOk: !(formik.touched.cantityCompanions && !!formik.errors.cantityCompanions),
+                    onBlur: formik.handleBlur,
+                    min: 1,
+                    max: 50
+                  }}
+                  error={formik.touched.cantityCompanions && formik.errors.cantityCompanions && formik.errors.cantityCompanions.toString()}
+                  styles={{ marginBottom: '1.5rem' }}
+                />
+              }
             </Box>
             <Divider
               margin={'.5rem 0 1.5rem 0'}

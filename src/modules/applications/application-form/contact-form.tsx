@@ -61,7 +61,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      //router.push(`/`)
       submitApplication(values)
     }
   })
@@ -163,10 +162,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         }))
         router.push('/')
       })
-      .catch((err) => setLoading((prev) => ({
-        ...prev,
-        result: 'error'
-      })))
+      .catch((err) => console.log('error: ', err))
       .finally(() => setLoading((prev) => ({
         ...prev,
         loading: false

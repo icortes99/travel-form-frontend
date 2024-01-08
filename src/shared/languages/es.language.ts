@@ -26,13 +26,14 @@ const SpanishDictionary: Dictionary = {
         name: 'Nombre',
         lastName: 'Apellido',
         birthdate: 'Fecha de nacimiento',
+        age: 'Edad',
         entryDate: 'Fecha de entrada',
         departureDate: 'Fecha de salida',
         tripObjective: 'Objetivo del viaje',
         residenceCountry: 'País de residencia',
         companions: '¿Viajas con acompañantes?',
         cantCompanions: 'Número de acompañantes',
-        entryPermission: '¿Tienes permiso de entrada al país?',
+        entryPermission: '¿Tienes pasaporte y Visa al día?',
         text: 'La información es relevante para saber si necesitas algún proceso previo para el viaje tal como la solicitud de la visa. Además, así podremos saber si planeas tus vacaciones en temporada de más alta demanda.'
       }
     },
@@ -112,7 +113,9 @@ const SpanishDictionary: Dictionary = {
     tooShort: 'Mas caracteres necesarios',
     tooLong: 'Menos caracteres necesarios',
     invalidEmail: 'Correo inválido',
-    invalidDate: 'Fecha inválida'
+    invalidDate: 'Fecha inválida',
+    tooYoung: 'No cumples la edad mínima',
+    invalidAge: 'Edad inválida'
   },
   basicWords: {
     yes: 'Si',

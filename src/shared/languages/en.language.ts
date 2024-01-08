@@ -26,13 +26,14 @@ const EnglishDisctionary: Dictionary = {
         name: 'Name',
         lastName: 'Last name',
         birthdate: 'Birthdate',
+        age: 'Age',
         entryDate: 'Entry date',
         departureDate: 'Departure date',
         tripObjective: 'Trip objective',
         residenceCountry: 'Residence country',
         companions: 'Traveling with companions?',
         cantCompanions: 'Number of companions',
-        entryPermission: 'Permission to enter the country?',
+        entryPermission: 'Do you have your passport and Visa up to date?',
         text: 'The information is relevant to determine if you require any prior procedures for the trip, such as applying for a visa. Furthermore, this way we can find out if you plan your vacations during the peak demand season.'
       }
     },
@@ -112,7 +113,9 @@ const EnglishDisctionary: Dictionary = {
     tooShort: 'More characters needed',
     tooLong: 'Less characters needed',
     invalidEmail: 'Email address is invalid',
-    invalidDate: 'Date is invalid'
+    invalidDate: 'Date is invalid',
+    tooYoung: 'You do not meet the minimum age',
+    invalidAge: 'Invalid age'
   },
   basicWords: {
     yes: 'Yes',

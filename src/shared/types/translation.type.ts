@@ -72,7 +72,9 @@ export interface Dictionary {
     tooShort: string,
     tooLong: string,
     invalidEmail: string,
-    invalidDate: string
+    invalidDate: string,
+    tooYoung: string,
+    invalidAge: string
   },
   basicWords: {
     yes: string,

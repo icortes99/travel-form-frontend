@@ -34,8 +34,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   const agency = 'FantasticTravel'
   const roomCantInLS: number = +(JSON.parse(window.localStorage.getItem(lsKey))?.rooms)
   const hotelUUIDInLS: string = JSON.parse(window.localStorage.getItem(lsKey))?.hotel || ''
-  const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey)).cantityCompanions || 0
-  const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey)).destination || ''
+  const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey))?.cantityCompanions || 0
+  const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey))?.destination || ''
   for (let i = 0; i <= passengersCant; i++) {
     habitaciones.push(i + 1)
   }
