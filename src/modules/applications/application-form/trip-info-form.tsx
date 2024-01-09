@@ -43,7 +43,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     tripObjective: yup.string().oneOf(Object.keys(TripObjective)).required(t('error.required')),
     companions: yup.boolean().required(t('error.required')),
     cantityCompanions: yup.number().required(t('error.required')),
-    entryPermission: yup.boolean().required(t('error.required'))
+    entryPermission: yup.boolean().required(t('error.required')),
+    lodging: yup.boolean().required(t('error.required'))
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
@@ -56,7 +57,8 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     tripObjective: '',
     companions: '',
     cantityCompanions: 0,
-    entryPermission: ''
+    entryPermission: '',
+    lodging: ''
   }
 
   const formik = useFormik({
@@ -64,7 +66,10 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      router.push(`/application/${agency}?step=3`)
+      if (values.lodging === 'true')
+        router.push(`/application/${agency}?step=3`)
+      else
+        router.push(`/application/${agency}?step=4`)
     }
   })
 
@@ -271,6 +276,16 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
                   onChange: (newValue) => formik.setFieldValue('entryPermission', newValue)
                 }}
                 error={formik.touched.entryPermission && formik.errors.entryPermission && formik.errors.entryPermission.toString()}
+                styles={{ marginBottom: '1.5rem', paddingBottom: '.5rem' }}
+              />
+              <FieldRadioOptions
+                label={'applicationForm.info.questions.lodging'}
+                input={{
+                  name: 'lodging',
+                  value: formik.values.lodging,
+                  onChange: (newValue) => formik.setFieldValue('lodging', newValue)
+                }}
+                error={formik.touched.lodging && formik.errors.lodging && formik.errors.lodging.toString()}
                 styles={{ marginBottom: '1.5rem', paddingBottom: '.5rem' }}
               />
               <Text>

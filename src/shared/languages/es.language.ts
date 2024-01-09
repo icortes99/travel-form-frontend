@@ -34,7 +34,8 @@ const SpanishDictionary: Dictionary = {
         companions: '¿Viajas con acompañantes?',
         cantCompanions: 'Número de acompañantes',
         entryPermission: '¿Tienes pasaporte y Visa al día?',
-        text: 'La información es relevante para saber si necesitas algún proceso previo para el viaje tal como la solicitud de la visa. Además, así podremos saber si planeas tus vacaciones en temporada de más alta demanda.'
+        text: 'Si seleccionas que no, la estadía corre completamente por tu cuenta, y recibirás soporte en cuanto a entradas a parques y opciones de aventuras.',
+        lodging: '¿Quieres acompañamiento con la estadía?'
       }
     },
     lodging: {

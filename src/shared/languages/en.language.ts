@@ -34,7 +34,8 @@ const EnglishDisctionary: Dictionary = {
         companions: 'Traveling with companions?',
         cantCompanions: 'Number of companions',
         entryPermission: 'Do you have your passport and Visa up to date?',
-        text: 'The information is relevant to determine if you require any prior procedures for the trip, such as applying for a visa. Furthermore, this way we can find out if you plan your vacations during the peak demand season.'
+        text: 'If you select no, the stay is completely at your expense, and you will receive support regarding park tickets and adventure options.',
+        lodging: 'Do you want support with your stay?'
       }
     },
     lodging: {
