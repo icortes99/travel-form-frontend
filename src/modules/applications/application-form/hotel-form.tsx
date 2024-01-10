@@ -122,6 +122,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   for (let i = 1; i <= roomsSelected; i++) {
     optionRooms.push(i.toString())
   }
+  const arePassengersRendered: boolean = formik.values.roomTypes.some(item => item.type === '')
 
   const handleRoomsSelection = (value: number) => {
     setRoomsSelected(value)
@@ -263,7 +264,9 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
           > {/* COLUMNA 2 */}
             {
               (!hotelsInDestinyResponse.loading) ?
-                <Box>{ /* TIPO DE HABITACION */}
+                <Box
+                //AQUI FALTA ESTILO PARA MOSTRAR EN EL CENTRO DE LA PANTALLA SI arePassengersRendered === false
+                >{ /* TIPO DE HABITACION */}
                   <Text marginBottom={'1.5rem'}>
                     {t('applicationForm.lodging.questions.roomTypeText')}
                   </Text>
@@ -312,43 +315,48 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
                 : <Loading area='partial' />
             }
             <Divider
+              display={arePassengersRendered ? 'none' : 'block'}
               margin={{ sm: '1.5rem 0', md: '1.5rem 0', lg: '0 0 1.5rem' }}
               border={'.01rem solid rgba(128, 128, 128, 0.5)'}
             />
-            <Text marginBottom={'1.5rem'}>
-              {t('applicationForm.lodging.questions.message')}
-            </Text>
-            <Box>
-              {
-                (() => {
-                  const renderPassengers = []
-                  for (let i = 0; i < passengersCant; i++) {
-                    renderPassengers.push(
-                      <>
-                        <Passenger
-                          key={i}
-                          passengerId={i + 1}
-                          rooms={roomsSelected}
-                          values={formik.values.passengersData[i]}
-                          onChange={handlePassengerChange}
-                          isOk={(formik.touched?.passengersData || [])[i]}
-                          errors={(formik.errors?.passengersData || [])[i]}
-                          onBlur={(field) => handlePassengerBlur(field, i)}
-                        />
-                        {
-                          i < passengersCant - 1 ?
-                            <Divider
-                              margin={'.5rem 0 1rem 0'}
-                              border={'.01rem solid rgba(128, 128, 128, 0.5)'}
-                              key={i + 100}
-                            /> : null
-                        }
-                      </>
-                    )
-                  }
-                  return renderPassengers
-                })()
-              }
+            <Box
+              display={arePassengersRendered ? 'none' : 'block'}
+            >
+              <Text marginBottom={'1.5rem'}>
+                {t('applicationForm.lodging.questions.message')}
+              </Text>
+              <Box>
+                {
+                  (() => {
+                    const renderPassengers = []
+                    for (let i = 0; i < passengersCant; i++) {
+                      renderPassengers.push(
+                        <>
+                          <Passenger
+                            key={i}
+                            passengerId={i + 1}
+                            rooms={roomsSelected}
+                            values={formik.values.passengersData[i]}
+                            onChange={handlePassengerChange}
+                            isOk={(formik.touched?.passengersData || [])[i]}
+                            errors={(formik.errors?.passengersData || [])[i]}
+                            onBlur={(field) => handlePassengerBlur(field, i)}
+                          />
+                          {
+                            i < passengersCant - 1 ?
+                              <Divider
+                                margin={'.5rem 0 1rem 0'}
+                                border={'.01rem solid rgba(128, 128, 128, 0.5)'}
+                                key={i + 100}
+                              /> : null
+                          }
+                        </>
+                      )
+                    }
+                    return renderPassengers
+                  })()
+                }
+              </Box>
             </Box>
           </Box>
         </Box>

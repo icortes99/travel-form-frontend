@@ -33,17 +33,17 @@ const InputQuantity: FC<InputQuantityProps> = ({ min = 1, max = 100, name, place
     defaultValue: defaultValue
   })
 
-  const handleButtonClick = (newValue: number) => {
+  const handleButtonClick = () => {
     if (onChange) {
-      onChange({ target: { name, value: newValue } })
+      onChange({ target: { name, value: value } })
     }
   }
 
   const inc = getIncrementButtonProps({
-    onClick: () => handleButtonClick(parseInt(value) + 1)
+    onClick: () => handleButtonClick()
   })
   const dec = getDecrementButtonProps({
-    onClick: () => handleButtonClick(parseInt(value) - 1)
+    onClick: () => handleButtonClick()
   })
   const input = getInputProps({
     onChange: onChange,
