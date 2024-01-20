@@ -66,10 +66,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      if (values.lodging === 'true')
-        router.push(`/application/${agency}?step=3`)
-      else
-        router.push(`/application/${agency}?step=4`)
+      router.push(`/application/${agency}?step=3`)
     }
   })
 

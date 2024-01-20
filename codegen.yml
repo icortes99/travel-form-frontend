@@ -1,5 +1,5 @@
 overwrite: true
-schema: ${REACT_APP_API_URL}
+schema: ${NEXT_PUBLIC_API_URL}
 documents: 'src/**/*.graphql'
 generates:
   src/shared/generated/graphql-schema.tsx:

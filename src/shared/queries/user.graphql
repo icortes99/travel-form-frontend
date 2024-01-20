@@ -8,7 +8,7 @@ query user($where: UserWhereUniqueInput!) {
     person {
       firstName
       lastName
-      birthdate
+      age
     }
   }
 }

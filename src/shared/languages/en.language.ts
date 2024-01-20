@@ -54,7 +54,11 @@ const EnglishDisctionary: Dictionary = {
         room: 'Room',
         roomTypeText: 'The room type determines the price and availability, as some room types are more sought after than others. For that reason, please let us know the room type(s) you prefer:',
         selectType: 'Room type',
-        applyForAll: 'Apply for all rooms'
+        applyForAll: 'Apply for all rooms',
+        attractionStart: 'From',
+        attractionEnd: 'To',
+        hotelType: 'Hotel type',
+        roomType: 'Rooms type'
       }
     },
     contact: {
@@ -116,7 +120,8 @@ const EnglishDisctionary: Dictionary = {
     invalidEmail: 'Email address is invalid',
     invalidDate: 'Date is invalid',
     tooYoung: 'You do not meet the minimum age',
-    invalidAge: 'Invalid age'
+    invalidAge: 'Invalid age',
+    datesOverlap: 'Dates overlap'
   },
   basicWords: {
     yes: 'Yes',

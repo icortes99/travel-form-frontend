@@ -39,10 +39,14 @@ export type Application = {
 };
 
 export type ApplicationAttraction = {
-  application: Application;
-  applicationId: Scalars['Float'];
-  attraction: Attraction;
-  attractionId: Scalars['Float'];
+  application?: Maybe<Application>;
+  applicationId?: Maybe<Scalars['Float']>;
+  attraction?: Maybe<Attraction>;
+  attractionId?: Maybe<Scalars['Float']>;
+  endDate?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  startDate?: Maybe<Scalars['DateTime']>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export type ApplicationAttractionCreateNestedManyWithoutApplicationInput = {
@@ -51,6 +55,8 @@ export type ApplicationAttractionCreateNestedManyWithoutApplicationInput = {
 
 export type ApplicationAttractionCreateWithoutApplicationInput = {
   attraction: AttractionCreateNestedOneWithoutApplicationAttractionsInput;
+  endDate: Scalars['DateTime'];
+  startDate: Scalars['DateTime'];
 };
 
 export type ApplicationCreateInput = {
@@ -82,8 +88,6 @@ export type Attraction = {
   id?: Maybe<Scalars['Float']>;
   images?: Maybe<Array<Scalars['String']>>;
   name?: Maybe<Scalars['String']>;
-  travelDistance?: Maybe<Scalars['Float']>;
-  travelDuration?: Maybe<Scalars['Float']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   uuid?: Maybe<Scalars['String']>;
 };
@@ -93,8 +97,6 @@ export type AttractionCreateInput = {
   destination: DestinationCreateNestedOneWithoutAttractionsInput;
   images: Array<Scalars['String']>;
   name: Scalars['String'];
-  travelDistance: Scalars['Float'];
-  travelDuration: Scalars['Float'];
 };
 
 export type AttractionCreateNestedOneWithoutApplicationAttractionsInput = {
@@ -288,7 +290,7 @@ export type PassengersCreateWithoutApplicationInput = {
 };
 
 export type Person = {
-  birthdate?: Maybe<Scalars['DateTime']>;
+  age?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
@@ -307,13 +309,13 @@ export type PersonCreateNestedOneWithoutUserInput = {
 };
 
 export type PersonCreateWithoutPassengersInput = {
-  birthdate: Scalars['DateTime'];
+  age: Scalars['Int'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
 };
 
 export type PersonCreateWithoutUserInput = {
-  birthdate: Scalars['DateTime'];
+  age: Scalars['Int'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
 };
@@ -531,7 +533,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { user?: { id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null, person?: { firstName?: string | null, lastName?: string | null, birthdate?: any | null } | null } | null };
+export type UserQuery = { user?: { id?: number | null, uuid?: string | null, email?: string | null, createdAt?: any | null, updatedAt?: any | null, person?: { firstName?: string | null, lastName?: string | null, age?: number | null } | null } | null };
 
 
 export const AgencyDestiniesDocument = gql`
@@ -704,7 +706,7 @@ export const UserDocument = gql`
     person {
       firstName
       lastName
-      birthdate
+      age
     }
   }
 }

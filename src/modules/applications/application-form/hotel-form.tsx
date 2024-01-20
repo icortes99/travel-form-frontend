@@ -19,6 +19,7 @@ import { useTranslation } from '../../../shared/hooks'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
 import { useHotelsInDestinyQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
+import CardItinerary from '../../../shared/components/card-itinerary.component'
 
 interface HotelViewProps {
   lsKey: string
@@ -36,6 +37,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   const hotelUUIDInLS: string = JSON.parse(window.localStorage.getItem(lsKey))?.hotel || ''
   const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey))?.cantityCompanions || 0
   const destiny: string = JSON.parse(window.localStorage.getItem(destinyKey))?.destination || ''
+  const tripStart: string = JSON.parse(window.localStorage.getItem(passengersKey))?.startDate || ''
+  const tripFinish: string = JSON.parse(window.localStorage.getItem(passengersKey))?.exitDate || ''
   for (let i = 0; i <= passengersCant; i++) {
     habitaciones.push(i + 1)
   }
@@ -67,6 +70,10 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     return Array.from({ length: numRooms }, (_, i) => ({ roomNumber: i + 1, type: typeRoom || '' }))
   }
 
+  const generateAttractionValues = (numAtts: number) => {
+    return Array.from({ length: numAtts }, (_, i) => ({ start: '', finish: '', hotelType: '', roomType: '' }))
+  }
+
   useEffect(() => {
     const selectedHotel = hotelsInDestinyResponse?.data?.hotelsInDestinationAgency?.find(i => i.hotel.uuid === hotelUUIDInLS)?.hotel || null
     if (selectedHotel) {
@@ -81,11 +88,37 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
       isFirstRender.current = false
   }, [roomsSelected])
 
+  function attractionsOverlap(attractions) {
+    for (let i = 0; i < attractions.length; i++) {
+      for (let j = i + 1; j < attractions.length; j++) {
+        const attraction1 = attractions[i]
+        const attraction2 = attractions[j]
+
+        const start1 = new Date(attraction1.start)
+        const end1 = new Date(attraction1.finish)
+        const start2 = new Date(attraction2.start)
+        const end2 = new Date(attraction2.finish)
+
+        if (start1 <= end2 && start2 <= end1) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     lastName: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     birth: yup.date().max(new Date(), t('error.invalidDate')).required(t('error.required')),
     room: yup.string().required(t('error.required'))
+  })
+
+  const attractionSchema = yup.object().shape({
+    start: yup.date().min(tripStart, t('error.invalidDate')).max(tripFinish, t('error.invalidDate')).required(t('error.required')),
+    finish: yup.date().min(tripStart, t('error.invalidDate')).max(tripFinish, t('error.invalidDate')).required(t('error.required')),
+    hotelType: yup.string().required(t('error.required')),
+    roomType: yup.string().required(t('error.required'))
   })
 
   const roomTypeSchema = yup.object().shape({
@@ -97,14 +130,19 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     hotel: yup.string().required(t('error.required')),
     rooms: yup.number().required(t('error.required')).min(1, t('error.required')),
     passengersData: yup.array().of(passengerSchema),
-    roomTypes: yup.array().of(roomTypeSchema)
+    roomTypes: yup.array().of(roomTypeSchema),
+    attractionsDetails: yup.array().of(attractionSchema).test('datesOverlap', t('error.datesOverlap'), function (attractions) {
+      return attractionsOverlap(attractions)
+    }
+    )
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     hotel: '',
     rooms: 0,
     passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', birth: '', room: 1 })),
-    roomTypes: generateRoomTypes(roomsSelected)
+    roomTypes: generateRoomTypes(roomsSelected),
+    attractionsDetails: generateAttractionValues(1)
   }
 
   const formik = useFormik({
@@ -122,7 +160,8 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
   for (let i = 1; i <= roomsSelected; i++) {
     optionRooms.push(i.toString())
   }
-  const arePassengersRendered: boolean = formik.values.roomTypes.some(item => item.type === '')
+  const is2ndColumnRendered: boolean = formik.values.hotel !== '' && formik.values.rooms !== 0
+  const arePassengersRendered: boolean = !formik.values.roomTypes.some(item => item.type === '')
 
   const handleRoomsSelection = (value: number) => {
     setRoomsSelected(value)
@@ -135,6 +174,14 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     updatedPassenger[input] = value
     updatedPassengersData[passengerIndex] = updatedPassenger
     formik.setFieldValue('passengersData', updatedPassengersData)
+  }
+
+  const handleItineraryChange = (itineraryIndex: number, input: string, value: any) => {
+    const formikData = [...formik.values.attractionsDetails]
+    const update = { ...formikData[itineraryIndex] }
+    update[input] = value
+    formikData[itineraryIndex] = update
+    formik.setFieldValue('attractionsDetails', formikData)
   }
 
   const handleHotelChange = (hotelId: string) => {
@@ -158,6 +205,14 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
     const passengersDataTouched = updatedTouched.passengersData || []
     passengersDataTouched[passengerIndex] = { ...passengersDataTouched[passengerIndex], [field]: true }
     updatedTouched.passengersData = passengersDataTouched
+    formik.setTouched(updatedTouched)
+  }
+
+  const handleAttractionBlur = (field: string, attractionIndex: number) => {
+    const updatedTouched = { ...formik.touched }
+    const attractionTouched = updatedTouched.attractionsDetails || []
+    attractionTouched[attractionIndex] = { ...attractionTouched[attractionIndex], [field]: true }
+    updatedTouched.attractionsDetails = attractionTouched
     formik.setTouched(updatedTouched)
   }
 
@@ -185,6 +240,17 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
       pageTitle={'applicationForm.lodging.stepName'}
       agencyName={agency}
     >
+      <CardItinerary
+        title={'Disney'}
+        image={'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'}
+        values={formik.values.attractionsDetails[0]}
+        onChange={handleItineraryChange}
+        isOk={(formik.touched?.attractionsDetails || [])[0]}
+        errors={(formik.errors?.attractionsDetails || [])[0]}
+        onBlur={(field) => handleAttractionBlur(field, 0)}
+        cardId={0}
+        hotelAssistance={true}
+      />
       <form
         onSubmit={formik.handleSubmit}
       >
@@ -200,6 +266,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
             display={'flex'}
             flexDirection={'column'}
             alignItems={'center'}
+            marginBottom={{ sm: !is2ndColumnRendered ? '1.5rem' : '0', md: !is2ndColumnRendered ? '1.5rem' : '0' }}
           > {/* COLUMNA 1 */}
             {
               (!hotelsInDestinyResponse.loading) ? (
@@ -248,24 +315,27 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
           </Box>
           <Divider
             margin={'1.5rem 0'}
-            display={{ sm: (formik.values.hotel !== '' && formik.values.rooms !== 0) ? 'block' : 'none', lg: 'none' }}
+            display={{ sm: is2ndColumnRendered ? 'block' : 'none', lg: 'none' }}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Divider
             margin={'0 1.5rem'}
-            display={{ sm: 'none', lg: (formik.values.hotel !== '' && formik.values.rooms !== 0) ? 'block' : 'none' }}
+            display={{ sm: 'none', lg: is2ndColumnRendered ? 'block' : 'none' }}
             orientation='vertical'
             minHeight={'31rem'}
             border={'.01rem solid rgba(128, 128, 128, 0.5)'}
           />
           <Box
-            display={(formik.values.hotel !== '' && formik.values.rooms !== 0) ? 'block' : 'none'}
+            display={is2ndColumnRendered ? 'block' : 'none'}
             width={{ sm: '100%', lg: '75%' }}
           > {/* COLUMNA 2 */}
             {
               (!hotelsInDestinyResponse.loading) ?
                 <Box
-                //AQUI FALTA ESTILO PARA MOSTRAR EN EL CENTRO DE LA PANTALLA SI arePassengersRendered === false
+                  height={{ sm: 'auto', md: 'auto', lg: arePassengersRendered ? 'auto' : '30rem' }}
+                  display={{ sm: 'block', md: 'block', lg: arePassengersRendered ? 'block' : 'flex' }}
+                  flexDirection={{ lg: 'column' }}
+                  justifyContent={{ lg: arePassengersRendered ? 'start' : 'center' }}
                 >{ /* TIPO DE HABITACION */}
                   <Text marginBottom={'1.5rem'}>
                     {t('applicationForm.lodging.questions.roomTypeText')}
@@ -274,6 +344,7 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
                     display={{ md: 'block', lg: 'grid' }}
                     gridTemplateColumns={'1fr 1fr 1.2fr'}
                     gridGap={'0 1.5rem'}
+                    marginBottom={{ sm: !arePassengersRendered ? '1.5rem' : '0', md: !arePassengersRendered ? '1.5rem' : '0' }}
                   >
                     <FieldDropdown
                       label={'applicationForm.lodging.questions.room'}
@@ -315,12 +386,12 @@ const HotelView: FC<HotelViewProps> = ({ lsKey, passengersKey, destinyKey }: Hot
                 : <Loading area='partial' />
             }
             <Divider
-              display={arePassengersRendered ? 'none' : 'block'}
+              display={arePassengersRendered ? 'block' : 'none'}
               margin={{ sm: '1.5rem 0', md: '1.5rem 0', lg: '0 0 1.5rem' }}
               border={'.01rem solid rgba(128, 128, 128, 0.5)'}
             />
             <Box
-              display={arePassengersRendered ? 'none' : 'block'}
+              display={arePassengersRendered ? 'block' : 'none'}
             >
               <Text marginBottom={'1.5rem'}>
                 {t('applicationForm.lodging.questions.message')}

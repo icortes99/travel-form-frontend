@@ -54,7 +54,11 @@ const SpanishDictionary: Dictionary = {
         room: 'Habitación',
         roomTypeText: 'El tipo de habitación determina el precio y la disponibilidad, ya que hay tipos de habitaciones más cotizados que otros. Por esa razón, indicanos el tipo de habitación(es) que deseas:',
         selectType: 'Tipo de habitación',
-        applyForAll: 'Aplicar a todas las habitaciones'
+        applyForAll: 'Aplicar a todas las habitaciones',
+        attractionStart: 'Desde',
+        attractionEnd: 'Hasta',
+        hotelType: 'Tipo de hotel',
+        roomType: 'Tipo de habitaciones'
       }
     },
     contact: {
@@ -116,7 +120,8 @@ const SpanishDictionary: Dictionary = {
     invalidEmail: 'Correo inválido',
     invalidDate: 'Fecha inválida',
     tooYoung: 'No cumples la edad mínima',
-    invalidAge: 'Edad inválida'
+    invalidAge: 'Edad inválida',
+    datesOverlap: 'Fechas superpuestas'
   },
   basicWords: {
     yes: 'Si',

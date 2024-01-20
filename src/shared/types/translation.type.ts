@@ -74,7 +74,8 @@ export interface Dictionary {
     invalidEmail: string,
     invalidDate: string,
     tooYoung: string,
-    invalidAge: string
+    invalidAge: string,
+    datesOverlap: string
   },
   basicWords: {
     yes: string,
