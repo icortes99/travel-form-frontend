@@ -20,13 +20,15 @@ import FieldQuantity from '../../../shared/components/filed-quantity.component'
 
 interface InfoViewProps {
   lsKey: string
+  attractionsKey: string
 }
 
-const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
+const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) => {
   const router = useRouter()
   const agency = 'FantasticTravel'
   const { t } = useTranslation()
   const [areCompanions, setAreCompanions] = useState<boolean>(false)
+  const multipleAttractions: boolean = (JSON.parse(window.localStorage.getItem(attractionsKey))?.attractions?.length > 0) ?? false
 
   const cantidad = []
   for (let i = 1; i <= 15; i++) {
@@ -66,7 +68,14 @@ const InfoView: FC<InfoViewProps> = ({ lsKey }: InfoViewProps) => {
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      router.push(`/application/${agency}?step=3`)
+      if (multipleAttractions)
+        router.push(`/application/${agency}?step=3`)
+      else {
+        if (values.companions)
+          router.push(`/application/${agency}?step=4`)
+        else
+          router.push(`/application/${agency}?step=5`)
+      }
     }
   })
 

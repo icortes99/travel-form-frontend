@@ -26,7 +26,7 @@ export default function Application() {
         validation === 'loaded' ?
           <Suspense fallback={<Loading />}>
             {stepNumber === 1 && <DestinationForm lsKey={localStorageKeys[0]} attractionsKey={localStorageKeys[6]} />}
-            {stepNumber === 2 && <TripInfoForm lsKey={localStorageKeys[1]} />}
+            {stepNumber === 2 && <TripInfoForm lsKey={localStorageKeys[1]} attractionsKey={localStorageKeys[0]} />}
             {
               stepNumber === 3 && <ItineraryView
                 lsKey={localStorageKeys[2]}

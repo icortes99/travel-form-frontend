@@ -40,6 +40,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   const tripStart: string = JSON.parse(window.localStorage.getItem(tripInfoKey))?.startDate || '1900/01/01'
   const tripFinish: string = JSON.parse(window.localStorage.getItem(tripInfoKey))?.exitDate || '2999/01/01'
   const hotelAssistance: boolean = JSON.parse(window.localStorage.getItem(tripInfoKey))?.lodging || false
+  const areCompanions: boolean = JSON.parse(window.localStorage.getItem(tripInfoKey))?.companions || false
 
   //useAttractionsQuery - cache and network para las attractions
 
@@ -94,7 +95,10 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      router.push(`/application/${agency}?step=4`)
+      if (areCompanions)
+        router.push(`/application/${agency}?step=4`)
+      else
+        router.push(`/application/${agency}?step=5`)
     }
   })
 
