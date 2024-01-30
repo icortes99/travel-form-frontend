@@ -37,7 +37,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
         fontSize={'1.5rem'}
         margin={'0'}
       >
-        {t('applicationForm.lodging.questions.passenger')} {passengerId}
+        {t('applicationForm.itinerary.questions.passenger')} {passengerId}
       </Heading>
       <Box
         display={{ sm: 'block', lg: 'grid' }}
@@ -45,7 +45,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
         gridGap={'1.5rem'}
       >
         <Field
-          label={'applicationForm.lodging.questions.name'}
+          label={'applicationForm.itinerary.questions.name'}
           input={{
             name: 'name',
             placeholder: 'Linda',
@@ -58,7 +58,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           styles={{ marginTop: '1rem' }}
         />
         <Field
-          label={'applicationForm.lodging.questions.lastName'}
+          label={'applicationForm.itinerary.questions.lastName'}
           input={{
             name: 'lastName',
             placeholder: 'Smith',
@@ -72,7 +72,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           }
         />
         <FieldDate
-          label={'applicationForm.lodging.questions.birthdate'}
+          label={'applicationForm.itinerary.questions.birthdate'}
           input={{
             name: 'birth',
             placeholder: 'mm/dd/yyyy',
@@ -85,7 +85,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           styles={{ marginTop: '1rem' }}
         />
         <FieldDropdown
-          label={'applicationForm.lodging.questions.room'}
+          label={'applicationForm.itinerary.questions.room'}
           input={{
             options: optionRooms,
             name: 'room',

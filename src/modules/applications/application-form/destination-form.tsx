@@ -11,16 +11,16 @@ import CardCarousel from '../../../shared/components/card-carousel.component'
 import { useAttractionsLazyQuery, useAgencyDestiniesQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
 import { useTranslation } from '../../../shared/hooks'
-import Head from 'next/head'
 
 const Modal = lazy(() => import('../../../shared/components/modal.component'))
 const CardItem = lazy(() => import('../../../shared/components/card-item.component'))
 
 interface DestinationFormProps {
   lsKey: string
+  attractionsKey: string
 }
 
-const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormProps) => {
+const DestinationForm: FC<DestinationFormProps> = ({ lsKey, attractionsKey }: DestinationFormProps) => {
   const router = useRouter()
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -54,12 +54,12 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   }, [])
 
   const nextStep = () => {
-    console.log('destiny: ', selectedDestiny)
     const data = {
       destination: selectedDestiny,
       attractions: selectedAttractions
     }
     window.localStorage.setItem(lsKey, JSON.stringify(data))
+    window.localStorage.setItem(attractionsKey, JSON.stringify(destinationAttractions))
     router.push(`/application/${agency}?step=2`)
   }
 

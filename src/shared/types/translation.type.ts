@@ -53,7 +53,8 @@ export interface Dictionary {
   applicationForm: {
     destiny: PageTemplate,
     info: PageTemplate,
-    lodging: PageTemplate,
+    itinerary: PageTemplate,
+    passengers: PageTemplate,
     contact: PageTemplate
   },
   enums: {

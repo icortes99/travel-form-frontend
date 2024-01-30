@@ -10,7 +10,7 @@ const SpanishDictionary: Dictionary = {
     destiny: {
       title: 'Escoge un destino',
       description: `Comenzaremos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.`,
-      step: 'Paso 1/4',
+      step: 'Paso 1/5',
       stepName: 'Destino',
       questions: {
         modalTitle: 'Nos gustaría saber cuáles atracciones son las que más te llaman la atención para centrar el viaje en torno a ellas:',
@@ -20,7 +20,7 @@ const SpanishDictionary: Dictionary = {
     info: {
       title: 'Acerca del viaje',
       description: `Ahora, es necesario un poco más de información acerca de ti y sobre el viaje para calcular un estimado y otros trámites pertinentes.`,
-      step: 'Paso 2/4',
+      step: 'Paso 2/5',
       stepName: 'Acerca de',
       questions: {
         name: 'Nombre',
@@ -38,11 +38,11 @@ const SpanishDictionary: Dictionary = {
         lodging: '¿Quieres acompañamiento con la estadía?'
       }
     },
-    lodging: {
-      title: 'Hospedaje',
+    itinerary: {
+      title: 'Itinerario planeado',
       description: `Continuamos con el destino que deseas visitar, te brindamos toda la información necesaria para que tomes la mejor decisión.`,
-      step: 'Paso 3/4',
-      stepName: 'Hospedaje',
+      step: 'Paso 3/5',
+      stepName: 'Itinerario',
       questions: {
         hotel: 'Hotel de preferencia',
         rooms: 'Número de habitaciones',
@@ -61,10 +61,17 @@ const SpanishDictionary: Dictionary = {
         roomType: 'Tipo de habitaciones'
       }
     },
+    passengers: {
+      title: 'Acerca de los pasajeros',
+      description: 'En este paso obtenemos cierta informacion necesaria sobre los pasajeros como sus nombres, edades y habitación.',
+      step: 'Paso 4/5',
+      stepName: 'Pasajeros',
+      questions: {}
+    },
     contact: {
-      title: 'Contacto',
+      title: 'Información de contacto',
       description: `En este último paso, recopilamos la información para contactarte, como te gustaría ser contactado y agendaremos una reunión online.`,
-      step: 'Paso 4/4',
+      step: 'Paso 5/5',
       stepName: 'Contacto',
       questions: {
         email: 'Correo',

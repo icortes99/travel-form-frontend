@@ -10,7 +10,7 @@ const EnglishDisctionary: Dictionary = {
     destiny: {
       title: 'Choose a destiny',
       description: `Let's start with your desired destination, providing all the info for your best choice.`,
-      step: 'Step 1/4',
+      step: 'Step 1/5',
       stepName: 'Destiny',
       questions: {
         modalTitle: "We'd like to know which attractions catch your eye the most so we can plan the trip around them:",
@@ -20,7 +20,7 @@ const EnglishDisctionary: Dictionary = {
     info: {
       title: 'About the trip',
       description: `Now, we need a bit more info about you and the trip for an estimate and other relevant processes.`,
-      step: 'Step 2/4',
+      step: 'Step 2/5',
       stepName: 'About',
       questions: {
         name: 'Name',
@@ -38,10 +38,10 @@ const EnglishDisctionary: Dictionary = {
         lodging: 'Do you want support with your stay?'
       }
     },
-    lodging: {
-      title: 'Lodging',
+    itinerary: {
+      title: 'Your itinerary',
       description: `We'll continue with your desired destination, providing all the needed info for your best decision.`,
-      step: 'Step 3/4',
+      step: 'Step 3/5',
       stepName: 'Hotel',
       questions: {
         hotel: 'Preferred hotel',
@@ -61,10 +61,17 @@ const EnglishDisctionary: Dictionary = {
         roomType: 'Rooms type'
       }
     },
+    passengers: {
+      title: 'About the passengers',
+      description: 'Abaout the fucking passengers',
+      step: 'Step 3/5',
+      stepName: 'Passengers',
+      questions: {}
+    },
     contact: {
       title: 'Contact info',
       description: `In this final step, we gather contact info, your preferred method, and schedule an online meeting.`,
-      step: 'Step 4/4',
+      step: 'Step 4/5',
       stepName: 'Contact',
       questions: {
         email: 'Email',

@@ -1,5 +1,5 @@
-import React, { FC, createElement } from 'react'
-import { CastleSVG, ContactSVG, InfoSVG, HotelSVG } from './svgIcons.component'
+import { FC, createElement } from 'react'
+import { CastleSVG, ContactSVG, InfoSVG, HotelSVG, PassengersSVG } from './svgIcons.component'
 import {
   Box,
   Text,
@@ -23,7 +23,8 @@ const Stepper: FC<StepperProps> = ({ currentStep }: StepperProps) => {
   const steps: StepProps[] = [
     { title: 'applicationForm.destiny.stepName', description: 'applicationForm.destiny.step', icon: CastleSVG },
     { title: 'applicationForm.info.stepName', description: 'applicationForm.info.step', icon: InfoSVG },
-    { title: 'applicationForm.lodging.stepName', description: 'applicationForm.lodging.step', icon: HotelSVG },
+    { title: 'applicationForm.itinerary.stepName', description: 'applicationForm.itinerary.step', icon: HotelSVG },
+    { title: 'applicationForm.passengers.stepName', description: 'applicationForm.passengers.step', icon: PassengersSVG },
     { title: 'applicationForm.contact.stepName', description: 'applicationForm.contact.step', icon: ContactSVG }
   ]
 

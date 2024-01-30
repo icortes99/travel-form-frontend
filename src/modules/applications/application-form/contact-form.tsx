@@ -132,7 +132,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
                 create: {
                   firstName: tripInfo.name,
                   lastName: tripInfo.lastname,
-                  birthdate: tripInfo.birth
+                  age: tripInfo.age
                 }
               }
             }
@@ -173,7 +173,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     <FormTemplate
       title={'applicationForm.contact.title'}
       description={'applicationForm.contact.description'}
-      step={3}
+      step={4}
       pageTitle={'applicationForm.contact.stepName'}
       agencyName={agency}
     >
@@ -282,7 +282,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
               justifyContent={'space-evenly'}
             >
               <Button
-                onClick={() => router.push(`/application/${agency}?step=3`)}
+                onClick={() => router.push(`/application/${agency}?step=4`)}
                 text={t('buttons.back')}
                 variant='outline'
               />

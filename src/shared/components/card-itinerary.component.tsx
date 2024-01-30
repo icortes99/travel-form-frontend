@@ -54,6 +54,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
           <Heading
             fontSize={'2xl'}
             marginBottom={'1.5rem'}
+            color={`white.text`}
           >
             {title}
           </Heading>
@@ -65,7 +66,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
             gridGap={'1.5rem'}
           >
             <FieldDate
-              label={'applicationForm.lodging.questions.attractionStart'}
+              label={'applicationForm.itinerary.questions.attractionStart'}
               input={{
                 name: 'start',
                 value: values.start,
@@ -77,7 +78,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
               error={(isOk?.start) && errors?.start}
             />
             <FieldDate
-              label={'applicationForm.lodging.questions.attractionEnd'}
+              label={'applicationForm.itinerary.questions.attractionEnd'}
               input={{
                 name: 'finish',
                 value: values.finish,
@@ -89,7 +90,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
               error={(isOk?.finish) && errors?.finish}
             />
             <FieldDropdown
-              label={'applicationForm.lodging.questions.hotelType'}
+              label={'applicationForm.itinerary.questions.hotelType'}
               input={{
                 name: 'hotelType',
                 options: ['Test'],
@@ -102,7 +103,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
               error={(isOk?.hotelType) && errors?.hotelType}
             />
             <FieldDropdown
-              label={'applicationForm.lodging.questions.roomType'}
+              label={'applicationForm.itinerary.questions.roomType'}
               input={{
                 name: 'roomType',
                 options: ['Test'],
