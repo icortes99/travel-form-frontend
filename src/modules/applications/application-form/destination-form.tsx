@@ -17,10 +17,9 @@ const CardItem = lazy(() => import('../../../shared/components/card-item.compone
 
 interface DestinationFormProps {
   lsKey: string
-  attractionsKey: string
 }
 
-const DestinationForm: FC<DestinationFormProps> = ({ lsKey, attractionsKey }: DestinationFormProps) => {
+const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormProps) => {
   const router = useRouter()
   const modalRef = useRef(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -59,7 +58,6 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey, attractionsKey }: De
       attractions: selectedAttractions
     }
     window.localStorage.setItem(lsKey, JSON.stringify(data))
-    window.localStorage.setItem(attractionsKey, JSON.stringify(destinationAttractions))
     router.push(`/application/${agency}?step=2`)
   }
 

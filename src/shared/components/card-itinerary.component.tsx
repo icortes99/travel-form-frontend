@@ -5,7 +5,7 @@ import FieldDropdown from './field-dropdown.component'
 
 interface CardItineraryProps {
   cardId: number
-  image: string
+  image: string | string[]
   title: string
   values: { start: string, finish: string, hotelType: string, roomType: string }
   hotelAssistance: boolean
@@ -40,7 +40,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
         objectFit='cover'
         width={{ sm: '17rem', md: '17rem', lg: '12rem' }}
         height={{ sm: '17rem', md: '17rem', lg: '12rem' }}
-        src={image}
+        src={Array.isArray(image) ? image[0] : image}
         alt={'Attraction image'}
         borderRadius={'.5rem'}
         alignSelf={{ sm: 'center', md: 'center', lg: 'start' }}

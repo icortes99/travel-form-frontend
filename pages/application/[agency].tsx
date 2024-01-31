@@ -12,7 +12,7 @@ const ContactForm = dynamic(() => import('../../src/modules/applications/applica
 
 export default function Application() {
   const [validation, setValidation] = useState('loading')
-  const localStorageKeys = ['destiny', 'trip-info', 'itinerary', 'passengers', 'contact', 'agency', 'attractions']
+  const localStorageKeys = ['destiny', 'trip-info', 'itinerary', 'passengers', 'contact', 'agency']
   const router = useRouter()
   const { step, agency } = router.query
 
@@ -25,15 +25,9 @@ export default function Application() {
       {
         validation === 'loaded' ?
           <Suspense fallback={<Loading />}>
-            {stepNumber === 1 && <DestinationForm lsKey={localStorageKeys[0]} attractionsKey={localStorageKeys[6]} />}
+            {stepNumber === 1 && <DestinationForm lsKey={localStorageKeys[0]} />}
             {stepNumber === 2 && <TripInfoForm lsKey={localStorageKeys[1]} attractionsKey={localStorageKeys[0]} />}
-            {
-              stepNumber === 3 && <ItineraryView
-                lsKey={localStorageKeys[2]}
-                tripInfoKey={localStorageKeys[1]} // dates and hotel
-                attractionsKey={localStorageKeys[6]} // attractions
-              />
-            }
+            {stepNumber === 3 && <ItineraryView lsKey={localStorageKeys[2]} tripInfoKey={localStorageKeys[1]} attractionsKey={localStorageKeys[0]} />}
             {stepNumber === 4 && <PassengersView lsKey={localStorageKeys[3]} passengersKey={localStorageKeys[1]} />}
             {stepNumber === 5 && <ContactForm lsKey={localStorageKeys[4]} allLSkeys={localStorageKeys} />}
           </Suspense>
