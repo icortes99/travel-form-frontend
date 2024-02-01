@@ -31,7 +31,7 @@ interface ContactViewProps {
 
 const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProps) => {
   const router = useRouter()
-  const agency = 'FantasticTravel'
+  const agency = 'fantastic-travel'
   const { t } = useTranslation()
   const countryCodes = ['CR', 'PA', 'ES']
   const [createApplication] = useCreateApplicationMutation()

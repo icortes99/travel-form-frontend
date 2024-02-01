@@ -25,7 +25,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedDestiny, setSelectedDestiny] = useState<string>('')
   const [selectedAttractions, setSelectedAttractions] = useState([])
-  const agency = 'FantasticTravel'
+  const agency = 'fantastic-travel'
   const { t } = useTranslation()
 
   const travelAgencyResponse = useAgencyDestiniesQuery({

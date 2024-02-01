@@ -22,7 +22,7 @@ interface ItineraryViewProps {
 const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractionsKey }: ItineraryViewProps) => {
   const router = useRouter()
   const { t } = useTranslation()
-  const agency = 'FantasticTravel'
+  const agency = 'fantastic-travel'
   const selectedDestiny: string = JSON.parse(window.localStorage.getItem(attractionsKey))?.destination || ''
   const attractions = useAttractionsQuery({
     fetchPolicy: 'cache-first',

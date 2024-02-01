@@ -46,12 +46,7 @@ const EnglishDisctionary: Dictionary = {
       questions: {
         hotel: 'Preferred hotel',
         rooms: 'Number of rooms',
-        message: 'By default, you will be assigned to room 1 on all occasions, so keep this in mind when assigning the rooms.',
-        passenger: 'Passenger',
-        name: 'Name',
-        lastName: 'Last name',
         birthdate: 'Birthdate',
-        room: 'Room',
         roomTypeText: 'The room type determines the price and availability, as some room types are more sought after than others. For that reason, please let us know the room type(s) you prefer:',
         selectType: 'Room type',
         applyForAll: 'Apply for all rooms',
@@ -66,7 +61,14 @@ const EnglishDisctionary: Dictionary = {
       description: 'Abaout the fucking passengers',
       step: 'Step 3/5',
       stepName: 'Passengers',
-      questions: {}
+      questions: {
+        age: 'Age',
+        passenger: 'Passenger',
+        name: 'Name',
+        lastName: 'Last name',
+        room: 'Room',
+        message: 'By default, you will be assigned to room 1 on all occasions, so keep this in mind when assigning the rooms.'
+      }
     },
     contact: {
       title: 'Contact info',

@@ -46,12 +46,7 @@ const SpanishDictionary: Dictionary = {
       questions: {
         hotel: 'Hotel de preferencia',
         rooms: 'Número de habitaciones',
-        message: 'Por defecto, tú serás asignado a la habitación 1 en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.',
-        passenger: 'Pasajero',
-        name: 'Nombre',
-        lastName: 'Apellido',
         birthdate: 'Fecha de nacimiento',
-        room: 'Habitación',
         roomTypeText: 'El tipo de habitación determina el precio y la disponibilidad, ya que hay tipos de habitaciones más cotizados que otros. Por esa razón, indicanos el tipo de habitación(es) que deseas:',
         selectType: 'Tipo de habitación',
         applyForAll: 'Aplicar a todas las habitaciones',
@@ -66,7 +61,14 @@ const SpanishDictionary: Dictionary = {
       description: 'En este paso obtenemos cierta informacion necesaria sobre los pasajeros como sus nombres, edades y habitación.',
       step: 'Paso 4/5',
       stepName: 'Pasajeros',
-      questions: {}
+      questions: {
+        age: 'Edad',
+        passenger: 'Pasajero',
+        name: 'Nombre',
+        lastName: 'Apellido',
+        room: 'Habitación',
+        message: 'Por defecto, tú serás asignado a la habitación 1 en todas las ocasiones, así que ten esto en cuenta a la hora de asociar las habitaciones.'
+      }
     },
     contact: {
       title: 'Información de contacto',

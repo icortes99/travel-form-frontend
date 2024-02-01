@@ -14,7 +14,7 @@ interface PassengersViewProps {
 }
 
 const PassengersView: FC<PassengersViewProps> = ({ lsKey, passengersKey }: PassengersViewProps) => {
-  const agency = 'FantasticTravel'
+  const agency = 'fantastic-travel'
   const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey))?.cantityCompanions || 2
   const router = useRouter()
   const { t } = useTranslation()
@@ -26,7 +26,7 @@ const PassengersView: FC<PassengersViewProps> = ({ lsKey, passengersKey }: Passe
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     lastName: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
-    birth: yup.date().max(new Date(), t('error.invalidDate')).required(t('error.required')),
+    age: yup.number().max(100, t('error.invalidAge')).required(t('error.required')),
     room: yup.string().required(t('error.required'))
   })
 
@@ -35,7 +35,7 @@ const PassengersView: FC<PassengersViewProps> = ({ lsKey, passengersKey }: Passe
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
-    passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', birth: '', room: 1 }))
+    passengersData: Array.from({ length: passengersCant }, () => ({ name: '', lastName: '', age: '', room: 1 }))
   }
 
   const formik = useFormik({

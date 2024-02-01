@@ -2,20 +2,20 @@ import { FC } from 'react'
 import { Box, Heading } from '@chakra-ui/react'
 import { useTranslation } from '../hooks'
 import Field from './field.component'
-import FieldDate from './field-date.component'
 import FieldDropdown from './field-dropdown.component'
+import FieldQuantity from './filed-quantity.component'
 
 interface PassengerProps {
   passengerId: number
   rooms: number
-  values: { name: string, lastName: string, birth: string, room: string }
+  values: { name: string, lastName: string, age: number, room: string }
   onChange: (passengerIndex: number, input: string, value: any) => void
-  isOk: { name: boolean, lastName: boolean, birth: boolean, room: boolean }
-  errors?: { name?: string, lastName?: string, birth?: string, room?: string }
+  isOk: { name: boolean, lastName: boolean, age: boolean, room: boolean }
+  errors?: { name?: string, lastName?: string, age?: string, room?: string }
   onBlur?: (e: any) => void
 }
 
-const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, isOk = { name: false, lastName: false, birth: false, room: false }, errors, onBlur }: PassengerProps) => {
+const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, isOk = { name: false, lastName: false, age: false, room: false }, errors, onBlur }: PassengerProps) => {
   const optionRooms = []
   const { t } = useTranslation()
   for (let i = 1; i <= rooms; i++) {
@@ -37,7 +37,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
         fontSize={'1.5rem'}
         margin={'0'}
       >
-        {t('applicationForm.itinerary.questions.passenger')} {passengerId}
+        {t('applicationForm.passengers.questions.passenger')} {passengerId}
       </Heading>
       <Box
         display={{ sm: 'block', lg: 'grid' }}
@@ -45,7 +45,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
         gridGap={'1.5rem'}
       >
         <Field
-          label={'applicationForm.itinerary.questions.name'}
+          label={'applicationForm.passengers.questions.name'}
           input={{
             name: 'name',
             placeholder: 'Linda',
@@ -58,7 +58,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           styles={{ marginTop: '1rem' }}
         />
         <Field
-          label={'applicationForm.itinerary.questions.lastName'}
+          label={'applicationForm.passengers.questions.lastName'}
           input={{
             name: 'lastName',
             placeholder: 'Smith',
@@ -68,24 +68,23 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
             onBlur: () => onBlur('lastName')
           }}
           error={(isOk?.lastName) && errors?.lastName}
-          styles={{ marginTop: '1rem' }
-          }
+          styles={{ marginTop: '1rem' }}
         />
-        <FieldDate
-          label={'applicationForm.itinerary.questions.birthdate'}
+        <FieldQuantity
+          label={'applicationForm.passengers.questions.age'}
           input={{
-            name: 'birth',
-            placeholder: 'mm/dd/yyyy',
-            value: values.birth,
-            onChange: (e) => handleChange('birth', e.target.value),
-            isOk: !(isOk?.birth && errors?.birth),
-            onBlur: () => onBlur('birth')
+            name: 'age',
+            placeholder: '35',
+            value: values.age,
+            onChange: (e) => handleChange('age', e.target.value),
+            isOk: !(isOk?.age && errors?.age),
+            onBlur: () => onBlur('age')
           }}
-          error={(isOk?.birth) && errors?.birth}
+          error={(isOk?.age) && errors?.age}
           styles={{ marginTop: '1rem' }}
         />
         <FieldDropdown
-          label={'applicationForm.itinerary.questions.room'}
+          label={'applicationForm.passengers.questions.room'}
           input={{
             options: optionRooms,
             name: 'room',
