@@ -1,7 +1,17 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Box, Card, CardBody, Heading, Image, Stack } from '@chakra-ui/react'
 import FieldDate from './field-date.component'
 import FieldDropdown from './field-dropdown.component'
+import { Suite } from '../generated/graphql-schema'
+
+interface SuiteProps {
+  name?: string
+  uuid?: string
+}
+
+interface HotelProps {
+  [uuid: string]: { name: string; suite: SuiteProps[] }
+}
 
 interface CardItineraryProps {
   cardId: number
@@ -13,6 +23,7 @@ interface CardItineraryProps {
   isOk: { start: boolean, finish: boolean, hotelType: boolean, roomType: boolean }
   errors?: { start?: string, finish?: string, hotelType?: string, roomType?: string }
   onBlur?: (e: any) => void
+  hotelsValues: HotelProps
 }
 
 const CardItinerary: FC<CardItineraryProps> = ({
@@ -24,10 +35,38 @@ const CardItinerary: FC<CardItineraryProps> = ({
   onChange,
   isOk,
   errors,
-  onBlur
+  onBlur,
+  hotelsValues
 }: CardItineraryProps) => {
+  const [selectedHotel, setSelectedHotel] = useState(values?.hotelType !== '' ? values?.hotelType : 'Escoge un hotel')
+
   const handleChange = (field: string, value: string) => {
     onChange(cardId, field, value)
+    if (field === 'hotelType') {
+      setSelectedHotel(value)
+    }
+  }
+
+  function parseHotels(hotelDictionary: HotelProps): Record<string, string> {
+    const hotelRecord: Record<string, string> = {}
+
+    Object.keys(hotelDictionary).map((key) => {
+      hotelRecord[key] = hotelDictionary[key]?.name
+    })
+
+    return hotelRecord
+  }
+
+  function parseSuites(suiteObj: Suite[]): Record<string, string> {
+    const suiteRecord: Record<string, string> = {}
+
+    if (selectedHotel !== 'Escoge un hotel') {
+      suiteObj.map(suite => {
+        suiteRecord[suite?.uuid] = suite?.name
+      })
+    }
+
+    return suiteRecord
   }
 
   return (
@@ -53,7 +92,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
         <CardBody>
           <Heading
             fontSize={'2xl'}
-            marginBottom={'1.5rem'}
+            marginBottom={'1rem'}
             color={`white.text`}
           >
             {title}
@@ -63,7 +102,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
             display={'grid'}
             gridTemplateColumns={{ sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
             gridTemplateRows={{ sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(1, 1fr)' }}
-            gridGap={'1.5rem'}
+            gridGap={'0.5rem 1.5rem'}
           >
             <FieldDate
               label={'applicationForm.itinerary.questions.attractionStart'}
@@ -89,32 +128,37 @@ const CardItinerary: FC<CardItineraryProps> = ({
               }}
               error={(isOk?.finish) && errors?.finish}
             />
-            <FieldDropdown
-              label={'applicationForm.itinerary.questions.hotelType'}
-              input={{
-                name: 'hotelType',
-                options: ['Test'],
-                value: values.hotelType,
-                placeholder: 'Deluxe',
-                onChange: (e) => handleChange('hotelType', e.target.value),
-                isOk: !(isOk?.hotelType && errors?.hotelType),
-                onBlur: () => onBlur('hotelType')
-              }}
-              error={(isOk?.hotelType) && errors?.hotelType}
-            />
-            <FieldDropdown
-              label={'applicationForm.itinerary.questions.roomType'}
-              input={{
-                name: 'roomType',
-                options: ['Test'],
-                value: values.roomType,
-                placeholder: 'Deluxe',
-                onChange: (e) => handleChange('roomType', e.target.value),
-                isOk: !(isOk?.roomType && errors?.roomType),
-                onBlur: () => onBlur('roomType')
-              }}
-              error={(isOk?.roomType) && errors?.roomType}
-            />
+            {
+              hotelAssistance &&
+              <>
+                <FieldDropdown
+                  label={'applicationForm.itinerary.questions.hotelType'}
+                  input={{
+                    name: 'hotelType',
+                    options: parseHotels(hotelsValues),
+                    value: values.hotelType,
+                    placeholder: 'Deluxe',
+                    onChange: (e) => handleChange('hotelType', e.target.value),
+                    isOk: !(isOk?.hotelType && errors?.hotelType),
+                    onBlur: () => onBlur('hotelType')
+                  }}
+                  error={(isOk?.hotelType) && errors?.hotelType}
+                />
+                <FieldDropdown
+                  label={'applicationForm.itinerary.questions.roomType'}
+                  input={{
+                    name: 'roomType',
+                    options: parseSuites(hotelsValues[selectedHotel]?.suite),
+                    value: values.roomType,
+                    placeholder: 'Escoge un hotel',
+                    onChange: (e) => handleChange('roomType', e.target.value),
+                    isOk: !(isOk?.roomType && errors?.roomType),
+                    onBlur: () => onBlur('roomType')
+                  }}
+                  error={(isOk?.roomType) && errors?.roomType}
+                />
+              </>
+            }
           </Box>
         </CardBody>
       </Stack>

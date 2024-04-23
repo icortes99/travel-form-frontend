@@ -10,8 +10,12 @@ import {
 import Button from '../../../shared/components/button.component'
 import { useTranslation } from '../../../shared/hooks'
 import CardItinerary from '../../../shared/components/card-itinerary.component'
-import { useAttractionsQuery } from '../../../shared/generated/graphql-schema'
+import { useAttractionsQuery, useHotelsInDestinyQuery } from '../../../shared/generated/graphql-schema'
 import Loading from '../../../shared/components/loading.component'
+
+interface HotelDictionary {
+  [uuid: string]: { name: string; suite: { name: string; uuid: string }[] }
+}
 
 interface ItineraryViewProps {
   lsKey: string
@@ -34,9 +38,38 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   })
   const tripStart: string = JSON.parse(window.localStorage.getItem(tripInfoKey))?.startDate || '1900/01/01'
   const tripFinish: string = JSON.parse(window.localStorage.getItem(tripInfoKey))?.exitDate || '2999/01/01'
-  const hotelAssistance: boolean = JSON.parse(window.localStorage.getItem(tripInfoKey))?.lodging || false
+  const hotelAssistance: boolean = (JSON.parse(window.localStorage.getItem(tripInfoKey))?.lodging === 'true') || false
   const areCompanions: boolean = JSON.parse(window.localStorage.getItem(tripInfoKey))?.companions || false
   const selectedAttractions: string[] = JSON.parse(window.localStorage.getItem(attractionsKey))?.attractions || []
+  const hotelsInDestiny = useHotelsInDestinyQuery({
+    variables: {
+      where: {
+        destination: {
+          uuid: selectedDestiny
+        },
+        travelAgency: {
+          slug: agency
+        }
+      }
+    }
+  })
+
+  function convertHotelsQuery(data): HotelDictionary {
+    const hotelDictionary: HotelDictionary = {}
+
+    data?.map((item) => {
+      const hotelName: string = item.hotel.name
+      const hotelUuid: string = item.hotel.uuid
+      const hotelSuites: { name: string, uuid: string }[] = item.hotel.suites
+
+      hotelDictionary[hotelUuid] = {
+        name: hotelName,
+        suite: hotelSuites
+      }
+    })
+
+    return hotelDictionary
+  }
 
   const generateAttractionValues = (numAtts: number) => {
     return Array.from({ length: numAtts }, (_, i) => ({ start: '', finish: '', hotelType: '', roomType: '' }))
@@ -69,8 +102,6 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   })
 
   const schema = yup.object().shape({
-    hotelType: yup.string().required(t('error.required')),
-    roomsType: yup.string().required(t('error.required')),
     attractionsDetails: yup.array().of(attractionSchema).test(
       'datesOverlap', t('error.datesOverlap'), function (attractions) {
         return attractionsOverlap(attractions)
@@ -79,11 +110,11 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
-    hotelType: '',
-    roomsType: '',
-    attractionsDetails: generateAttractionValues(2)
+    attractionsDetails: generateAttractionValues(selectedAttractions.length)
   }
 
+  //TODO: limpiar el roomType si el hotelType cambia. Validar que no este vacio ningun dropdown y que las fechas no se traslapen
+  //TODO: Si las fechas se traslapan mostrar un error de fecha invalida
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
@@ -129,9 +160,10 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
           justifyContent={'center'}
           flexDirection={'column'}
           alignItems={'center'}
+          marginBottom={{ sm: '2.5rem', md: '2rem', lg: '1.5rem' }}
         >
           {
-            (!attractions.loading) ?
+            (!attractions.loading && !hotelsInDestiny.loading) ?
               (attractions.data?.destination?.attractions?.map((attraction, i) => (
                 selectedAttractions.includes(attraction.uuid) &&
                 <>
@@ -145,6 +177,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
                     onBlur={(field) => handleAttractionBlur(field, i)}
                     cardId={i}
                     hotelAssistance={hotelAssistance}
+                    hotelsValues={convertHotelsQuery(hotelsInDestiny.data?.hotelsInDestinationAgency)}
                   />
                   {
                     i < attractions.data.destination.attractions.length - 1 ?
