@@ -74,8 +74,8 @@ const PassengersView: FC<PassengersViewProps> = ({ lsKey, passengersKey }: Passe
       <Text marginBottom={'1.5rem'}>
         {t('applicationForm.itinerary.questions.message')}
       </Text>
-      <form>
-        <Box>
+      <form onSubmit={formik.handleSubmit}>
+        <Box marginBottom={'3rem'}>
           {
             (() => {
               const renderPassengers = []

@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Select } from '@chakra-ui/react'
 
 interface DropdownProps {
-  options: string[] | Record<string, string>
+  options: string[] | Record<string, string> | number[]
   name: string
   placeholder: string
   value?: string | number
@@ -34,7 +34,7 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
         Array.isArray(options) ? (
           options.map((opt, i) => (
             <option
-              key={i}
+              key={typeof opt === 'number' ? opt : i}
               value={opt}
             >
               {opt}

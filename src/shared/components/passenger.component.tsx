@@ -16,7 +16,7 @@ interface PassengerProps {
 }
 
 const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, isOk = { name: false, lastName: false, age: false, room: false }, errors, onBlur }: PassengerProps) => {
-  const optionRooms = []
+  const optionRooms: number[] = []
   const { t } = useTranslation()
   for (let i = 1; i <= rooms; i++) {
     optionRooms.push(i)

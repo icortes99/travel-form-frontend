@@ -276,6 +276,7 @@ export type Passengers = {
   applicationId: Scalars['Float'];
   person: Person;
   personId: Scalars['Float'];
+  roomAssigned: Scalars['Float'];
   suite: Suite;
   suiteId: Scalars['Float'];
 };
@@ -286,6 +287,7 @@ export type PassengersCreateNestedManyWithoutApplicationInput = {
 
 export type PassengersCreateWithoutApplicationInput = {
   person: PersonCreateNestedOneWithoutPassengersInput;
+  roomAssigned: Scalars['Float'];
   suite: SuiteCreateNestedOneWithoutPassengersInput;
 };
 
@@ -526,7 +528,7 @@ export type HotelsInDestinyQueryVariables = Exact<{
 }>;
 
 
-export type HotelsInDestinyQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, images?: Array<string> | null, uuid?: string | null, suites?: Array<{ name?: string | null, uuid?: string | null }> | null } | null }> | null };
+export type HotelsInDestinyQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, uuid?: string | null, suites?: Array<{ name?: string | null, uuid?: string | null }> | null } | null }> | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -657,7 +659,6 @@ export const HotelsInDestinyDocument = gql`
   hotelsInDestinationAgency(where: $where) {
     hotel {
       name
-      images
       uuid
       suites {
         name

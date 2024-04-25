@@ -2376,6 +2376,22 @@
             "deprecationReason": null
           },
           {
+            "name": "roomAssigned",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "suite",
             "description": null,
             "args": [],
@@ -2463,6 +2479,22 @@
               "ofType": {
                 "kind": "INPUT_OBJECT",
                 "name": "PersonCreateNestedOneWithoutPassengersInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "roomAssigned",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
                 "ofType": null
               }
             },

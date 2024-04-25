@@ -11,7 +11,7 @@ import Error from './error.component'
 interface FieldDropdownProps {
   label: DictionaryLeaves
   input: {
-    options: string[] | DictionaryNodes | Record<string, string>
+    options: string[] | DictionaryNodes | Record<string, string> | number[]
     name: string
     placeholder: string
     value?: string | number
