@@ -49,7 +49,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           input={{
             name: 'name',
             placeholder: 'Linda',
-            value: values.name,
+            value: values?.name,
             onChange: (e) => handleChange('name', e.target.value),
             isOk: !(isOk?.name && errors?.name),
             onBlur: () => onBlur('name')
@@ -62,7 +62,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           input={{
             name: 'lastName',
             placeholder: 'Smith',
-            value: values.lastName,
+            value: values?.lastName,
             onChange: (e) => handleChange('lastName', e.target.value),
             isOk: !(isOk?.lastName && errors?.lastName),
             onBlur: () => onBlur('lastName')
@@ -75,7 +75,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
           input={{
             name: 'age',
             placeholder: '35',
-            value: values.age,
+            value: values?.age,
             onChange: (e) => handleChange('age', e.target.value),
             isOk: !(isOk?.age && errors?.age),
             onBlur: () => onBlur('age')
@@ -89,7 +89,7 @@ const Passenger: FC<PassengerProps> = ({ passengerId, rooms, values, onChange, i
             options: optionRooms,
             name: 'room',
             placeholder: '1, 2, ...',
-            value: values.room,
+            value: values?.room,
             onChange: (e) => handleChange('room', e.target.value),
             isOk: !(isOk?.room && errors?.room),
             onBlur: () => onBlur('room')

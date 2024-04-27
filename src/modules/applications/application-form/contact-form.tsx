@@ -39,7 +39,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     loading: false,
     result: ''
   })
-
+  const data = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
+  const areCompanions: boolean = JSON.parse(window.localStorage.getItem(allLSkeys[1]))?.companions === 'true' || false
+  console.log('data: ', data)
+  console.log('comps: ', areCompanions)
   const schema = yup.object().shape({
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
     countryCode: yup.string().oneOf(countryCodes),
@@ -169,6 +172,14 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
       })))
   }
 
+  const handleBack = () => {
+    if (areCompanions){
+      router.push(`/application/${agency}?step=4`)
+    } else {
+      router.push(`/application/${agency}?step=3`)
+    }
+  }
+
   return (
     <FormTemplate
       title={'applicationForm.contact.title'}
@@ -282,7 +293,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
               justifyContent={'space-evenly'}
             >
               <Button
-                onClick={() => router.push(`/application/${agency}?step=4`)}
+                onClick={handleBack}
                 text={t('buttons.back')}
                 variant='outline'
               />

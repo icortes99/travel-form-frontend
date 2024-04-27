@@ -39,7 +39,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   const tripStart: string = JSON.parse(window.localStorage.getItem(tripInfoKey))?.startDate || '1900/01/01'
   const tripFinish: string = JSON.parse(window.localStorage.getItem(tripInfoKey))?.exitDate || '2999/01/01'
   const hotelAssistance: boolean = (JSON.parse(window.localStorage.getItem(tripInfoKey))?.lodging === 'true') || false
-  const areCompanions: boolean = JSON.parse(window.localStorage.getItem(tripInfoKey))?.companions || false
+  const areCompanions: boolean = JSON.parse(window.localStorage.getItem(tripInfoKey))?.companions === 'true' || false
   const selectedAttractions: string[] = JSON.parse(window.localStorage.getItem(attractionsKey))?.attractions || []
   const hotelsInDestiny = useHotelsInDestinyQuery({
     variables: {
