@@ -23,6 +23,7 @@ import Button from '../../../shared/components/button.component'
 import { useTranslation } from '../../../shared/hooks'
 import Field from '../../../shared/components/field.component'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
+import Loading from '../../../shared/components/loading.component'
 
 interface ContactViewProps {
   lsKey: string
@@ -39,10 +40,8 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     loading: false,
     result: ''
   })
-  const data = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
   const areCompanions: boolean = JSON.parse(window.localStorage.getItem(allLSkeys[1]))?.companions === 'true' || false
-  console.log('data: ', data)
-  console.log('comps: ', areCompanions)
+
   const schema = yup.object().shape({
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
     countryCode: yup.string().oneOf(countryCodes),
@@ -76,15 +75,22 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
 
     const destiny = JSON.parse(window.localStorage.getItem(allLSkeys[0]))
     const tripInfo = JSON.parse(window.localStorage.getItem(allLSkeys[1]))
-    const lodging = JSON.parse(window.localStorage.getItem(allLSkeys[2]))
+    const itinerary = JSON.parse(window.localStorage.getItem(allLSkeys[2]))
+    const companions = JSON.parse(window.localStorage.getItem(allLSkeys[3]))
 
-    const attractions: ApplicationAttractionCreateWithoutApplicationInput[] = destiny.attractions.map((attraction: string) => ({
-      attraction: { connect: { uuid: attraction } }
+    const attractions: ApplicationAttractionCreateWithoutApplicationInput[] = destiny?.attractions?.map((uuid: string, i: number) => ({
+      attraction: {
+        connect: {
+          uuid: uuid
+        } 
+      },
+      startDate: itinerary?.attractionsDetails[i]?.start,
+      endDate: itinerary?.attractionsDetails[i]?.finish
     }))
 
     const getRoomType = (room: string): string => {
       const roomParse: number = +room
-      const roomTypes = lodging.roomTypes
+      const roomTypes = companions.roomTypes
       let result = ''
       roomTypes.map((type) => {
         if (type.roomNumber === roomParse) {
@@ -94,25 +100,26 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
       return result
     }
 
-    const passengers: PassengersCreateWithoutApplicationInput[] = lodging.passengersData.map(passenger => ({
+    const passengers: PassengersCreateWithoutApplicationInput[] = companions.passengersData.map(passenger => ({
       person: {
         create: {
-          birthdate: passenger.birth,
           firstName: passenger.name,
-          lastName: passenger.lastName
+          lastName: passenger.lastName,
+          age: parseInt(passenger.age)
         }
       },
       suite: {
         connect: {
-          uuid: getRoomType(passenger.room)
+          uuid: 'f58e9646-012b-4272-87d6-e55da706a4be'
         }
-      }
+      },
+      roomAssigned: 5
     }))
 
     createApplication({
       variables: {
-        //Destination and attractions
         data: {
+          //Destination and attractions
           destination: { connect: { uuid: destiny.destination } },
           applicationAttractions: {
             create: attractions
@@ -135,7 +142,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
                 create: {
                   firstName: tripInfo.name,
                   lastName: tripInfo.lastname,
-                  age: tripInfo.age
+                  age: parseInt(tripInfo.age)
                 }
               }
             }
@@ -181,6 +188,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
   }
 
   return (
+    <>
     <FormTemplate
       title={'applicationForm.contact.title'}
       description={'applicationForm.contact.description'}
@@ -307,6 +315,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         </Box>
       </form>
     </FormTemplate>
+    {
+      loading.loading && <Loading area='blur' />
+    }
+    </>
   )
 }
 

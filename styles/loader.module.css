@@ -1,4 +1,4 @@
-.loader_container{
+.loader_container {
   position: fixed;
   height: 100vh;
   min-height: 100vh;
@@ -12,6 +12,12 @@
   z-index: 999;
   display: grid;
   place-items: center;
+}
+
+.loader_blur {
+  background-color: rgba(219, 219, 219, 0.473);
+  backdrop-filter: blur(4.5px);
+  -webkit-backdrop-filter: blur(4.5px);
 }
 
 .loader_container_inside {
