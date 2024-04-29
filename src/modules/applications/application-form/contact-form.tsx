@@ -12,7 +12,7 @@ import {
 } from '../../../shared/generated/graphql-schema'
 import FormTemplate from './form-template'
 import Input from '../../../shared/components/input.component'
-import InputDropdown from '../../../shared/components/input-dropdown.component'
+import InputFlag from '../../../shared/components/input-flags.component'
 import {
   FormControl,
   FormLabel,
@@ -34,7 +34,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
   const router = useRouter()
   const agency = 'fantastic-travel'
   const { t } = useTranslation()
-  const countryCodes = ['CR', 'PA', 'ES']
   const [createApplication] = useCreateApplicationMutation()
   const [loading, setLoading] = useState<{ loading: boolean, result: string }>({
     loading: false,
@@ -44,15 +43,13 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
 
   const schema = yup.object().shape({
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
-    countryCode: yup.string().oneOf(countryCodes),
-    phone: yup.number().required(t('error.required')),
-    contactPreference: yup.string().oneOf(Object.keys(ContactPreference)),
-    leadSource: yup.string().oneOf(Object.keys(LeadSource))
+    phone: yup.string().required(t('error.required')),
+    contactPreference: yup.string().oneOf(Object.keys(ContactPreference)).required(t('error.required')),
+    leadSource: yup.string().oneOf(Object.keys(LeadSource)).required(t('error.required'))
   })
 
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     email: '',
-    countryCode: '',
     phone: '',
     contactPreference: '',
     leadSource: ''
@@ -63,9 +60,12 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      submitApplication(values)
+      //submitApplication(values)
+      console.log('values: ', values)
     }
   })
+
+  console.log(formik.values)
 
   const submitApplication = (contactValues) => {
     setLoading((prev) => ({
@@ -228,24 +228,11 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
               marginBottom={'1.5rem'}
             >
               <FormLabel>{t('applicationForm.contact.questions.phone')}:</FormLabel>
-              <Box
-                display={'grid'}
-                gridTemplateColumns={'repeat(1, 1fr) 60%'}
-                gridGap={'1.5rem'}
-              >
-                <InputDropdown
-                  name='countryCode'
-                  placeholder=''
-                  options={['CR', 'PA']}
+              <Box>
+                <InputFlag
+                  name={'phone'}
+                  onChange={formik.handleChange}
                   value={formik.values.countryCode}
-                  onChange={formik.handleChange}
-                  isOk={true}
-                />
-                <Input
-                  name='phone'
-                  placeholder='8888 9999'
-                  value={formik.values.phone}
-                  onChange={formik.handleChange}
                   isOk={true}
                 />
               </Box>
