@@ -17,6 +17,7 @@ import FieldDate from '../../../shared/components/field-date.component'
 import Field from '../../../shared/components/field.component'
 import FieldRadioOptions from '../../../shared/components/field-radio-options.component'
 import FieldQuantity from '../../../shared/components/filed-quantity.component'
+import { TripInfoLocalStorage } from '../../../shared/types/localStorage'
 
 interface InfoViewProps {
   lsKey: string
@@ -49,7 +50,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) =
     lodging: yup.boolean().required(t('error.required'))
   })
 
-  const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
+  const initialValues: TripInfoLocalStorage = JSON.parse(localStorage.getItem(lsKey)) || {
     name: '',
     lastname: '',
     age: '',

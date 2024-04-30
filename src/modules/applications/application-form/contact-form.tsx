@@ -24,6 +24,7 @@ import { useTranslation } from '../../../shared/hooks'
 import Field from '../../../shared/components/field.component'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
 import Loading from '../../../shared/components/loading.component'
+import { ContactLocalStorage } from '../../../shared/types/localStorage'
 
 interface ContactViewProps {
   lsKey: string
@@ -48,7 +49,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     leadSource: yup.string().oneOf(Object.keys(LeadSource)).required(t('error.required'))
   })
 
-  const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
+  const initialValues: ContactLocalStorage = JSON.parse(localStorage.getItem(lsKey)) || {
     email: '',
     phone: '',
     contactPreference: '',
@@ -65,7 +66,9 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     }
   })
 
-  console.log(formik.values)
+  const handlePhoneChange = (phone: string) => {
+    formik.setFieldValue('phone', phone)
+  }
 
   const submitApplication = (contactValues) => {
     setLoading((prev) => ({
@@ -137,7 +140,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
               email: contactValues.email,
               password: "",
               photo: "",
-              phoneNumber: `${contactValues.countryCode} ${contactValues.phone}`,
+              phoneNumber: contactValues.phone,
               person: {
                 create: {
                   firstName: tripInfo.name,
@@ -231,9 +234,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
               <Box>
                 <InputFlag
                   name={'phone'}
-                  onChange={formik.handleChange}
-                  value={formik.values.countryCode}
-                  isOk={true}
+                  onChange={handlePhoneChange}
+                  value={formik.values.phone}
+                  isOk={!(formik.touched.phone && !!formik.errors.phone)}
+                  onBlur={formik.handleBlur}
                 />
               </Box>
             </Box>

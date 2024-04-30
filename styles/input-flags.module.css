@@ -1,4 +1,4 @@
-.conainer {
+.container {
   border: 1px solid #3182ce;
   box-shadow: 0 0 0 1px #3182ce;
   outline: 2px solid transparent;
@@ -6,13 +6,20 @@
   border-radius: .4rem;
   padding: 0 .89rem;
   height: 2.5rem;
+  transition-duration: 0.3s;
 }
 
-.conainer div {
+.container_error {
+  border: 1px solid #ff4747;
+  box-shadow: 0 0 0 1px #ff4747;
+  transition-duration: 0.3s;
+}
+
+.container div {
   width: 2.5rem;
 }
 
-.conainer div button {
+.container div button {
   border: none;
 }
 

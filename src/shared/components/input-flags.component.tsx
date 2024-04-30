@@ -23,12 +23,10 @@ const InputFlag: FC<InputFlagProps> = ({
   defaultValue = 'cr',
   onChange,
   value,
-  isOk
+  isOk,
+  onBlur
 }: InputFlagProps) => {
-  const borderColor = isOk ? 'white.skyBlue' : 'white.error'
-
   const handleChange = (phone: string, data: PhoneInputProps) => {
-    console.log('data: ', data?.inputValue)
     onChange(data?.inputValue)
   }
 
@@ -36,12 +34,13 @@ const InputFlag: FC<InputFlagProps> = ({
     <PhoneInput
       name={name}
       defaultCountry={defaultValue}
-      className={styles.conainer}
+      className={`${styles.container} ${!isOk && styles.container_error}`}
       onChange={handleChange}
       value={value}
       forceDialCode
       required
       inputClassName={styles.input}
+      onBlur={onBlur}
     />
   )
 }
