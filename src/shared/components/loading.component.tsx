@@ -6,16 +6,16 @@ interface LoadingProps {
 }
 
 const Loading: FC<LoadingProps> = ({ area = 'full' }: LoadingProps) => {
+  const className = area === 'partial' ?
+    styles.loader_container_inside :
+    area === 'full' ?
+    styles.loader_container :
+    `${ styles.loader_container } ${ styles.loader_blur }
+  `
+
   return (
     <div
-      className={
-        area === 'partial' ?
-        styles.loader_container_inside :
-        area === 'full' ?
-        styles.loader_container :
-        `${ styles.loader_container } ${ styles.loader_blur }`
-        
-      }
+      className={className}
     >
       <span className={styles.loader}></span>
     </div>

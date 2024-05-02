@@ -25,7 +25,7 @@ export function mapEnumKeysToValues(enumObj: Record<string, string>, enumValues:
   const result: Record<string, string> = {}
 
   for (const key in enumObj) {
-    if (Object.prototype.hasOwnProperty.call(enumObj, key)) {
+    if (Object.hasOwn(enumObj, key)) {
       result[key] = enumValues[enumObj[key]]
     }
   }

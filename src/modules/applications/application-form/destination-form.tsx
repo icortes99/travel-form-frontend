@@ -142,7 +142,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                         colorScheme='pink'
                         margin={'0 1rem'}
                         height={'1.6rem'}
-                        isChecked={selectedAttractions.includes(item.uuid) ? true : false}
+                        isChecked={selectedAttractions.includes(item.uuid)}
                         onChange={() => (handleCheckbox(item.uuid))}
                       />
                     </Box>
@@ -150,7 +150,7 @@ const DestinationForm: FC<DestinationFormProps> = ({ lsKey }: DestinationFormPro
                   {
                     (destinationAttractions.length - 1) > i &&
                     <Divider
-                      key={i}
+                      key={`${item.uuid}-${item.name}`}
                       margin={'1.5rem 0'}
                       border={'.01rem solid rgba(128, 128, 128, 0.5)'}
                       maxWidth={'99%'}

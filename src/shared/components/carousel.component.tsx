@@ -72,7 +72,7 @@ const Carousel: FC<CarouselProps> = ({ images, mask = true }: CarouselProps) => 
         {
           images.map((src, idx) => (
             <Box
-              key={idx}
+              key={`image_${idx}`}
               style={{ opacity: opacities[idx] }}
               width={'100%'}
               height={'100%'}
@@ -124,7 +124,7 @@ const Carousel: FC<CarouselProps> = ({ images, mask = true }: CarouselProps) => 
                 images.map((img, i) => {
                   return (
                     <span
-                      key={i}
+                      key={`image_${i}`}
                       className={`${styles.dots__dot} ${currentSlide === i ? styles.dots__active : ''}`}
                     ></span>
                   )

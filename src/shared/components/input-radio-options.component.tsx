@@ -31,7 +31,7 @@ const InputRadioOptions: FC<InputRadioOptionsProps> = ({ options, name, value, o
             <Radio
               isChecked={value === option.value.toString()}
               value={typeof option[0] === 'string' ? option.name : option.value.toString()}
-              key={i}
+              key={option.value.toString()}
             >
               {option.name}
             </Radio>

@@ -113,8 +113,8 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
     attractionsDetails: generateAttractionValues(selectedAttractions.length)
   }
 
-  //TODO: limpiar el roomType si el hotelType cambia. Validar que no este vacio ningun dropdown y que las fechas no se traslapen
-  //TODO: Si las fechas se traslapan mostrar un error de fecha invalida
+  //TO DO: limpiar el roomType si el hotelType cambia. Validar que no este vacio ningun dropdown y que las fechas no se traslapen
+  //TO DO: Si las fechas se traslapan mostrar un error de fecha invalida
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
@@ -184,7 +184,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
                       <Divider
                         margin={'1.5rem 0'}
                         border={'.01rem solid rgba(128, 128, 128, 0.5)'}
-                        key={i + 100}
+                        key={attraction.uuid}
                       />
                       : null
                   }

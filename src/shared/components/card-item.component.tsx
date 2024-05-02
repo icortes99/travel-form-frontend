@@ -14,7 +14,7 @@ interface CardItemProps {
 
 const CardItem: FC<CardItemProps> = ({ data: { uuid = '', name = '', description = '', images = [] }, onClick, width }: CardItemProps) => {
   const handleClick = () => {
-    onClick && onClick(uuid)
+    onClick?.(uuid)
   }
 
   return (

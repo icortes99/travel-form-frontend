@@ -18,10 +18,6 @@ const PassengersView: FC<PassengersViewProps> = ({ lsKey, passengersKey }: Passe
   const passengersCant: number = JSON.parse(window.localStorage.getItem(passengersKey))?.cantityCompanions || 2
   const router = useRouter()
   const { t } = useTranslation()
-  const habitaciones = []
-  for (let i = 0; i <= passengersCant; i++) {
-    habitaciones.push(i + 1)
-  }
 
   const passengerSchema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),

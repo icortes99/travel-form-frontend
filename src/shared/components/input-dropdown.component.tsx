@@ -22,7 +22,7 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
       focusBorderColor={borderColor}
       isRequired
       isInvalid
-      value={value === undefined ? 'novalue' : value}
+      value={value ?? 'novalue'}
       onChange={type === 'normal' ? onChange : (e) => onChange(e.target.value)}
       onBlur={onBlur}
       transition={'0.5s'}
@@ -42,7 +42,7 @@ const InputDropdown: FC<DropdownProps> = ({ options, name, placeholder, value, o
           ))
         ) : (
           Object.keys(options).map((key, i) => (
-            <option key={i} value={key}>
+            <option key={key} value={key}>
               {options[key]}
             </option>
           ))

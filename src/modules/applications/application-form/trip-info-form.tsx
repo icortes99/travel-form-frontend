@@ -31,11 +31,6 @@ const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) =
   const [areCompanions, setAreCompanions] = useState<boolean>(false)
   const multipleAttractions: boolean = (JSON.parse(window.localStorage.getItem(attractionsKey))?.attractions?.length > 0) || false
 
-  const cantidad = []
-  for (let i = 1; i <= 15; i++) {
-    cantidad.push(i.toString())
-  }
-
   const schema = yup.object().shape({
     name: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
     lastname: yup.string().min(3, t('error.tooShort')).required(t('error.required')),
@@ -69,13 +64,14 @@ const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) =
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      if (multipleAttractions)
+      if (multipleAttractions){
         router.push(`/application/${agency}?step=3`)
-      else {
-        if (values.companions)
+      } else {
+        if (values.companions) {
           router.push(`/application/${agency}?step=4`)
-        else
+        } else {
           router.push(`/application/${agency}?step=5`)
+        }
       }
     }
   })

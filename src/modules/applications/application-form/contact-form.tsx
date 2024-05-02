@@ -11,7 +11,6 @@ import {
   PassengersCreateWithoutApplicationInput
 } from '../../../shared/generated/graphql-schema'
 import FormTemplate from './form-template'
-import Input from '../../../shared/components/input.component'
 import InputFlag from '../../../shared/components/input-flags.component'
 import {
   FormControl,
@@ -61,7 +60,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     validationSchema: schema,
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
-      //submitApplication(values)
+      submitApplication(values)
       console.log('values: ', values)
     }
   })
@@ -90,18 +89,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
       startDate: itinerary?.attractionsDetails[i]?.start,
       endDate: itinerary?.attractionsDetails[i]?.finish
     }))
-
-    const getRoomType = (room: string): string => {
-      const roomParse: number = +room
-      const roomTypes = companions.roomTypes
-      let result = ''
-      roomTypes.map((type) => {
-        if (type.roomNumber === roomParse) {
-          result = type.type
-        }
-      })
-      return result
-    }
 
     const passengers: PassengersCreateWithoutApplicationInput[] = companions.passengersData.map(passenger => ({
       person: {
@@ -164,18 +151,18 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
             connect: {
               slug: agency
             }
-          },
+          }
         }
       }
     })
-      .then((result) => {
+      .then(() => {
         setLoading((prev) => ({
           ...prev,
           result: 'success'
         }))
         router.push('/')
       })
-      .catch((err) => console.log('error: ', err))
+      .catch(() => {})
       .finally(() => setLoading((prev) => ({
         ...prev,
         loading: false

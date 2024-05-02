@@ -14,7 +14,7 @@ export default function Application() {
   const [validation, setValidation] = useState('loading')
   const localStorageKeys = ['destiny', 'trip-info', 'itinerary', 'passengers', 'contact', 'agency']
   const router = useRouter()
-  const { step, agency } = router.query
+  const { step } = router.query //const { step, agency } = router.query
 
   useStepValidation({ min: 1, max: 5, setValidation: setValidation })
 

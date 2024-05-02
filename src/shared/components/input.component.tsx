@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Input as ChakraInput, border } from '@chakra-ui/react'
+import { Input as ChakraInput } from '@chakra-ui/react'
 
 interface InputProps {
   name: string,
