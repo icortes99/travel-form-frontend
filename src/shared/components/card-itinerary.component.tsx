@@ -50,7 +50,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
   function parseHotels(hotelDictionary: HotelProps): Record<string, string> {
     const hotelRecord: Record<string, string> = {}
 
-    Object.keys(hotelDictionary).map((key) => {
+    Object.keys(hotelDictionary).forEach((key) => {
       hotelRecord[key] = hotelDictionary[key]?.name
     })
 
@@ -61,7 +61,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
     const suiteRecord: Record<string, string> = {}
 
     if (selectedHotel !== 'Escoge un hotel') {
-      suiteObj.map(suite => {
+      suiteObj.forEach(suite => {
         suiteRecord[suite?.uuid] = suite?.name
       })
     }

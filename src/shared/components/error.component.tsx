@@ -6,7 +6,7 @@ interface ErrorProps {
   message: string
 }
 
-const Error: FC<ErrorProps> = ({ message }: ErrorProps) => {
+const ShowError: FC<ErrorProps> = ({ message }: ErrorProps) => {
   return (
     <Box
       className={`${styles.error} ${message ? styles.error__shown : styles.error__hidden}`}
@@ -24,4 +24,4 @@ const Error: FC<ErrorProps> = ({ message }: ErrorProps) => {
   )
 }
 
-export default Error
+export default ShowError
