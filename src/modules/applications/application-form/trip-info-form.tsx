@@ -29,7 +29,7 @@ const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) =
   const agency = 'fantastic-travel'
   const { t } = useTranslation()
   const [areCompanions, setAreCompanions] = useState<boolean>(false)
-  const multipleAttractions: boolean = (JSON.parse(window.localStorage.getItem(attractionsKey))?.attractions?.length > 0) ?? false
+  const multipleAttractions: boolean = (JSON.parse(window.localStorage.getItem(attractionsKey))?.attractions?.length > 0) || false
 
   const cantidad = []
   for (let i = 1; i <= 15; i++) {
