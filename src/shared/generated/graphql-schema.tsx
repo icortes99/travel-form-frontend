@@ -122,7 +122,6 @@ export type Destination = {
   attractions?: Maybe<Array<Attraction>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
-  hotelDestinations?: Maybe<Array<HotelDestination>>;
   id?: Maybe<Scalars['Float']>;
   images?: Maybe<Array<Scalars['String']>>;
   name?: Maybe<Scalars['String']>;
@@ -154,62 +153,58 @@ export type DestinationWhereUniqueInput = {
 export type Hotel = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
-  hotelDestinations?: Maybe<Array<HotelDestination>>;
+  hotelAttractions?: Maybe<Array<HotelAttraction>>;
   id?: Maybe<Scalars['Int']>;
   images?: Maybe<Array<Scalars['String']>>;
   name?: Maybe<Scalars['String']>;
-  suites?: Maybe<Array<Suite>>;
+  roomTypes?: Maybe<Array<Scalars['String']>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   uuid?: Maybe<Scalars['String']>;
+};
+
+export type HotelAttraction = {
+  attraction?: Maybe<Attraction>;
+  attractionId?: Maybe<Scalars['Int']>;
+  hotel?: Maybe<Hotel>;
+  hotelId?: Maybe<Scalars['Int']>;
+};
+
+export type HotelAttractionCreateInput = {
+  attraction: HotelAttractionCreateNestedManyWithoutAttractionInput;
+  hotel: HotelAttractionCreateNestedManyWithoutHotelInput;
+};
+
+export type HotelAttractionCreateNestedManyWithoutAttractionInput = {
+  connect: AttractionWhereUniqueInput;
+};
+
+export type HotelAttractionCreateNestedManyWithoutHotelInput = {
+  connect: HotelWhereUniqueInput;
+};
+
+export type HotelAttractionHotelIdAttractionIdCompoundUniqueInput = {
+  attractionId?: InputMaybe<Scalars['Float']>;
+  hotelId?: InputMaybe<Scalars['Float']>;
+};
+
+export type HotelAttractionWhereUniqueInput = {
+  hotelId_attractionId?: InputMaybe<HotelAttractionHotelIdAttractionIdCompoundUniqueInput>;
 };
 
 export type HotelCreateInput = {
   description: Scalars['String'];
   images: Array<Scalars['String']>;
   name: Scalars['String'];
+  roomTypes: Array<Scalars['String']>;
 };
 
-export type HotelCreateNestedOneWithoutSuitesInput = {
-  connect: HotelWhereUniqueInput;
-};
-
-export type HotelDesinationWhereUniqueInput = {
-  destinationId: Scalars['Int'];
-  hotelId: Scalars['Int'];
-  travelAgencyId: Scalars['Int'];
-};
-
-export type HotelDestination = {
-  destination?: Maybe<Destination>;
-  destinationId?: Maybe<Scalars['Int']>;
-  hotel?: Maybe<Hotel>;
-  hotelId?: Maybe<Scalars['Int']>;
-  travelAgency?: Maybe<TravelAgency>;
-  travelAgencyId?: Maybe<Scalars['Int']>;
-};
-
-export type HotelDestinationCreateInput = {
-  destination: HotelDestinationCreateNestedManyWithoutDestinationInput;
-  hotel: HotelDestinationCreateNestedManyWithoutHotelInput;
-  travelAgency: TravelAgencyCreateNestedOneWithoutDestinationsInput;
-};
-
-export type HotelDestinationCreateNestedManyWithoutDestinationInput = {
-  connect: DestinationWhereUniqueInput;
-};
-
-export type HotelDestinationCreateNestedManyWithoutHotelInput = {
+export type HotelCreateNestedOneWithoutPassengersInput = {
   connect: HotelWhereUniqueInput;
 };
 
 export type HotelWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   uuid?: InputMaybe<Scalars['String']>;
-};
-
-export type HotelsInDesinationAgencyWhereUniqueInput = {
-  destination: DestinationWhereUniqueInput;
-  travelAgency: TravelAgencyWhereUniqueInput;
 };
 
 export enum LeadSource {
@@ -225,8 +220,7 @@ export type Mutation = {
   createAttraction: Attraction;
   createDestination: Destination;
   createHotel: Hotel;
-  createHotelDestination: HotelDestination;
-  createSuite: Suite;
+  createHotelDestination: HotelAttraction;
   createTravelAgency: TravelAgency;
   createUser: User;
 };
@@ -253,12 +247,7 @@ export type MutationCreateHotelArgs = {
 
 
 export type MutationCreateHotelDestinationArgs = {
-  data: HotelDestinationCreateInput;
-};
-
-
-export type MutationCreateSuiteArgs = {
-  data: SuiteCreateInput;
+  data: HotelAttractionCreateInput;
 };
 
 
@@ -274,11 +263,11 @@ export type MutationCreateUserArgs = {
 export type Passengers = {
   application: Application;
   applicationId: Scalars['Float'];
+  hotel: Hotel;
+  hotelId: Scalars['Float'];
   person: Person;
   personId: Scalars['Float'];
   roomAssigned: Scalars['Float'];
-  suite: Suite;
-  suiteId: Scalars['Float'];
 };
 
 export type PassengersCreateNestedManyWithoutApplicationInput = {
@@ -286,9 +275,9 @@ export type PassengersCreateNestedManyWithoutApplicationInput = {
 };
 
 export type PassengersCreateWithoutApplicationInput = {
+  hotel: HotelCreateNestedOneWithoutPassengersInput;
   person: PersonCreateNestedOneWithoutPassengersInput;
   roomAssigned: Scalars['Float'];
-  suite: SuiteCreateNestedOneWithoutPassengersInput;
 };
 
 export type Person = {
@@ -327,9 +316,8 @@ export type Query = {
   attraction?: Maybe<Attraction>;
   destination?: Maybe<Destination>;
   hotel?: Maybe<Hotel>;
-  hotelDestination?: Maybe<HotelDestination>;
-  hotelsInDestinationAgency?: Maybe<Array<HotelDestination>>;
-  suite?: Maybe<Suite>;
+  hotelDestination?: Maybe<HotelAttraction>;
+  hotelsInDestinationAgency?: Maybe<Array<HotelAttraction>>;
   travelAgency?: Maybe<TravelAgency>;
   user?: Maybe<User>;
 };
@@ -351,22 +339,17 @@ export type QueryDestinationArgs = {
 
 
 export type QueryHotelArgs = {
-  where: AttractionWhereUniqueInput;
+  where: HotelWhereUniqueInput;
 };
 
 
 export type QueryHotelDestinationArgs = {
-  where: HotelDesinationWhereUniqueInput;
+  where: HotelAttractionWhereUniqueInput;
 };
 
 
 export type QueryHotelsInDestinationAgencyArgs = {
-  where: HotelsInDesinationAgencyWhereUniqueInput;
-};
-
-
-export type QuerySuiteArgs = {
-  where: SuiteWhereUniqueInput;
+  where: HotelAttractionWhereUniqueInput;
 };
 
 
@@ -379,43 +362,9 @@ export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
 
-export type Suite = {
-  basedPrice?: Maybe<Scalars['Float']>;
-  description?: Maybe<Scalars['String']>;
-  feePerAdult?: Maybe<Scalars['Float']>;
-  feePerKid?: Maybe<Scalars['Float']>;
-  hotel?: Maybe<Hotel>;
-  hotelId?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  images?: Maybe<Array<Scalars['String']>>;
-  name?: Maybe<Scalars['String']>;
-  passengers?: Maybe<Array<Passengers>>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type SuiteCreateInput = {
-  basedPrice: Scalars['Float'];
-  description: Scalars['String'];
-  feePerAdult: Scalars['Float'];
-  feePerKid: Scalars['Float'];
-  hotel: HotelCreateNestedOneWithoutSuitesInput;
-  images: Array<Scalars['String']>;
-  name: Scalars['String'];
-};
-
-export type SuiteCreateNestedOneWithoutPassengersInput = {
-  connect: SuiteWhereUniqueInput;
-};
-
-export type SuiteWhereUniqueInput = {
-  id?: InputMaybe<Scalars['Float']>;
-  uuid?: InputMaybe<Scalars['String']>;
-};
-
 export type TravelAgency = {
   applications?: Maybe<Array<Application>>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  hotelDestinations?: Maybe<Array<HotelDestination>>;
   id?: Maybe<Scalars['Float']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -436,10 +385,6 @@ export type TravelAgencyCreateInput = {
 };
 
 export type TravelAgencyCreateNestedOneWithoutApplicationsInput = {
-  connect: TravelAgencyWhereUniqueInput;
-};
-
-export type TravelAgencyCreateNestedOneWithoutDestinationsInput = {
   connect: TravelAgencyWhereUniqueInput;
 };
 
@@ -522,13 +467,6 @@ export type CreateApplicationMutationVariables = Exact<{
 
 
 export type CreateApplicationMutation = { createApplication: { id?: number | null } };
-
-export type HotelsInDestinyQueryVariables = Exact<{
-  where: HotelsInDesinationAgencyWhereUniqueInput;
-}>;
-
-
-export type HotelsInDestinyQuery = { hotelsInDestinationAgency?: Array<{ hotel?: { name?: string | null, uuid?: string | null, suites?: Array<{ name?: string | null, uuid?: string | null }> | null } | null }> | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -654,48 +592,6 @@ export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
 export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
 export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
-export const HotelsInDestinyDocument = gql`
-    query hotelsInDestiny($where: HotelsInDesinationAgencyWhereUniqueInput!) {
-  hotelsInDestinationAgency(where: $where) {
-    hotel {
-      name
-      uuid
-      suites {
-        name
-        uuid
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useHotelsInDestinyQuery__
- *
- * To run a query within a React component, call `useHotelsInDestinyQuery` and pass it any options that fit your needs.
- * When your component renders, `useHotelsInDestinyQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHotelsInDestinyQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useHotelsInDestinyQuery(baseOptions: Apollo.QueryHookOptions<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>(HotelsInDestinyDocument, options);
-      }
-export function useHotelsInDestinyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>(HotelsInDestinyDocument, options);
-        }
-export type HotelsInDestinyQueryHookResult = ReturnType<typeof useHotelsInDestinyQuery>;
-export type HotelsInDestinyLazyQueryHookResult = ReturnType<typeof useHotelsInDestinyLazyQuery>;
-export type HotelsInDestinyQueryResult = Apollo.QueryResult<HotelsInDestinyQuery, HotelsInDestinyQueryVariables>;
 export const UserDocument = gql`
     query user($where: UserWhereUniqueInput!) {
   user(where: $where) {
