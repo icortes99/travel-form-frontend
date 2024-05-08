@@ -1,0 +1,14 @@
+query hotelsInAttractions($where: DestinationWhereUniqueInput!){
+  destination(where: $where){
+    attractions {
+      name
+      uuid
+      images
+      hotels {
+        name
+        uuid
+        roomTypes
+      }
+    }
+  }
+}

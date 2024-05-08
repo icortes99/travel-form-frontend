@@ -85,6 +85,7 @@ export type Attraction = {
   description?: Maybe<Scalars['String']>;
   destination?: Maybe<Destination>;
   destinationId?: Maybe<Scalars['Int']>;
+  hotels?: Maybe<Array<Hotel>>;
   id?: Maybe<Scalars['Float']>;
   images?: Maybe<Array<Scalars['String']>>;
   name?: Maybe<Scalars['String']>;
@@ -100,6 +101,10 @@ export type AttractionCreateInput = {
 };
 
 export type AttractionCreateNestedOneWithoutApplicationAttractionsInput = {
+  connect: AttractionWhereUniqueInput;
+};
+
+export type AttractionCreateNestedOneWithoutHotelsInput = {
   connect: AttractionWhereUniqueInput;
 };
 
@@ -151,9 +156,9 @@ export type DestinationWhereUniqueInput = {
 };
 
 export type Hotel = {
+  attraction?: Maybe<Attraction>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
-  hotelAttractions?: Maybe<Array<HotelAttraction>>;
   id?: Maybe<Scalars['Int']>;
   images?: Maybe<Array<Scalars['String']>>;
   name?: Maybe<Scalars['String']>;
@@ -162,36 +167,8 @@ export type Hotel = {
   uuid?: Maybe<Scalars['String']>;
 };
 
-export type HotelAttraction = {
-  attraction?: Maybe<Attraction>;
-  attractionId?: Maybe<Scalars['Int']>;
-  hotel?: Maybe<Hotel>;
-  hotelId?: Maybe<Scalars['Int']>;
-};
-
-export type HotelAttractionCreateInput = {
-  attraction: HotelAttractionCreateNestedManyWithoutAttractionInput;
-  hotel: HotelAttractionCreateNestedManyWithoutHotelInput;
-};
-
-export type HotelAttractionCreateNestedManyWithoutAttractionInput = {
-  connect: AttractionWhereUniqueInput;
-};
-
-export type HotelAttractionCreateNestedManyWithoutHotelInput = {
-  connect: HotelWhereUniqueInput;
-};
-
-export type HotelAttractionHotelIdAttractionIdCompoundUniqueInput = {
-  attractionId?: InputMaybe<Scalars['Float']>;
-  hotelId?: InputMaybe<Scalars['Float']>;
-};
-
-export type HotelAttractionWhereUniqueInput = {
-  hotelId_attractionId?: InputMaybe<HotelAttractionHotelIdAttractionIdCompoundUniqueInput>;
-};
-
 export type HotelCreateInput = {
+  attraction: AttractionCreateNestedOneWithoutHotelsInput;
   description: Scalars['String'];
   images: Array<Scalars['String']>;
   name: Scalars['String'];
@@ -220,7 +197,6 @@ export type Mutation = {
   createAttraction: Attraction;
   createDestination: Destination;
   createHotel: Hotel;
-  createHotelDestination: HotelAttraction;
   createTravelAgency: TravelAgency;
   createUser: User;
 };
@@ -243,11 +219,6 @@ export type MutationCreateDestinationArgs = {
 
 export type MutationCreateHotelArgs = {
   data: HotelCreateInput;
-};
-
-
-export type MutationCreateHotelDestinationArgs = {
-  data: HotelAttractionCreateInput;
 };
 
 
@@ -316,8 +287,6 @@ export type Query = {
   attraction?: Maybe<Attraction>;
   destination?: Maybe<Destination>;
   hotel?: Maybe<Hotel>;
-  hotelDestination?: Maybe<HotelAttraction>;
-  hotelsInDestinationAgency?: Maybe<Array<HotelAttraction>>;
   travelAgency?: Maybe<TravelAgency>;
   user?: Maybe<User>;
 };
@@ -340,16 +309,6 @@ export type QueryDestinationArgs = {
 
 export type QueryHotelArgs = {
   where: HotelWhereUniqueInput;
-};
-
-
-export type QueryHotelDestinationArgs = {
-  where: HotelAttractionWhereUniqueInput;
-};
-
-
-export type QueryHotelsInDestinationAgencyArgs = {
-  where: HotelAttractionWhereUniqueInput;
 };
 
 
@@ -467,6 +426,13 @@ export type CreateApplicationMutationVariables = Exact<{
 
 
 export type CreateApplicationMutation = { createApplication: { id?: number | null } };
+
+export type HotelsInAttractionsQueryVariables = Exact<{
+  where: DestinationWhereUniqueInput;
+}>;
+
+
+export type HotelsInAttractionsQuery = { destination?: { attractions?: Array<{ name?: string | null, uuid?: string | null, images?: Array<string> | null, hotels?: Array<{ name?: string | null, uuid?: string | null, roomTypes?: Array<string> | null }> | null }> | null } | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -592,6 +558,50 @@ export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
 export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
 export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
+export const HotelsInAttractionsDocument = gql`
+    query hotelsInAttractions($where: DestinationWhereUniqueInput!) {
+  destination(where: $where) {
+    attractions {
+      name
+      uuid
+      images
+      hotels {
+        name
+        uuid
+        roomTypes
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useHotelsInAttractionsQuery__
+ *
+ * To run a query within a React component, call `useHotelsInAttractionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHotelsInAttractionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHotelsInAttractionsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useHotelsInAttractionsQuery(baseOptions: Apollo.QueryHookOptions<HotelsInAttractionsQuery, HotelsInAttractionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HotelsInAttractionsQuery, HotelsInAttractionsQueryVariables>(HotelsInAttractionsDocument, options);
+      }
+export function useHotelsInAttractionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HotelsInAttractionsQuery, HotelsInAttractionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HotelsInAttractionsQuery, HotelsInAttractionsQueryVariables>(HotelsInAttractionsDocument, options);
+        }
+export type HotelsInAttractionsQueryHookResult = ReturnType<typeof useHotelsInAttractionsQuery>;
+export type HotelsInAttractionsLazyQueryHookResult = ReturnType<typeof useHotelsInAttractionsLazyQuery>;
+export type HotelsInAttractionsQueryResult = Apollo.QueryResult<HotelsInAttractionsQuery, HotelsInAttractionsQueryVariables>;
 export const UserDocument = gql`
     query user($where: UserWhereUniqueInput!) {
   user(where: $where) {

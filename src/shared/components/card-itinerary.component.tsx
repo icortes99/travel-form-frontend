@@ -2,15 +2,9 @@ import { FC, useState } from 'react'
 import { Box, Card, CardBody, Heading, Image, Stack } from '@chakra-ui/react'
 import FieldDate from './field-date.component'
 import FieldDropdown from './field-dropdown.component'
-import { Suite } from '../generated/graphql-schema'
-
-interface SuiteProps {
-  name?: string
-  uuid?: string
-}
 
 interface HotelProps {
-  [uuid: string]: { name: string; suite: SuiteProps[] }
+  [uuid: string]: { name: string; roomTypes: string[] }
 }
 
 interface CardItineraryProps {
@@ -55,18 +49,6 @@ const CardItinerary: FC<CardItineraryProps> = ({
     })
 
     return hotelRecord
-  }
-
-  function parseSuites(suiteObj: Suite[]): Record<string, string> {
-    const suiteRecord: Record<string, string> = {}
-
-    if (selectedHotel !== 'Escoge un hotel') {
-      suiteObj.forEach(suite => {
-        suiteRecord[suite?.uuid] = suite?.name
-      })
-    }
-
-    return suiteRecord
   }
 
   return (
@@ -148,7 +130,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
                   label={'applicationForm.itinerary.questions.roomType'}
                   input={{
                     name: 'roomType',
-                    options: parseSuites(hotelsValues[selectedHotel]?.suite),
+                    options: hotelsValues[selectedHotel]?.roomTypes,
                     value: values.roomType,
                     placeholder: 'Escoge un hotel',
                     onChange: (e) => handleChange('roomType', e.target.value),
