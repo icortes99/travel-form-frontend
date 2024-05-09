@@ -130,7 +130,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
                   label={'applicationForm.itinerary.questions.roomType'}
                   input={{
                     name: 'roomType',
-                    options: hotelsValues[selectedHotel]?.roomTypes,
+                    options: hotelsValues[selectedHotel]?.roomTypes ?? [],
                     value: values.roomType,
                     placeholder: 'Escoge un hotel',
                     onChange: (e) => handleChange('roomType', e.target.value),

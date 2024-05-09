@@ -58,8 +58,6 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
     return hotelDictionary
   }
 
-  console.log('data: ', hotelsInDestiny.data.destination.attractions)
-
   const generateAttractionValues = (numAtts: number) => {
     return Array.from({ length: numAtts }, (_, i) => ({ start: '', finish: '', hotelType: '', roomType: '' }))
   }
@@ -101,6 +99,8 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   const initialValues = JSON.parse(localStorage.getItem(lsKey)) || {
     attractionsDetails: generateAttractionValues(selectedAttractions.length)
   }
+
+  console.log('initial values: ', initialValues)
 
   //TO DO: limpiar el roomType si el hotelType cambia. Validar que no este vacio ningun dropdown y que las fechas no se traslapen
   //TO DO: Si las fechas se traslapan mostrar un error de fecha invalida
@@ -154,24 +154,24 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
           marginBottom={{ sm: '2.5rem', md: '2rem', lg: '1.5rem' }}
         >
           {
-            (!hotelsInDestiny.loading) ?
+            (!hotelsInDestiny?.loading) ?
               (attractionsWithHotels?.map((attraction, i) => (
                 selectedAttractions.includes(attraction.uuid) &&
                 <>
                   <CardItinerary
-                    title={attraction.name}
-                    image={attraction.images}
-                    values={formik.values.attractionsDetails[i]}
+                    title={attraction?.name}
+                    image={attraction?.images}
+                    values={formik?.values?.attractionsDetails[i]}
                     onChange={handleItineraryChange}
-                    isOk={(formik.touched?.attractionsDetails || [])[i]}
-                    errors={(formik.errors?.attractionsDetails || [])[i]}
+                    isOk={(formik?.touched?.attractionsDetails || [])[i]}
+                    errors={(formik?.errors?.attractionsDetails || [])[i]}
                     onBlur={(field) => handleAttractionBlur(field, i)}
                     cardId={i}
                     hotelAssistance={hotelAssistance}
                     hotelsValues={convertHotelsQuery(attractionsWithHotels[i]?.hotels)}
                   />
                   {
-                    i < attractionsWithHotels.length - 1 ?
+                    i < (selectedAttractions.length - 1) ?
                       <Divider
                         margin={'1.5rem 0'}
                         border={'.01rem solid rgba(128, 128, 128, 0.5)'}
