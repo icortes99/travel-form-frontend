@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useFormik } from 'formik'
+import { connect, useFormik } from 'formik'
 import * as yup from 'yup'
 import {
   LeadSource,
@@ -61,7 +61,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
     onSubmit: values => {
       window.localStorage.setItem(lsKey, JSON.stringify(values))
       submitApplication(values)
-      console.log('values: ', values)
     }
   })
 
@@ -87,7 +86,15 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
         } 
       },
       startDate: itinerary?.attractionsDetails[i]?.start,
-      endDate: itinerary?.attractionsDetails[i]?.finish
+      endDate: itinerary?.attractionsDetails[i]?.finish,
+      ...(tripInfo?.lodging === 'true' && {
+        hotel: {
+          connect: {
+            uuid: itinerary?.attractionsDetails[i]?.hotelType
+          }
+        },
+        selectedRoomType: itinerary?.attractionsDetails[i]?.roomType
+      })
     }))
 
     const passengers: PassengersCreateWithoutApplicationInput[] = companions.passengersData.map(passenger => ({
@@ -96,11 +103,6 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
           firstName: passenger.name,
           lastName: passenger.lastName,
           age: parseInt(passenger.age)
-        }
-      },
-      suite: {
-        connect: {
-          uuid: 'f58e9646-012b-4272-87d6-e55da706a4be'
         }
       },
       roomAssigned: 5

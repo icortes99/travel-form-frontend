@@ -44,7 +44,9 @@ export type ApplicationAttraction = {
   attraction?: Maybe<Attraction>;
   attractionId?: Maybe<Scalars['Float']>;
   endDate?: Maybe<Scalars['DateTime']>;
+  hotel?: Maybe<Hotel>;
   id?: Maybe<Scalars['Float']>;
+  selectedRoomType?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['DateTime']>;
   uuid?: Maybe<Scalars['String']>;
 };
@@ -56,6 +58,8 @@ export type ApplicationAttractionCreateNestedManyWithoutApplicationInput = {
 export type ApplicationAttractionCreateWithoutApplicationInput = {
   attraction: AttractionCreateNestedOneWithoutApplicationAttractionsInput;
   endDate: Scalars['DateTime'];
+  hotel?: InputMaybe<HotelCreateNestedOneWithoutApplicationAttractionsInput>;
+  selectedRoomType?: InputMaybe<Scalars['String']>;
   startDate: Scalars['DateTime'];
 };
 
@@ -175,7 +179,7 @@ export type HotelCreateInput = {
   roomTypes: Array<Scalars['String']>;
 };
 
-export type HotelCreateNestedOneWithoutPassengersInput = {
+export type HotelCreateNestedOneWithoutApplicationAttractionsInput = {
   connect: HotelWhereUniqueInput;
 };
 
@@ -234,8 +238,6 @@ export type MutationCreateUserArgs = {
 export type Passengers = {
   application: Application;
   applicationId: Scalars['Float'];
-  hotel: Hotel;
-  hotelId: Scalars['Float'];
   person: Person;
   personId: Scalars['Float'];
   roomAssigned: Scalars['Float'];
@@ -246,7 +248,6 @@ export type PassengersCreateNestedManyWithoutApplicationInput = {
 };
 
 export type PassengersCreateWithoutApplicationInput = {
-  hotel: HotelCreateNestedOneWithoutPassengersInput;
   person: PersonCreateNestedOneWithoutPassengersInput;
   roomAssigned: Scalars['Float'];
 };
