@@ -105,7 +105,7 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
           age: parseInt(passenger.age)
         }
       },
-      roomAssigned: 5
+      roomAssigned: parseInt(passenger.room)
     }))
 
     createApplication({
