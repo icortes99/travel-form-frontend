@@ -179,7 +179,6 @@ const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) =
                 label={'applicationForm.info.questions.entryDate'}
                 input={{
                   name: 'startDate',
-                  placeholder: 'mm/dd/aaaa',
                   value: formik.values.startDate,
                   onChange: formik.handleChange,
                   isOk: !(formik.touched.startDate && !!formik.errors.startDate),
@@ -192,7 +191,6 @@ const InfoView: FC<InfoViewProps> = ({ lsKey, attractionsKey }: InfoViewProps) =
                 label={'applicationForm.info.questions.departureDate'}
                 input={{
                   name: 'exitDate',
-                  placeholder: 'mm/dd/aaaa',
                   value: formik.values.exitDate,
                   onChange: formik.handleChange,
                   isOk: !(formik.touched.exitDate && !!formik.errors.exitDate),

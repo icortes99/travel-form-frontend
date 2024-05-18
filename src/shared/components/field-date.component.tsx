@@ -12,7 +12,7 @@ interface FieldDateProps {
   label: DictionaryLeaves
   input: {
     name: string
-    placeholder: string
+    placeholder?: string
     value?: string
     onChange?: (e: any) => void
     isOk: boolean

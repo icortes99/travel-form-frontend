@@ -3,14 +3,14 @@ import { Input } from '@chakra-ui/react'
 
 interface InputDateProps {
   name: string
-  placeholder: string
+  placeholder?: string
   value?: string
   onChange?: (e: any) => void
   isOk: boolean
   onBlur?: (e: any) => void
 }
 
-const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange, isOk, onBlur }: InputDateProps) => {
+const InputDate: FC<InputDateProps> = ({ name, placeholder = 'mm/dd/aaaa', value, onChange, isOk, onBlur }: InputDateProps) => {
   const borderColor = isOk ? 'white.skyBlue' : 'white.error'
 
   return (
@@ -27,6 +27,7 @@ const InputDate: FC<InputDateProps> = ({ name, placeholder, value, onChange, isO
       onChange={onChange}
       onBlur={onBlur}
       transition={'0.5s'}
+      color={(value !== '' && value !== ' ' && value !== undefined) ? 'black' : 'grey'}
     />
   )
 }
