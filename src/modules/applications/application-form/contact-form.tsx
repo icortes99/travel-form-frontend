@@ -24,6 +24,7 @@ import Field from '../../../shared/components/field.component'
 import FieldDropdown from '../../../shared/components/field-dropdown.component'
 import Loading from '../../../shared/components/loading.component'
 import { ContactLocalStorage } from '../../../shared/types/localStorage'
+import FieldPhone from '../../../shared/components/field-phone.component'
 
 interface ContactViewProps {
   lsKey: string
@@ -43,7 +44,10 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
 
   const schema = yup.object().shape({
     email: yup.string().email(t('error.invalidEmail')).required(t('error.required')),
-    phone: yup.string().required(t('error.required')),
+    phone: yup.string().test('valid-phone', t('error.required'), function(value) {
+      const phoneNumber = value ? value.split(' ').slice(1).join('') : '';
+      return phoneNumber.trim().length > 0;
+    }).required(t('error.required')),
     contactPreference: yup.string().oneOf(Object.keys(ContactPreference)).required(t('error.required')),
     leadSource: yup.string().oneOf(Object.keys(LeadSource)).required(t('error.required'))
   })
@@ -216,20 +220,18 @@ const ContactView: FC<ContactViewProps> = ({ lsKey, allLSkeys }: ContactViewProp
               error={formik.touched.email && formik.errors.email && formik.errors.email.toString()}
               styles={{ marginBottom: '1.5rem' }}
             />
-            <Box
-              marginBottom={'1.5rem'}
-            >
-              <FormLabel>{t('applicationForm.contact.questions.phone')}:</FormLabel>
-              <Box>
-                <InputFlag
-                  name={'phone'}
-                  onChange={handlePhoneChange}
-                  value={formik.values.phone}
-                  isOk={!(formik.touched.phone && !!formik.errors.phone)}
-                  onBlur={formik.handleBlur}
-                />
-              </Box>
-            </Box>
+            <FieldPhone
+              label={'applicationForm.contact.questions.phone'}
+              input={{
+                name: 'phone',
+                value: formik.values.phone,
+                onChange: handlePhoneChange,
+                isOk: !(formik.touched.phone && !!formik.errors.phone),
+                onBlur: formik.handleBlur
+              }}
+              error={formik.touched.phone && formik.errors.phone && formik.errors.phone.toString()}
+              styles={{ marginBottom: '1.5rem' }}
+            />
             <FieldDropdown
               label={'applicationForm.contact.questions.contactPreference'}
               input={{

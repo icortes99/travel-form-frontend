@@ -53,9 +53,10 @@ const CardItinerary: FC<CardItineraryProps> = ({
 
   return (
     <Card
-      direction={{ base: 'column', sm: 'column', md: 'column', lg: 'row' }}
+      direction={{ sm: 'column', md: 'column', lg: 'row' }}
       overflow={'hidden'}
       variant={'unstyled'}
+      width={'100%'}
     >
       <Image
         objectFit='cover'
@@ -70,8 +71,12 @@ const CardItinerary: FC<CardItineraryProps> = ({
       />
       <Stack
         alignSelf={{ lg: 'center' }}
+        alignItems={'center'}
+        width={'100%'}
       >
-        <CardBody>
+        <CardBody
+          width={{sm: '98%', md: '90%', lg: '99.9%'}}
+        >
           <Heading
             fontSize={'2xl'}
             marginBottom={'1rem'}
@@ -82,7 +87,7 @@ const CardItinerary: FC<CardItineraryProps> = ({
 
           <Box
             display={'grid'}
-            gridTemplateColumns={{ sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
+            gridTemplateColumns={{ sm: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }}
             gridTemplateRows={{ sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(1, 1fr)' }}
             gridGap={'0.5rem 1.5rem'}
           >
