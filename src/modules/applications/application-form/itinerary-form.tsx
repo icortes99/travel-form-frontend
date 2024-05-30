@@ -114,11 +114,18 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
     }
   })
 
+  // params: attraction index, input to be changed, new value for that input
   const handleItineraryChange = (itineraryIndex: number, input: string, value: any) => {
     const formikData = [...formik.values.attractionsDetails]
-    const update = { ...formikData[itineraryIndex] }
-    update[input] = value
-    formikData[itineraryIndex] = update
+    const attractionUpdated = { ...formikData[itineraryIndex] }
+    const validateIfHotelChanged = attractionUpdated.hotelType
+    attractionUpdated[input] = value
+
+    if (input === 'hotelType' && validateIfHotelChanged !== value) {
+      attractionUpdated.roomType = ''
+    }
+
+    formikData[itineraryIndex] = attractionUpdated
     formik.setFieldValue('attractionsDetails', formikData)
   }
 
