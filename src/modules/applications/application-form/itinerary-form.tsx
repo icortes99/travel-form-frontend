@@ -73,12 +73,12 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
         const start2 = new Date(attraction2.start)
         const end2 = new Date(attraction2.finish)
 
-        if (start1 <= end2 && start2 <= end1) {
-          return false
+        if ((start1 <= end2) || (start2 <= end1) || (start1 >= end1) || (start2 >= end2)) {
+          return true
         }
       }
     }
-    return true
+    return false
   }
 
   const attractionSchema = yup.object().shape({
@@ -91,7 +91,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
   const schema = yup.object().shape({
     attractionsDetails: yup.array().of(attractionSchema).test(
       'datesOverlap', t('error.datesOverlap'), function (attractions) {
-        return attractionsOverlap(attractions)
+        return !attractionsOverlap(attractions)
       }
     )
   })
@@ -116,6 +116,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
 
   // params: attraction index, input to be changed, new value for that input
   const handleItineraryChange = (itineraryIndex: number, input: string, value: any) => {
+    // start , finish
     const formikData = [...formik.values.attractionsDetails]
     const attractionUpdated = { ...formikData[itineraryIndex] }
     const validateIfHotelChanged = attractionUpdated.hotelType
@@ -127,6 +128,7 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
 
     formikData[itineraryIndex] = attractionUpdated
     formik.setFieldValue('attractionsDetails', formikData)
+    formik.validateForm()
   }
 
   const handleAttractionBlur = (field: string, attractionIndex: number) => {
