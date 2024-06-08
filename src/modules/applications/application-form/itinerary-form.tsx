@@ -73,9 +73,9 @@ const ItineraryView: FC<ItineraryViewProps> = ({ lsKey, tripInfoKey, attractions
         const start2 = new Date(attraction2.start)
         const end2 = new Date(attraction2.finish)
 
-        if ((start1 <= end2) || (start2 <= end1) || (start1 >= end1) || (start2 >= end2)) {
+        /*if ((start1 <= end2) || (start2 <= end1) || (start1 >= end1) || (start2 >= end2)) {
           return true
-        }
+        }*/
       }
     }
     return false
