@@ -33,9 +33,9 @@ const SpanishDictionary: Dictionary = {
         residenceCountry: 'País de residencia',
         companions: '¿Viajas con acompañantes?',
         cantCompanions: 'Número de acompañantes',
-        entryPermission: '¿Tienes pasaporte y Visa al día?',
-        text: 'Si seleccionas que no, la estadía corre completamente por tu cuenta, y recibirás soporte en cuanto a entradas a parques y opciones de aventuras.',
-        lodging: '¿Quieres acompañamiento con la estadía?'
+        entryPermission: '¿Tienes los documentos necesarios para ingresar a Estados Unidos? (visa/ESTA)?',
+        text: 'Si seleccionas que no, te ayudaremos con la compra de entradas a parques tematicos y otros tours. ',
+        lodging: '¿Deseas cotizar paquete (hotel & tickets)?'
       }
     },
     itinerary: {
@@ -44,16 +44,18 @@ const SpanishDictionary: Dictionary = {
       step: 'Paso 3/5',
       stepName: 'Itinerario',
       questions: {
+        ticketHopper: '¿Quieres que tus tickets sean park hopper?',
         hotel: 'Hotel de preferencia',
         rooms: 'Número de habitaciones',
         birthdate: 'Fecha de nacimiento',
         roomTypeText: 'El tipo de habitación determina el precio y la disponibilidad, ya que hay tipos de habitaciones más cotizados que otros. Por esa razón, indicanos el tipo de habitación(es) que deseas:',
         selectType: 'Tipo de habitación',
         applyForAll: 'Aplicar a todas las habitaciones',
-        attractionStart: 'Desde',
-        attractionEnd: 'Hasta',
-        hotelType: 'Tipo de hotel',
-        roomType: 'Tipo de habitaciones'
+        attractionStart: 'Check in',
+        attractionEnd: 'Check out',
+        hotelType: 'Hotel',
+        roomType: 'Tipo de habitaciones',
+        ticketType: 'Tipo de ticket'
       }
     },
     passengers: {

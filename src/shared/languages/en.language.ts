@@ -44,16 +44,18 @@ const EnglishDisctionary: Dictionary = {
       step: 'Step 3/5',
       stepName: 'Hotel',
       questions: {
+        ticketHopper: 'Do you want your tickets to be Park Hopper',
         hotel: 'Preferred hotel',
         rooms: 'Number of rooms',
         birthdate: 'Birthdate',
         roomTypeText: 'The room type determines the price and availability, as some room types are more sought after than others. For that reason, please let us know the room type(s) you prefer:',
         selectType: 'Room type',
         applyForAll: 'Apply for all rooms',
-        attractionStart: 'From',
-        attractionEnd: 'To',
-        hotelType: 'Hotel type',
-        roomType: 'Rooms type'
+        attractionStart: 'Check in',
+        attractionEnd: 'Check out',
+        hotelType: 'Hotel',
+        roomType: 'Rooms type',
+        ticketType: 'Type of ticket'
       }
     },
     passengers: {
